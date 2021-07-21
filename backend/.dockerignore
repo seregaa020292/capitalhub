@@ -1,0 +1,10 @@
+.DS_Store
+.idea
+
+.git
+
+/vendor
+
+/var/cache/*
+/var/log/*
+/var/test/*

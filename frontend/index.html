@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title><% title %></title>
+    <meta name="description" content="<% description %>" />
+    <meta name="keywords" content="<% keywords %>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/metadata/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/metadata/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/metadata/favicon-16x16.png" />
+    <link rel="manifest" href="/metadata/site.webmanifest" />
+    <link rel="mask-icon" href="/metadata/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#ffc40d" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+  <body>
+    <div id="app">
+      <img src="./public/images/loading.svg" width="120" alt="Загрузка..." />
+      <style>
+        html, body {
+          height: 100%;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+        #app {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #12161c;
+          height: 100%;
+        }
+      </style>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

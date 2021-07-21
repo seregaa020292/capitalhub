@@ -1,0 +1,167 @@
+version: "3.7"
+services:
+  gateway:
+    build:
+      context: gateway/docker
+      dockerfile: development/nginx/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
+    networks:
+      - base-network
+
+  frontend:
+    build:
+      context: frontend/docker/development/nginx
+    networks:
+      - base-network
+
+  frontend-node:
+    build:
+      context: frontend/docker/development/node
+    volumes:
+      - ./frontend:/app
+    command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && yarn dev"
+    tty: true
+    networks:
+      - base-network
+
+  frontend-cli:
+    build:
+      context: frontend/docker/development/node
+    volumes:
+      - ./frontend:/app
+    networks:
+      - base-network
+
+  backend:
+    build:
+      context: backend/docker
+      dockerfile: development/nginx/Dockerfile
+    volumes:
+      - ./backend:/app
+    networks:
+      - base-network
+
+  backend-golang:
+    build:
+      context: backend/docker
+      dockerfile: development/golang/Dockerfile
+    environment:
+      APP_ENV: development
+      CONFIG: secret
+    volumes:
+      - ./backend:/app
+    command: sh -c "until [ -f .ready ] ; do sleep 1 ; done &&
+      CompileDaemon --build='go build -o .bin/app ./cmd/api/main.go' --command=.bin/app"
+    networks:
+      - base-network
+
+  backend-cli:
+    build:
+      context: backend/docker
+      dockerfile: development/golang-cli/Dockerfile
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+    environment:
+      APP_ENV: development
+      CONFIG: secret
+    volumes:
+      - ./backend:/app
+    networks:
+      - base-network
+
+  backend-postgres:
+    image: postgres:13.1-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: app
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "54321:5432"
+    networks:
+      - base-network
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "63791:6379"
+    restart: on-failure
+    volumes:
+      - redis:/data
+    networks:
+      - base-network
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./backend/docker/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:Z
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=20d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - '9090:9090'
+    networks:
+      - base-network
+
+  node_exporter:
+    image: prom/node-exporter
+    ports:
+      - '9101:9100'
+    entrypoint: ['/bin/node_exporter', '--no-collector.rapl']
+    networks:
+      - base-network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - '3000:3000'
+    networks:
+      - base-network
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - '9000:9000'
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    command: server /data
+    networks:
+      - base-network
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.21
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+    ports:
+      - 5775:5775/udp
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 5778:5778
+      - 16686:16686
+      - 14268:14268
+      - 14250:14250
+      - 9411:9411
+    networks:
+      - base-network
+
+  mailer:
+    image: mailhog/mailhog
+    networks:
+      - base-network
+
+volumes:
+  postgres:
+  redis:
+
+networks:
+  base-network:
+    driver: bridge

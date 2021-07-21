@@ -1,0 +1,101 @@
+version: "3.7"
+services:
+  gateway:
+    image: ${REGISTRY}/crypto-coin-gateway:${IMAGE_TAG}
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/html:/var/www/html:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      placement:
+        constraints: [ node.role == manager ]
+
+  frontend:
+    image: ${REGISTRY}/crypto-coin-frontend:${IMAGE_TAG}
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+
+  backend:
+    image: ${REGISTRY}/crypto-coin-backend:${IMAGE_TAG}
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 5s
+
+  backend-node:
+    image: ${REGISTRY}/crypto-coin-backend-node:${IMAGE_TAG}
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      DB_HOST: backend-postgres
+      DB_USER: app
+      DB_PASSWORD: ${API_DB_PASSWORD}
+      DB_NAME: app
+      MAILER_HOST: ${API_MAILER_HOST}
+      MAILER_PORT: ${API_MAILER_PORT}
+      MAILER_USER: ${API_MAILER_USER}
+      MAILER_PASSWORD: ${API_MAILER_PASSWORD}
+      MAILER_ENCRYPTION: tls
+      MAILER_FROM_EMAIL: ${API_MAILER_FROM_EMAIL}
+      FRONTEND_URL: https://demo-crypto-coin.deworker.pro
+      SENTRY_DSN: ${SENTRY_DSN}
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 5s
+
+  backend-migration:
+    image: ${REGISTRY}/crypto-coin-backend-cli:${IMAGE_TAG}
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      DB_HOST: backend-postgres
+      DB_USER: app
+      DB_PASSWORD: ${API_DB_PASSWORD}
+      DB_NAME: app
+      MAILER_HOST: ${API_MAILER_HOST}
+      MAILER_PORT: ${API_MAILER_PORT}
+      MAILER_USER: ${API_MAILER_USER}
+      MAILER_PASSWORD: ${API_MAILER_PASSWORD}
+      MAILER_ENCRYPTION: tls
+      MAILER_FROM_EMAIL: ${API_MAILER_FROM_EMAIL}
+      FRONTEND_URL: https://demo-crypto-coin.deworker.pro
+      SENTRY_DSN: ${SENTRY_DSN}
+    command: sh -c 'wait-for-it backend-postgres:5432 -t 60 && php bin/app.php migrations:migrate --no-interaction'
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+        window: 120s
+
+  backend-postgres:
+    image: postgres:13.1-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${API_DB_PASSWORD}
+      POSTGRES_DB: app
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    deploy:
+      placement:
+        constraints: [ node.labels.db == db ]
+      endpoint_mode: dnsrr
+
+volumes:
+  postgres:

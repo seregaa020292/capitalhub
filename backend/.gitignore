@@ -1,0 +1,17 @@
+# Editor directories and files
+.DS_Store
+.idea
+
+# Binary app
+.bin
+
+# Docker for start
+.ready
+
+# local env files
+.env
+
+# Test
+cover.out
+
+vendor

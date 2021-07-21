@@ -1,0 +1,95 @@
+@import 'variables';
+@import 'node_modules/element-plus/packages/theme-chalk/src/mixins/mixins';
+
+/* button */
+@include b(button) {
+  transition: .3s;
+}
+
+/* table */
+@include b(table) {
+  background-color: $--color-main-darker;
+
+  @include e(expanded-cell) {
+    background-color: $--color-main-darker;
+  }
+
+  tr, th {
+    background-color: $--color-main-darker;
+  }
+
+  @include e((fixed, fixed-right)) {
+    &::before {
+      background-color: $--color-main-dark-light;
+    }
+  }
+}
+
+/* card */
+@include b(card) {
+  background-color: $--color-main-darker;
+}
+
+/* dialog */
+@include b(dialog) {
+
+}
+
+/* popper */
+@include b(popper) {
+  $arrow-selector: #{& + '__arrow'};
+  @include when(dark) {
+    background: $--color-main-dark;
+    #{$arrow-selector}::before {
+      background: $--color-main-dark;
+    }
+  }
+
+  @include e(arrow) {
+    &::before {
+      background: $--color-main-dark;
+    }
+  }
+}
+
+/**
+ * @import /node_modules/element-plus/packages/theme-chalk/src/notification.scss
+ */
+@include b(notification) {
+  background-color: $--color-main-darker;
+
+  @include e(content) {
+    text-align: left;
+  }
+}
+
+@include b(date-picker) {
+  @include e(header-label) {
+    color: $--color-white;
+  }
+}
+
+@include b(date-table) {
+  td {
+    &.next-month,
+    &.prev-month {
+      color: $--color-text-regular;
+    }
+  }
+  th {
+    color: $--color-white;
+  }
+}
+
+@include b(picker-panel) {
+  color: $--color-white;
+  background: $--color-main-darker;
+
+  .#{$namespace}-time-panel {
+    background: $--color-main-darker;
+  }
+
+  @include e(footer) {
+    background-color: $--color-main-darker;
+  }
+}

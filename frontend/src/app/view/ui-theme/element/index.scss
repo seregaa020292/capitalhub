@@ -1,0 +1,48 @@
+/* theme color */
+@import 'variables';
+
+/* icon font path, required */
+$--font-path: '/node_modules/element-plus/lib/theme-chalk/fonts';
+
+/* scss components */
+@import 'node_modules/element-plus/packages/theme-chalk/src/base';
+@import 'node_modules/element-plus/packages/theme-chalk/src/button';
+@import 'node_modules/element-plus/packages/theme-chalk/src/button-group';
+@import 'node_modules/element-plus/packages/theme-chalk/src/dialog';
+@import 'node_modules/element-plus/packages/theme-chalk/src/form';
+@import 'node_modules/element-plus/packages/theme-chalk/src/form-item';
+@import 'node_modules/element-plus/packages/theme-chalk/src/input';
+@import 'node_modules/element-plus/packages/theme-chalk/src/input-number';
+@import 'node_modules/element-plus/packages/theme-chalk/src/select';
+@import 'node_modules/element-plus/packages/theme-chalk/src/option';
+@import 'node_modules/element-plus/packages/theme-chalk/src/option-group';
+@import 'node_modules/element-plus/packages/theme-chalk/src/message';
+@import 'node_modules/element-plus/packages/theme-chalk/src/notification';
+@import 'node_modules/element-plus/packages/theme-chalk/src/menu';
+@import 'node_modules/element-plus/packages/theme-chalk/src/menu-item';
+@import 'node_modules/element-plus/packages/theme-chalk/src/container';
+@import 'node_modules/element-plus/packages/theme-chalk/src/header';
+@import 'node_modules/element-plus/packages/theme-chalk/src/main';
+@import 'node_modules/element-plus/packages/theme-chalk/src/footer';
+@import 'node_modules/element-plus/packages/theme-chalk/src/table';
+@import 'node_modules/element-plus/packages/theme-chalk/src/table-column';
+@import 'node_modules/element-plus/packages/theme-chalk/src/row';
+@import 'node_modules/element-plus/packages/theme-chalk/src/col';
+@import 'node_modules/element-plus/packages/theme-chalk/src/dropdown-menu';
+@import 'node_modules/element-plus/packages/theme-chalk/src/timeline';
+@import 'node_modules/element-plus/packages/theme-chalk/src/timeline-item';
+@import 'node_modules/element-plus/packages/theme-chalk/src/dropdown-item';
+@import 'node_modules/element-plus/packages/theme-chalk/src/dropdown';
+@import 'node_modules/element-plus/packages/theme-chalk/src/card';
+@import 'node_modules/element-plus/packages/theme-chalk/src/tag';
+@import 'node_modules/element-plus/packages/theme-chalk/src/collapse-transition';
+@import 'node_modules/element-plus/packages/theme-chalk/src/loading';
+@import 'node_modules/element-plus/packages/theme-chalk/src/checkbox';
+@import 'node_modules/element-plus/packages/theme-chalk/src/link';
+@import 'node_modules/element-plus/packages/theme-chalk/src/date-picker';
+@import 'node_modules/element-plus/packages/theme-chalk/src/avatar';
+@import 'node_modules/element-plus/packages/theme-chalk/src/image';
+@import 'node_modules/element-plus/packages/theme-chalk/src/tooltip';
+
+/* theme components */
+@import 'components';

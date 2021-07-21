@@ -1,0 +1,975 @@
+basePath: /api/v1
+definitions:
+  httpErrors.RestErr:
+    type: object
+  httpErrors.RestError:
+    properties:
+      error:
+        type: string
+      status:
+        type: integer
+    type: object
+  model.Portfolio:
+    properties:
+      active:
+        type: boolean
+      created_at:
+        type: string
+      currency_id:
+        type: string
+      portfolio_id:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    required:
+    - active
+    - currency_id
+    - title
+    - user_id
+    type: object
+  model.PortfolioList:
+    properties:
+      asset_total:
+        items:
+          $ref: '#/definitions/models.AssetTotal'
+        type: array
+      portfolio:
+        $ref: '#/definitions/model.Portfolio'
+    type: object
+  models.AccessToken:
+    properties:
+      prefixToken:
+        type: string
+      token:
+        type: string
+    type: object
+  models.Asset:
+    properties:
+      amount:
+        type: number
+      asset_id:
+        type: string
+      created_at:
+        type: string
+      market_id:
+        type: string
+      notation_at:
+        type: string
+      portfolio_id:
+        type: string
+      quantity:
+        type: integer
+      updated_at:
+        type: string
+    required:
+    - amount
+    - market_id
+    - portfolio_id
+    - quantity
+    type: object
+  models.AssetAdd:
+    properties:
+      amount:
+        type: number
+      marketId:
+        type: string
+      notationAt:
+        type: string
+      portfolio_id:
+        type: string
+      quantity:
+        type: integer
+    required:
+    - amount
+    - marketId
+    - portfolio_id
+    - quantity
+    type: object
+  models.AssetBase:
+    properties:
+      amount:
+        type: number
+      asset_id:
+        type: string
+      image_url:
+        type: string
+      notation_at:
+        type: string
+      portfolio_id:
+        type: string
+      quantity:
+        type: integer
+      ticker:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    required:
+    - amount
+    - portfolio_id
+    - quantity
+    - ticker
+    - title
+    - user_id
+    type: object
+  models.AssetList:
+    properties:
+      assets:
+        items:
+          $ref: '#/definitions/models.AssetBase'
+        type: array
+      has_more:
+        type: boolean
+      page:
+        type: integer
+      size:
+        type: integer
+      total_count:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  models.AssetTotal:
+    properties:
+      averagePurchasePrice:
+        type: number
+      firstNotationAt:
+        type: string
+      identify:
+        type: string
+      image_url:
+        type: string
+      marketId:
+        type: string
+      ticker:
+        type: string
+      title:
+        type: string
+      totalAmount:
+        type: number
+      totalCount:
+        type: integer
+      totalQuantity:
+        type: integer
+    type: object
+  models.Market:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      currency_id:
+        type: string
+      image_url:
+        type: string
+      instrument_id:
+        type: string
+      market_id:
+        type: string
+      ticker:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - currency_id
+    - instrument_id
+    - ticker
+    - title
+    type: object
+  models.MarketBase:
+    properties:
+      content:
+        type: string
+      desc_instrument:
+        type: string
+      image_url:
+        type: string
+      market_id:
+        type: string
+      ticker:
+        type: string
+      title:
+        type: string
+      title_instrument:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - desc_instrument
+    - ticker
+    - title
+    - title_instrument
+    type: object
+  models.MarketList:
+    properties:
+      has_more:
+        type: boolean
+      markets:
+        items:
+          $ref: '#/definitions/models.MarketBase'
+        type: array
+      page:
+        type: integer
+      size:
+        type: integer
+      total_count:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  models.RefreshToken:
+    properties:
+      token:
+        type: string
+    type: object
+  models.Tokens:
+    properties:
+      accessToken:
+        $ref: '#/definitions/models.AccessToken'
+      refreshToken:
+        $ref: '#/definitions/models.RefreshToken'
+    type: object
+  models.User:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    required:
+    - name
+    - password
+    type: object
+  models.UserBase:
+    properties:
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
+  models.UserWithToken:
+    properties:
+      accessToken:
+        $ref: '#/definitions/models.AccessToken'
+      refreshToken:
+        $ref: '#/definitions/models.RefreshToken'
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
+  models.UsersList:
+    properties:
+      has_more:
+        type: boolean
+      page:
+        type: integer
+      size:
+        type: integer
+      total_count:
+        type: integer
+      total_pages:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: REST API
+  title: REST API
+  version: "1.0"
+paths:
+  /asset/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: asset_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestErr'
+      security:
+      - Auth: []
+      summary: Удалить актив
+      tags:
+      - Asset
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: asset_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Asset'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestErr'
+      security:
+      - Auth: []
+      summary: Получить актив по идентификатору
+      tags:
+      - Asset
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: asset_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Asset'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestErr'
+      security:
+      - Auth: []
+      summary: Обновить данные актива
+      tags:
+      - Asset
+  /asset/add:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Add asset
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.AssetAdd'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Asset'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestErr'
+      security:
+      - Auth: []
+      summary: Создать новый актив пользователя
+      tags:
+      - Asset
+  /asset/all:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.AssetList'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestErr'
+      security:
+      - Auth: []
+      summary: Активы пользователя
+      tags:
+      - Asset
+  /asset/market/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: market_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: page number
+        format: page
+        in: query
+        name: page
+        type: integer
+      - description: number of elements per page
+        format: size
+        in: query
+        name: size
+        type: integer
+      - description: filter name
+        format: orderBy
+        in: query
+        name: orderBy
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AssetList'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestErr'
+      security:
+      - Auth: []
+      summary: Получить все активы по идентификатору ценной бумаги/товара
+      tags:
+      - Asset
+  /asset/total-all:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/models.AssetTotal'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestErr'
+      security:
+      - Auth: []
+      summary: Активы пользователя, подсчитанные
+      tags:
+      - Asset
+  /auth/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: user_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      security:
+      - Auth: []
+      summary: Удалить учетную запись пользователя
+      tags:
+      - Auth
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: user_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Получить пользователя по идентификатору
+      tags:
+      - Auth
+    put:
+      consumes:
+      - application/json
+      description: Обновить существующего пользователя
+      parameters:
+      - description: user_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      security:
+      - Auth: []
+      summary: Обновить пользователя
+      tags:
+      - Auth
+  /auth/{id}/avatar:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Body with image file
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: aws s3 bucket
+        format: bucket
+        in: query
+        name: bucket
+        required: true
+        type: string
+      - description: user_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      security:
+      - Auth: []
+      summary: Опубликовать аватар пользователя
+      tags:
+      - Auth
+  /auth/all:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: page number
+        format: page
+        in: query
+        name: page
+        type: integer
+      - description: number of elements per page
+        format: size
+        in: query
+        name: size
+        type: integer
+      - description: filter name
+        format: orderBy
+        in: query
+        name: orderBy
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UsersList'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Получить список всех пользователей
+      tags:
+      - Auth
+  /auth/check:
+    get:
+      consumes:
+      - application/json
+      description: Проверить токен на действительность
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserBase'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      security:
+      - Auth: []
+      summary: Проверить зарегистрированного пользователя
+      tags:
+      - Auth
+  /auth/confirmed:
+    get:
+      consumes:
+      - application/json
+      description: Подтверждается почта
+      parameters:
+      - description: code
+        format: code
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Подтверждение почты
+      tags:
+      - Auth
+  /auth/find:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: username
+        format: username
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UsersList'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Найти пользователя по имени
+      tags:
+      - Auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Войти в систему, вернуть пользователя и установить сеанс
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserWithToken'
+      summary: Вход пользователя
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Удаление сеанса пользователя
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Выйти из системы
+      tags:
+      - Auth
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Обновить и вернуть новые токены
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Tokens'
+      security:
+      - Auth: []
+      summary: Обновить токен
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Зарегистрировать и вернуть пользователя и токен
+      parameters:
+      - description: register user
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ""
+      summary: Зарегистрировать нового пользователя
+      tags:
+      - Auth
+  /auth/token:
+    get:
+      consumes:
+      - application/json
+      description: Получить токен CSRF, обязательный cookie сеанса авторизации
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      security:
+      - Auth: []
+      summary: Получить токен CSRF
+      tags:
+      - Auth
+  /market/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: market_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      security:
+      - Auth: []
+      summary: Удалить ценную бумагу/товар
+      tags:
+      - Market
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: market_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Market'
+      security:
+      - Auth: []
+      summary: Получить по id ценную бумагу/товар
+      tags:
+      - Market
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: market_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Market'
+      security:
+      - Auth: []
+      summary: Изменить данные ценной бумаги/товара
+      tags:
+      - Market
+  /market/all:
+    get:
+      consumes:
+      - application/json
+      description: Получить все ценные бумаги/товары с разбивкой на страницы
+      parameters:
+      - description: page number
+        format: page
+        in: query
+        name: page
+        type: integer
+      - description: number of elements per page
+        format: size
+        in: query
+        name: size
+        type: integer
+      - description: filter name
+        format: orderBy
+        in: query
+        name: orderBy
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MarketList'
+      security:
+      - Auth: []
+      summary: Получить все ценные бумаги/товары
+      tags:
+      - Market
+  /market/create:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Market'
+      security:
+      - Auth: []
+      summary: Добавить новую ценную бумаги/товара
+      tags:
+      - Market
+  /market/parse:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - Auth: []
+      summary: Спарсить
+      tags:
+      - Market
+  /market/search:
+    get:
+      consumes:
+      - application/json
+      description: Искать ценную бумагу/товар по названию
+      parameters:
+      - description: title
+        in: query
+        name: title
+        type: integer
+      - description: page number
+        format: page
+        in: query
+        name: page
+        type: integer
+      - description: number of elements per page
+        format: size
+        in: query
+        name: size
+        type: integer
+      - description: filter name
+        format: orderBy
+        in: query
+        name: orderBy
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MarketList'
+      security:
+      - Auth: []
+      summary: Поиск по названию
+      tags:
+      - Market
+  /portfolio/active-total:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PortfolioList'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestErr'
+      security:
+      - Auth: []
+      summary: Портфель пользователя
+      tags:
+      - Portfolio
+securityDefinitions:
+  Auth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

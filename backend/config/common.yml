@@ -1,0 +1,100 @@
+server:
+  AppVersion: 1.0.0
+  Port: 0.0.0.0:9000
+  PprofPort: 0.0.0.0:5555
+  Mode: development
+  FrontendUrl: http://localhost:8080
+  ReadTimeout: 10
+  WriteTimeout: 10
+  SSL: false
+  CtxDefaultTimeout: 12
+  CSRF: true
+  CsrfSalt: kWrPH8wf1TlCOOXBjsQDgxDd6EK9rfyi #32 bit
+  Debug: false
+
+auth:
+  PrefixAccessToken: Bearer
+  AccessSecretKey: V0TZoCnBPSsMJZk0yPj6
+  AccessTokenExpMinute: 30
+  MaxRefreshSession: 5
+  NameRefreshToken: _refresh-token_
+  RefreshSecretKey: d2iHEJWoFTkqyyH5nGNe
+
+logger:
+  Development: true
+  DisableCaller: false
+  DisableStacktrace: false
+  Encoding: console
+  Level: info
+
+postgres:
+  PostgresqlHost: backend-postgres
+  PostgresqlPort: 5432
+  PostgresqlUser: app
+  PostgresqlPassword: secret
+  PostgresqlDbname: app
+  PostgresqlSslmode: false
+  PgDriver: pgx
+
+redis:
+  RedisAddr: redis:6379
+  RedisPassword:
+  RedisDb: 0
+  RedisDefaultdb: 0
+  MinIdleConns: 200
+  PoolSize: 12000
+  PoolTimeout: 240
+  Password: ""
+  DB: 0
+
+cookie:
+  MaxAge: 2592000
+  Secure: false
+  HttpOnly: true
+
+session:
+  Name: session-id
+  Prefix: api-session
+  Expire: 3600
+
+mailer:
+  Host: mailer
+  Port: 1025
+  User: app
+  Password: secret
+  Encryption: tcp
+  FromEmail: nobody@mail.ru
+  Mechanism: CRAMMD5
+
+email:
+  BaseLayout: ./templates/mails/mail.layout.html
+  ConfirmedPartial: ./templates/mails/confirmed.partial.html
+
+metrics:
+  url: 0.0.0.0:7070
+  service: api
+
+mongodb:
+  MongoURI: uristring
+
+aws:
+  Endpoint: 127.0.0.1:9090
+  MinioAccessKey: minio
+  MinioSecretKey: minio123
+  UseSSL: false
+  MinioEndpoint: http://127.0.0.1:9090
+
+jaeger:
+  Host: localhost:6831
+  ServiceName: REST_API
+  LogSpans: true
+
+portfolio:
+  TitleDefault: Портфель
+  CurrencyDefault: e6dffe5f-af39-44c4-a9f2-4938cceb7f7c
+
+tcs:
+  Token:
+
+cbr:
+  SourceCurrency: https://www.cbr.ru/scripts/XML_daily.asp

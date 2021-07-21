@@ -1,0 +1,30 @@
+/* Color
+-------------------------- */
+$background-screen: #12161c;
+$color-pump: #16c784;
+$color-dump: #ea3943;
+
+/* Break-point
+--------------------------*/
+$breakpoint-sm: 768px;
+$breakpoint-md: 992px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: 1920px;
+
+$breakpoints: (
+  'xs' : "(max-width: #{$breakpoint-sm})",
+  'sm' : "(min-width: #{$breakpoint-sm})",
+  'md' : "(min-width: #{$breakpoint-md})",
+  'lg' : "(min-width: #{$breakpoint-lg})",
+  'xl' : "(min-width: #{$breakpoint-xl})"
+);
+
+@mixin media-point($key, $map: $breakpoints) {
+  @if map-has-key($map, $key) {
+    @media only screen and #{unquote(map-get($map, $key))} {
+      @content;
+    }
+  } @else {
+    @warn "Undefeined points: `#{$map}`";
+  }
+}
