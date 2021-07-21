@@ -2,16 +2,17 @@ package quote
 
 import (
 	sdk "github.com/TinkoffCreditSystems/invest-openapi-go-sdk"
+
 	"github.com/labstack/echo/v4"
 	"github.com/seregaa020292/capitalhub/config"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/market/model"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 	"github.com/seregaa020292/capitalhub/pkg/webSocket"
 )
 
 type Listener interface {
-	Subscribe(echo.Context, []models.MarketRegister) error
+	Subscribe(echo.Context, []model.MarketRegister) error
 	Terminate()
 }
 
@@ -30,13 +31,13 @@ func NewClient(
 	return quote{
 		webSocketClient: webSocketClient,
 		// Setup Tinkoff Client
-		tcsClient:       NewTCSClient(webSocketClient, cfg.TCS, logger),
-		cfg:             cfg,
-		logger:          logger,
+		tcsClient: NewTCSClient(webSocketClient, cfg.TCS, logger),
+		cfg:       cfg,
+		logger:    logger,
 	}
 }
 
-func (q quote) Subscribe(echoCtx echo.Context, marketRegisters []models.MarketRegister) error {
+func (q quote) Subscribe(echoCtx echo.Context, marketRegisters []model.MarketRegister) error {
 	conn, err := q.webSocketClient.NewConnection(echoCtx.Response(), echoCtx.Request())
 	if err != nil {
 		q.logger.Error(err)

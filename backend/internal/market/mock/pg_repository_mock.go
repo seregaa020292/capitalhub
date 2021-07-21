@@ -6,11 +6,11 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/market/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 	utils "github.com/seregaa020292/capitalhub/pkg/utils"
 )
 
@@ -38,10 +38,10 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockRepository) Create(ctx context.Context, asset *models.Market) (*models.Market, error) {
+func (m *MockRepository) Create(ctx context.Context, asset *model.Market) (*model.Market, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, asset)
-	ret0, _ := ret[0].(*models.Market)
+	ret0, _ := ret[0].(*model.Market)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -67,10 +67,10 @@ func (mr *MockRepositoryMockRecorder) Delete(ctx, assetID interface{}) *gomock.C
 }
 
 // GetAll mocks base method.
-func (m *MockRepository) GetAll(ctx context.Context, pq *utils.PaginationQuery) (*models.MarketList, error) {
+func (m *MockRepository) GetAll(ctx context.Context, pq *utils.PaginationQuery) (*model.MarketList, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll", ctx, pq)
-	ret0, _ := ret[0].(*models.MarketList)
+	ret0, _ := ret[0].(*model.MarketList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -82,10 +82,10 @@ func (mr *MockRepositoryMockRecorder) GetAll(ctx, pq interface{}) *gomock.Call {
 }
 
 // GetByID mocks base method.
-func (m *MockRepository) GetByID(ctx context.Context, assetID uuid.UUID) (*models.MarketBase, error) {
+func (m *MockRepository) GetByID(ctx context.Context, assetID uuid.UUID) (*model.MarketBase, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByID", ctx, assetID)
-	ret0, _ := ret[0].(*models.MarketBase)
+	ret0, _ := ret[0].(*model.MarketBase)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -97,10 +97,10 @@ func (mr *MockRepositoryMockRecorder) GetByID(ctx, assetID interface{}) *gomock.
 }
 
 // SearchByTitle mocks base method.
-func (m *MockRepository) SearchByTitle(ctx context.Context, title string, query *utils.PaginationQuery) (*models.MarketList, error) {
+func (m *MockRepository) SearchByTitle(ctx context.Context, title string, query *utils.PaginationQuery) (*model.MarketList, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SearchByTitle", ctx, title, query)
-	ret0, _ := ret[0].(*models.MarketList)
+	ret0, _ := ret[0].(*model.MarketList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -112,10 +112,10 @@ func (mr *MockRepositoryMockRecorder) SearchByTitle(ctx, title, query interface{
 }
 
 // Update mocks base method.
-func (m *MockRepository) Update(ctx context.Context, asset *models.Market) (*models.Market, error) {
+func (m *MockRepository) Update(ctx context.Context, asset *model.Market) (*model.Market, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", ctx, asset)
-	ret0, _ := ret[0].(*models.Market)
+	ret0, _ := ret[0].(*model.Market)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

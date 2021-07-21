@@ -3,13 +3,14 @@ package usecase
 import (
 	"context"
 	"fmt"
+
 	"github.com/google/uuid"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/internal/market"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/market/model"
 	"github.com/seregaa020292/capitalhub/pkg/httpErrors"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
@@ -36,15 +37,15 @@ func NewMarketUseCase(
 	logger logger.Logger,
 ) market.UseCase {
 	return &marketUC{
-		cfg:                cfg,
-		marketRepo:         marketRepo,
-		redisRepo:          redisRepo,
-		logger:             logger,
+		cfg:        cfg,
+		marketRepo: marketRepo,
+		redisRepo:  redisRepo,
+		logger:     logger,
 	}
 }
 
 // Create market
-func (useCase *marketUC) Create(ctx context.Context, market *models.Market) (*models.Market, error) {
+func (useCase *marketUC) Create(ctx context.Context, market *model.Market) (*model.Market, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketUC.Create")
 	defer span.Finish()
 
@@ -61,7 +62,7 @@ func (useCase *marketUC) Create(ctx context.Context, market *models.Market) (*mo
 }
 
 // Update market item
-func (useCase *marketUC) Update(ctx context.Context, market *models.Market) (*models.Market, error) {
+func (useCase *marketUC) Update(ctx context.Context, market *model.Market) (*model.Market, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketUC.Update")
 	defer span.Finish()
 
@@ -78,7 +79,7 @@ func (useCase *marketUC) Update(ctx context.Context, market *models.Market) (*mo
 }
 
 // Get market by id
-func (useCase *marketUC) GetByID(ctx context.Context, marketID uuid.UUID) (*models.MarketBase, error) {
+func (useCase *marketUC) GetByID(ctx context.Context, marketID uuid.UUID) (*model.MarketBase, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketUC.GetByID")
 	defer span.Finish()
 
@@ -103,7 +104,7 @@ func (useCase *marketUC) GetByID(ctx context.Context, marketID uuid.UUID) (*mode
 }
 
 // Get market by user id
-func (useCase *marketUC) GetByUserID(ctx context.Context, userID uuid.UUID) (*[]models.MarketRegister, error) {
+func (useCase *marketUC) GetByUserID(ctx context.Context, userID uuid.UUID) (*[]model.MarketRegister, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketUC.GetByUserID")
 	defer span.Finish()
 
@@ -132,7 +133,7 @@ func (useCase *marketUC) Delete(ctx context.Context, marketID uuid.UUID) error {
 }
 
 // Get markets
-func (useCase *marketUC) GetAll(ctx context.Context, pq *utils.PaginationQuery) (*models.MarketList, error) {
+func (useCase *marketUC) GetAll(ctx context.Context, pq *utils.PaginationQuery) (*model.MarketList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketUC.GetAll")
 	defer span.Finish()
 
@@ -140,7 +141,7 @@ func (useCase *marketUC) GetAll(ctx context.Context, pq *utils.PaginationQuery) 
 }
 
 // Find nes by title
-func (useCase *marketUC) SearchByTitle(ctx context.Context, title string, query *utils.PaginationQuery) (*models.MarketList, error) {
+func (useCase *marketUC) SearchByTitle(ctx context.Context, title string, query *utils.PaginationQuery) (*model.MarketList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketUC.SearchByTitle")
 	defer span.Finish()
 

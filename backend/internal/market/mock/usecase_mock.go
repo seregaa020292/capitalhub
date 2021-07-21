@@ -6,11 +6,11 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/market/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 	utils "github.com/seregaa020292/capitalhub/pkg/utils"
 )
 
@@ -38,10 +38,10 @@ func (m *MockUseCase) EXPECT() *MockUseCaseMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockUseCase) Create(ctx context.Context, asset *models.Market) (*models.Market, error) {
+func (m *MockUseCase) Create(ctx context.Context, asset *model.Market) (*model.Market, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, asset)
-	ret0, _ := ret[0].(*models.Market)
+	ret0, _ := ret[0].(*model.Market)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -67,10 +67,10 @@ func (mr *MockUseCaseMockRecorder) Delete(ctx, assetID interface{}) *gomock.Call
 }
 
 // GetAll mocks base method.
-func (m *MockUseCase) GetAll(ctx context.Context, pq *utils.PaginationQuery) (*models.MarketList, error) {
+func (m *MockUseCase) GetAll(ctx context.Context, pq *utils.PaginationQuery) (*model.MarketList, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll", ctx, pq)
-	ret0, _ := ret[0].(*models.MarketList)
+	ret0, _ := ret[0].(*model.MarketList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -82,10 +82,10 @@ func (mr *MockUseCaseMockRecorder) GetAll(ctx, pq interface{}) *gomock.Call {
 }
 
 // GetByID mocks base method.
-func (m *MockUseCase) GetByID(ctx context.Context, assetID uuid.UUID) (*models.MarketBase, error) {
+func (m *MockUseCase) GetByID(ctx context.Context, assetID uuid.UUID) (*model.MarketBase, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByID", ctx, assetID)
-	ret0, _ := ret[0].(*models.MarketBase)
+	ret0, _ := ret[0].(*model.MarketBase)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -97,10 +97,10 @@ func (mr *MockUseCaseMockRecorder) GetByID(ctx, assetID interface{}) *gomock.Cal
 }
 
 // SearchByTitle mocks base method.
-func (m *MockUseCase) SearchByTitle(ctx context.Context, title string, query *utils.PaginationQuery) (*models.MarketList, error) {
+func (m *MockUseCase) SearchByTitle(ctx context.Context, title string, query *utils.PaginationQuery) (*model.MarketList, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SearchByTitle", ctx, title, query)
-	ret0, _ := ret[0].(*models.MarketList)
+	ret0, _ := ret[0].(*model.MarketList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -112,10 +112,10 @@ func (mr *MockUseCaseMockRecorder) SearchByTitle(ctx, title, query interface{}) 
 }
 
 // Update mocks base method.
-func (m *MockUseCase) Update(ctx context.Context, asset *models.Market) (*models.Market, error) {
+func (m *MockUseCase) Update(ctx context.Context, asset *model.Market) (*model.Market, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", ctx, asset)
-	ret0, _ := ret[0].(*models.Market)
+	ret0, _ := ret[0].(*model.Market)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

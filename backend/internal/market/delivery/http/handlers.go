@@ -9,8 +9,8 @@ import (
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/internal/market"
+	"github.com/seregaa020292/capitalhub/internal/market/model"
 	"github.com/seregaa020292/capitalhub/internal/market/service"
-	"github.com/seregaa020292/capitalhub/internal/models"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 )
@@ -51,7 +51,7 @@ func (handler marketHandlers) Create() echo.HandlerFunc {
 		span, ctx := opentracing.StartSpanFromContext(utils.GetRequestCtx(c), "marketHandlers.Create")
 		defer span.Finish()
 
-		marketModel := &models.Market{}
+		marketModel := &model.Market{}
 		if err := c.Bind(marketModel); err != nil {
 			return utils.ErrResponseWithLog(c, handler.logger, err)
 		}
@@ -84,7 +84,7 @@ func (handler marketHandlers) Update() echo.HandlerFunc {
 			return utils.ErrResponseWithLog(c, handler.logger, err)
 		}
 
-		marketModel := &models.Market{}
+		marketModel := &model.Market{}
 		if err = c.Bind(marketModel); err != nil {
 			return utils.ErrResponseWithLog(c, handler.logger, err)
 		}

@@ -6,10 +6,10 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/market/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 )
 
 // MockRedisRepository is a mock of RedisRepository interface.
@@ -50,10 +50,10 @@ func (mr *MockRedisRepositoryMockRecorder) DeleteMarketCtx(ctx, key interface{})
 }
 
 // GetMarketByIDCtx mocks base method.
-func (m *MockRedisRepository) GetMarketByIDCtx(ctx context.Context, key string) (*models.MarketBase, error) {
+func (m *MockRedisRepository) GetMarketByIDCtx(ctx context.Context, key string) (*model.MarketBase, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetMarketByIDCtx", ctx, key)
-	ret0, _ := ret[0].(*models.MarketBase)
+	ret0, _ := ret[0].(*model.MarketBase)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -65,7 +65,7 @@ func (mr *MockRedisRepositoryMockRecorder) GetMarketByIDCtx(ctx, key interface{}
 }
 
 // SetMarketCtx mocks base method.
-func (m *MockRedisRepository) SetMarketCtx(ctx context.Context, key string, seconds int, asset *models.MarketBase) error {
+func (m *MockRedisRepository) SetMarketCtx(ctx context.Context, key string, seconds int, asset *model.MarketBase) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetMarketCtx", ctx, key, seconds, asset)
 	ret0, _ := ret[0].(error)

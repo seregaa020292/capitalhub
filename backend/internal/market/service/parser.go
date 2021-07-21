@@ -13,6 +13,7 @@ import (
 	"github.com/seregaa020292/capitalhub/internal/currency"
 	"github.com/seregaa020292/capitalhub/internal/instrument"
 	"github.com/seregaa020292/capitalhub/internal/market"
+	"github.com/seregaa020292/capitalhub/internal/market/model"
 	"github.com/seregaa020292/capitalhub/internal/models"
 	"github.com/seregaa020292/capitalhub/internal/provider"
 	"github.com/seregaa020292/capitalhub/internal/register"
@@ -100,7 +101,7 @@ func (service ParseService) TCSParse(entity string) error {
 	}
 
 	for _, stock := range respStock.Payload.Instruments {
-		marketModel, err := service.marketUC.Create(ctx, &models.Market{
+		marketModel, err := service.marketUC.Create(ctx, &model.Market{
 			Title:        stock.Name,
 			Ticker:       stock.Ticker,
 			Content:      "",

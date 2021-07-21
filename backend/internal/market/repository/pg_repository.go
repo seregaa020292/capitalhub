@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"database/sql"
+
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 
 	"github.com/seregaa020292/capitalhub/internal/market"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/market/model"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 )
 
@@ -24,11 +25,11 @@ func NewMarketRepository(db *sqlx.DB) market.Repository {
 }
 
 // Create market
-func (repository *marketRepo) Create(ctx context.Context, market *models.Market) (*models.Market, error) {
+func (repository *marketRepo) Create(ctx context.Context, market *model.Market) (*model.Market, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketRepo.Create")
 	defer span.Finish()
 
-	var n models.Market
+	var n model.Market
 	if err := repository.db.QueryRowxContext(
 		ctx,
 		create,
@@ -46,11 +47,11 @@ func (repository *marketRepo) Create(ctx context.Context, market *models.Market)
 }
 
 // Update market item
-func (repository *marketRepo) Update(ctx context.Context, market *models.Market) (*models.Market, error) {
+func (repository *marketRepo) Update(ctx context.Context, market *model.Market) (*model.Market, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketRepo.Update")
 	defer span.Finish()
 
-	var n models.Market
+	var n model.Market
 	if err := repository.db.QueryRowxContext(
 		ctx,
 		update,
@@ -68,11 +69,11 @@ func (repository *marketRepo) Update(ctx context.Context, market *models.Market)
 }
 
 // Get single market by id
-func (repository *marketRepo) GetByID(ctx context.Context, marketID uuid.UUID) (*models.MarketBase, error) {
+func (repository *marketRepo) GetByID(ctx context.Context, marketID uuid.UUID) (*model.MarketBase, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketRepo.GetByID")
 	defer span.Finish()
 
-	n := &models.MarketBase{}
+	n := &model.MarketBase{}
 	if err := repository.db.GetContext(ctx, n, getByID, marketID); err != nil {
 		return nil, errors.Wrap(err, "marketRepo.GetByID.GetContext")
 	}
@@ -81,11 +82,11 @@ func (repository *marketRepo) GetByID(ctx context.Context, marketID uuid.UUID) (
 }
 
 // Get single market by user id
-func (repository *marketRepo) GetByUserID(ctx context.Context, userID uuid.UUID) (*[]models.MarketRegister, error) {
+func (repository *marketRepo) GetByUserID(ctx context.Context, userID uuid.UUID) (*[]model.MarketRegister, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketRepo.GetByUserID")
 	defer span.Finish()
 
-	marketModel := &[]models.MarketRegister{}
+	marketModel := &[]model.MarketRegister{}
 	if err := repository.db.SelectContext(ctx, marketModel, getByUserID, userID); err != nil {
 		return nil, errors.Wrap(err, "marketRepo.GetByUserID.GetContext")
 	}
@@ -115,7 +116,7 @@ func (repository *marketRepo) Delete(ctx context.Context, marketID uuid.UUID) er
 }
 
 // Get markets
-func (repository *marketRepo) GetAll(ctx context.Context, pq *utils.PaginationQuery) (*models.MarketList, error) {
+func (repository *marketRepo) GetAll(ctx context.Context, pq *utils.PaginationQuery) (*model.MarketList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketRepo.GetAll")
 	defer span.Finish()
 
@@ -125,17 +126,17 @@ func (repository *marketRepo) GetAll(ctx context.Context, pq *utils.PaginationQu
 	}
 
 	if totalCount == 0 {
-		return &models.MarketList{
+		return &model.MarketList{
 			TotalCount: totalCount,
 			TotalPages: utils.GetTotalPages(totalCount, pq.GetSize()),
 			Page:       pq.GetPage(),
 			Size:       pq.GetSize(),
 			HasMore:    utils.GetHasMore(pq.GetPage(), totalCount, pq.GetSize()),
-			Markets:    make([]*models.MarketBase, 0),
+			Markets:    make([]*model.MarketBase, 0),
 		}, nil
 	}
 
-	var marketList = make([]*models.MarketBase, 0, pq.GetSize())
+	var marketList = make([]*model.MarketBase, 0, pq.GetSize())
 	rows, err := repository.db.QueryxContext(ctx, getAll, pq.GetOffset(), pq.GetLimit())
 	if err != nil {
 		return nil, errors.Wrap(err, "marketRepo.GetAll.QueryxContext")
@@ -143,7 +144,7 @@ func (repository *marketRepo) GetAll(ctx context.Context, pq *utils.PaginationQu
 	defer rows.Close()
 
 	for rows.Next() {
-		n := &models.MarketBase{}
+		n := &model.MarketBase{}
 		if err = rows.StructScan(n); err != nil {
 			return nil, errors.Wrap(err, "marketRepo.GetAll.StructScan")
 		}
@@ -154,7 +155,7 @@ func (repository *marketRepo) GetAll(ctx context.Context, pq *utils.PaginationQu
 		return nil, errors.Wrap(err, "marketRepo.GetAll.rows.Err")
 	}
 
-	return &models.MarketList{
+	return &model.MarketList{
 		TotalCount: totalCount,
 		TotalPages: utils.GetTotalPages(totalCount, pq.GetSize()),
 		Page:       pq.GetPage(),
@@ -165,7 +166,7 @@ func (repository *marketRepo) GetAll(ctx context.Context, pq *utils.PaginationQu
 }
 
 // Find market by title
-func (repository *marketRepo) SearchByTitle(ctx context.Context, title string, query *utils.PaginationQuery) (*models.MarketList, error) {
+func (repository *marketRepo) SearchByTitle(ctx context.Context, title string, query *utils.PaginationQuery) (*model.MarketList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketRepo.SearchByTitle")
 	defer span.Finish()
 
@@ -174,17 +175,17 @@ func (repository *marketRepo) SearchByTitle(ctx context.Context, title string, q
 		return nil, errors.Wrap(err, "marketRepo.SearchByTitle.GetContext")
 	}
 	if totalCount == 0 {
-		return &models.MarketList{
+		return &model.MarketList{
 			TotalCount: totalCount,
 			TotalPages: utils.GetTotalPages(totalCount, query.GetSize()),
 			Page:       query.GetPage(),
 			Size:       query.GetSize(),
 			HasMore:    utils.GetHasMore(query.GetPage(), totalCount, query.GetSize()),
-			Markets:    make([]*models.MarketBase, 0),
+			Markets:    make([]*model.MarketBase, 0),
 		}, nil
 	}
 
-	var marketList = make([]*models.MarketBase, 0, query.GetSize())
+	var marketList = make([]*model.MarketBase, 0, query.GetSize())
 	rows, err := repository.db.QueryxContext(ctx, findByTitle, title, query.GetOffset(), query.GetLimit())
 	if err != nil {
 		return nil, errors.Wrap(err, "marketRepo.SearchByTitle.QueryxContext")
@@ -192,7 +193,7 @@ func (repository *marketRepo) SearchByTitle(ctx context.Context, title string, q
 	defer rows.Close()
 
 	for rows.Next() {
-		n := &models.MarketBase{}
+		n := &model.MarketBase{}
 		if err = rows.StructScan(n); err != nil {
 			return nil, errors.Wrap(err, "marketRepo.SearchByTitle.StructScan")
 		}
@@ -203,7 +204,7 @@ func (repository *marketRepo) SearchByTitle(ctx context.Context, title string, q
 		return nil, errors.Wrap(err, "marketRepo.SearchByTitle.rows.Err")
 	}
 
-	return &models.MarketList{
+	return &model.MarketList{
 		TotalCount: totalCount,
 		TotalPages: utils.GetTotalPages(totalCount, query.GetSize()),
 		Page:       query.GetPage(),

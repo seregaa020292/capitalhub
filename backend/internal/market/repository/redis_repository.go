@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/seregaa020292/capitalhub/internal/market"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/market/model"
 )
 
 // Market redis repository
@@ -24,7 +24,7 @@ func NewMarketRedisRepository(redisClient *redis.Client) market.RedisRepository 
 }
 
 // Get market by id
-func (n *marketRedisRepo) GetMarketByIDCtx(ctx context.Context, key string) (*models.MarketBase, error) {
+func (n *marketRedisRepo) GetMarketByIDCtx(ctx context.Context, key string) (*model.MarketBase, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketRedisRepo.GetMarketByIDCtx")
 	defer span.Finish()
 
@@ -32,7 +32,7 @@ func (n *marketRedisRepo) GetMarketByIDCtx(ctx context.Context, key string) (*mo
 	if err != nil {
 		return nil, errors.Wrap(err, "marketRedisRepo.GetMarketByIDCtx.redisClient.Get")
 	}
-	marketBase := &models.MarketBase{}
+	marketBase := &model.MarketBase{}
 	if err = json.Unmarshal(marketBytes, marketBase); err != nil {
 		return nil, errors.Wrap(err, "marketRedisRepo.GetMarketByIDCtx.json.Unmarshal")
 	}
@@ -41,7 +41,7 @@ func (n *marketRedisRepo) GetMarketByIDCtx(ctx context.Context, key string) (*mo
 }
 
 // Cache market item
-func (n *marketRedisRepo) SetMarketCtx(ctx context.Context, key string, seconds int, market *models.MarketBase) error {
+func (n *marketRedisRepo) SetMarketCtx(ctx context.Context, key string, seconds int, market *model.MarketBase) error {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "marketRedisRepo.SetMarketCtx")
 	defer span.Finish()
 
