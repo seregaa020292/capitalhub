@@ -46,7 +46,7 @@ type ServerConfig struct {
 }
 
 func (s ServerConfig) IsDevelopment() bool {
-	return s.Mode == "Development"
+	return s.Mode == "development"
 }
 
 // Auth config
