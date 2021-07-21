@@ -6,10 +6,10 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/instrument/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 )
 
 // MockUseCase is a mock of UseCase interface.
@@ -36,10 +36,10 @@ func (m *MockUseCase) EXPECT() *MockUseCaseMockRecorder {
 }
 
 // GetAll mocks base method.
-func (m *MockUseCase) GetAll(ctx context.Context) (*[]models.Instrument, error) {
+func (m *MockUseCase) GetAll(ctx context.Context) (*[]model.Instrument, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll", ctx)
-	ret0, _ := ret[0].(*[]models.Instrument)
+	ret0, _ := ret[0].(*[]model.Instrument)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

@@ -2,12 +2,13 @@ package repository
 
 import (
 	"context"
+
 	"github.com/jmoiron/sqlx"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 
 	"github.com/seregaa020292/capitalhub/internal/instrument"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/instrument/model"
 )
 
 type instrumentRepo struct {
@@ -18,11 +19,11 @@ func NewInstrumentRepository(db *sqlx.DB) instrument.Repository {
 	return &instrumentRepo{db: db}
 }
 
-func (repository *instrumentRepo) GetAll(ctx context.Context) (*[]models.Instrument, error) {
+func (repository *instrumentRepo) GetAll(ctx context.Context) (*[]model.Instrument, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "instrumentRepo.GetAll")
 	defer span.Finish()
 
-	types := &[]models.Instrument{}
+	types := &[]model.Instrument{}
 	if err := repository.db.SelectContext(ctx, types, getAll); err != nil {
 		return nil, errors.Wrap(err, "instrumentRepo.GetAll.GetContext")
 	}

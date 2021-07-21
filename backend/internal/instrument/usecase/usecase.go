@@ -4,9 +4,10 @@ import (
 	"context"
 
 	"github.com/opentracing/opentracing-go"
+
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/internal/instrument"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/instrument/model"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 )
 
@@ -31,7 +32,7 @@ func NewInstrumentUseCase(
 }
 
 // Get all instruments
-func (useCase *instrumentUC) GetAll(ctx context.Context) (*[]models.Instrument, error) {
+func (useCase *instrumentUC) GetAll(ctx context.Context) (*[]model.Instrument, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "instrumentUC.GetAll")
 	defer span.Finish()
 
