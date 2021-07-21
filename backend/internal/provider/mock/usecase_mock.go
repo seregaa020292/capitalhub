@@ -6,10 +6,10 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/provider/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 )
 
 // MockUseCase is a mock of UseCase interface.
@@ -36,10 +36,10 @@ func (m *MockUseCase) EXPECT() *MockUseCaseMockRecorder {
 }
 
 // GetByTitle mocks base method.
-func (m *MockUseCase) GetByTitle(ctx context.Context, title string) (*models.Provider, error) {
+func (m *MockUseCase) GetByTitle(ctx context.Context, title string) (*model.Provider, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByTitle", ctx, title)
-	ret0, _ := ret[0].(*models.Provider)
+	ret0, _ := ret[0].(*model.Provider)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

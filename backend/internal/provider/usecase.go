@@ -4,10 +4,10 @@ package provider
 import (
 	"context"
 
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/provider/model"
 )
 
 // Provider use case
 type UseCase interface {
-	GetByTitle(ctx context.Context, title string) (*models.Provider, error)
+	GetByTitle(ctx context.Context, title string) (*model.Provider, error)
 }

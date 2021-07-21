@@ -6,8 +6,8 @@ import (
 	"github.com/opentracing/opentracing-go"
 
 	"github.com/seregaa020292/capitalhub/config"
-	"github.com/seregaa020292/capitalhub/internal/models"
 	"github.com/seregaa020292/capitalhub/internal/provider"
+	"github.com/seregaa020292/capitalhub/internal/provider/model"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 )
 
@@ -32,7 +32,7 @@ func NewProviderUseCase(
 }
 
 // GetByTitle provider
-func (u *providerUC) GetByTitle(ctx context.Context, title string) (*models.Provider, error) {
+func (u *providerUC) GetByTitle(ctx context.Context, title string) (*model.Provider, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "providerUC.GetByTitle")
 	defer span.Finish()
 

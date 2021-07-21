@@ -2,12 +2,13 @@ package repository
 
 import (
 	"context"
+
 	"github.com/jmoiron/sqlx"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 
-	"github.com/seregaa020292/capitalhub/internal/models"
 	"github.com/seregaa020292/capitalhub/internal/provider"
+	"github.com/seregaa020292/capitalhub/internal/provider/model"
 )
 
 // Provider Repository
@@ -21,11 +22,11 @@ func NewProviderRepository(db *sqlx.DB) provider.Repository {
 }
 
 // GetByTitle provider
-func (r *providerRepo) GetByTitle(ctx context.Context, title string) (*models.Provider, error) {
+func (r *providerRepo) GetByTitle(ctx context.Context, title string) (*model.Provider, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "providerRepo.GetByTitle")
 	defer span.Finish()
 
-	providerModel := &models.Provider{}
+	providerModel := &model.Provider{}
 	if err := r.db.GetContext(ctx, providerModel, getByTitle, title); err != nil {
 		return nil, errors.Wrap(err, "providerRepo.GetByTitle.GetContext")
 	}
