@@ -3,11 +3,10 @@ package currency
 
 import (
 	"context"
-
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/currency/model"
 )
 
 // Currency Repository
 type Repository interface {
-	GetAll(ctx context.Context) (*[]models.Currency, error)
+	GetAll(ctx context.Context) (*[]model.Currency, error)
 }
