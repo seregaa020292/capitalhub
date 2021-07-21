@@ -47,7 +47,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.AssetAdd"
+                            "$ref": "#/definitions/model.AssetAdd"
                         }
                     }
                 ],
@@ -55,7 +55,7 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.Asset"
+                            "$ref": "#/definitions/model.Asset"
                         }
                     },
                     "500": {
@@ -88,7 +88,7 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.AssetList"
+                            "$ref": "#/definitions/model.AssetList"
                         }
                     },
                     "500": {
@@ -151,7 +151,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AssetList"
+                            "$ref": "#/definitions/model.AssetList"
                         }
                     },
                     "500": {
@@ -186,7 +186,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.AssetTotal"
+                                "$ref": "#/definitions/model.AssetTotal"
                             }
                         }
                     },
@@ -229,7 +229,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Asset"
+                            "$ref": "#/definitions/model.Asset"
                         }
                     },
                     "500": {
@@ -269,7 +269,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Asset"
+                            "$ref": "#/definitions/model.Asset"
                         }
                     },
                     "500": {
@@ -360,7 +360,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UsersList"
+                            "$ref": "#/definitions/model.UsersList"
                         }
                     },
                     "500": {
@@ -394,7 +394,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UserBase"
+                            "$ref": "#/definitions/model.UserBase"
                         }
                     },
                     "500": {
@@ -467,7 +467,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UsersList"
+                            "$ref": "#/definitions/model.UsersList"
                         }
                     },
                     "500": {
@@ -496,7 +496,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.UserWithToken"
+                            "$ref": "#/definitions/model.UserWithToken"
                         }
                     }
                 }
@@ -547,7 +547,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Tokens"
+                            "$ref": "#/definitions/model.Tokens"
                         }
                     }
                 }
@@ -573,7 +573,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/model.User"
                         }
                     }
                 ],
@@ -643,7 +643,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/model.User"
                         }
                     },
                     "500": {
@@ -684,7 +684,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/model.User"
                         }
                     }
                 }
@@ -832,7 +832,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MarketList"
+                            "$ref": "#/definitions/model.MarketList"
                         }
                     }
                 }
@@ -859,7 +859,7 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.Market"
+                            "$ref": "#/definitions/model.Market"
                         }
                     }
                 }
@@ -940,7 +940,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.MarketList"
+                            "$ref": "#/definitions/model.MarketList"
                         }
                     }
                 }
@@ -976,7 +976,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Market"
+                            "$ref": "#/definitions/model.Market"
                         }
                     }
                 }
@@ -1010,7 +1010,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Market"
+                            "$ref": "#/definitions/model.Market"
                         }
                     }
                 }
@@ -1099,53 +1099,7 @@ var doc = `{
                 }
             }
         },
-        "model.Portfolio": {
-            "type": "object",
-            "required": [
-                "active",
-                "currency_id",
-                "title",
-                "user_id"
-            ],
-            "properties": {
-                "active": {
-                    "type": "boolean"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "currency_id": {
-                    "type": "string"
-                },
-                "portfolio_id": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.PortfolioList": {
-            "type": "object",
-            "properties": {
-                "asset_total": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.AssetTotal"
-                    }
-                },
-                "portfolio": {
-                    "$ref": "#/definitions/model.Portfolio"
-                }
-            }
-        },
-        "models.AccessToken": {
+        "model.AccessToken": {
             "type": "object",
             "properties": {
                 "prefixToken": {
@@ -1156,7 +1110,7 @@ var doc = `{
                 }
             }
         },
-        "models.Asset": {
+        "model.Asset": {
             "type": "object",
             "required": [
                 "amount",
@@ -1166,7 +1120,7 @@ var doc = `{
             ],
             "properties": {
                 "amount": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "asset_id": {
                     "type": "string"
@@ -1191,17 +1145,17 @@ var doc = `{
                 }
             }
         },
-        "models.AssetAdd": {
+        "model.AssetAdd": {
             "type": "object",
             "required": [
                 "amount",
                 "marketId",
-                "portfolio_id",
+                "portfolioId",
                 "quantity"
             ],
             "properties": {
                 "amount": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "marketId": {
                     "type": "string"
@@ -1209,7 +1163,7 @@ var doc = `{
                 "notationAt": {
                     "type": "string"
                 },
-                "portfolio_id": {
+                "portfolioId": {
                     "type": "string"
                 },
                 "quantity": {
@@ -1217,7 +1171,7 @@ var doc = `{
                 }
             }
         },
-        "models.AssetBase": {
+        "model.AssetBase": {
             "type": "object",
             "required": [
                 "amount",
@@ -1229,7 +1183,7 @@ var doc = `{
             ],
             "properties": {
                 "amount": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "asset_id": {
                     "type": "string"
@@ -1260,13 +1214,13 @@ var doc = `{
                 }
             }
         },
-        "models.AssetList": {
+        "model.AssetList": {
             "type": "object",
             "properties": {
                 "assets": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.AssetBase"
+                        "$ref": "#/definitions/model.AssetBase"
                     }
                 },
                 "has_more": {
@@ -1286,11 +1240,11 @@ var doc = `{
                 }
             }
         },
-        "models.AssetTotal": {
+        "model.AssetTotal": {
             "type": "object",
             "properties": {
                 "averagePurchasePrice": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "firstNotationAt": {
                     "type": "string"
@@ -1311,7 +1265,7 @@ var doc = `{
                     "type": "string"
                 },
                 "totalAmount": {
-                    "type": "number"
+                    "type": "integer"
                 },
                 "totalCount": {
                     "type": "integer"
@@ -1321,7 +1275,7 @@ var doc = `{
                 }
             }
         },
-        "models.Market": {
+        "model.Market": {
             "type": "object",
             "required": [
                 "currency_id",
@@ -1359,7 +1313,7 @@ var doc = `{
                 }
             }
         },
-        "models.MarketBase": {
+        "model.MarketBase": {
             "type": "object",
             "required": [
                 "desc_instrument",
@@ -1394,7 +1348,7 @@ var doc = `{
                 }
             }
         },
-        "models.MarketList": {
+        "model.MarketList": {
             "type": "object",
             "properties": {
                 "has_more": {
@@ -1403,7 +1357,7 @@ var doc = `{
                 "markets": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.MarketBase"
+                        "$ref": "#/definitions/model.MarketBase"
                     }
                 },
                 "page": {
@@ -1420,7 +1374,53 @@ var doc = `{
                 }
             }
         },
-        "models.RefreshToken": {
+        "model.Portfolio": {
+            "type": "object",
+            "required": [
+                "active",
+                "currencyId",
+                "title",
+                "userId"
+            ],
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "currencyId": {
+                    "type": "string"
+                },
+                "portfolioId": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PortfolioList": {
+            "type": "object",
+            "properties": {
+                "assetTotal": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.AssetTotal"
+                    }
+                },
+                "portfolio": {
+                    "$ref": "#/definitions/model.Portfolio"
+                }
+            }
+        },
+        "model.RefreshToken": {
             "type": "object",
             "properties": {
                 "token": {
@@ -1428,18 +1428,18 @@ var doc = `{
                 }
             }
         },
-        "models.Tokens": {
+        "model.Tokens": {
             "type": "object",
             "properties": {
                 "accessToken": {
-                    "$ref": "#/definitions/models.AccessToken"
+                    "$ref": "#/definitions/model.AccessToken"
                 },
                 "refreshToken": {
-                    "$ref": "#/definitions/models.RefreshToken"
+                    "$ref": "#/definitions/model.RefreshToken"
                 }
             }
         },
-        "models.User": {
+        "model.User": {
             "type": "object",
             "required": [
                 "name",
@@ -1472,29 +1472,29 @@ var doc = `{
                 }
             }
         },
-        "models.UserBase": {
+        "model.UserBase": {
             "type": "object",
             "properties": {
                 "user": {
-                    "$ref": "#/definitions/models.User"
+                    "$ref": "#/definitions/model.User"
                 }
             }
         },
-        "models.UserWithToken": {
+        "model.UserWithToken": {
             "type": "object",
             "properties": {
                 "accessToken": {
-                    "$ref": "#/definitions/models.AccessToken"
+                    "$ref": "#/definitions/model.AccessToken"
                 },
                 "refreshToken": {
-                    "$ref": "#/definitions/models.RefreshToken"
+                    "$ref": "#/definitions/model.RefreshToken"
                 },
                 "user": {
-                    "$ref": "#/definitions/models.User"
+                    "$ref": "#/definitions/model.User"
                 }
             }
         },
-        "models.UsersList": {
+        "model.UsersList": {
             "type": "object",
             "properties": {
                 "has_more": {
@@ -1515,7 +1515,7 @@ var doc = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.User"
+                        "$ref": "#/definitions/model.User"
                     }
                 }
             }

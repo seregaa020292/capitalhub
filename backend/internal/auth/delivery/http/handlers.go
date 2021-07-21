@@ -58,7 +58,7 @@ func NewAuthHandlers(
 // @Tags Auth
 // @Accept json
 // @Produce json
-// @Param input body models.User true "register user"
+// @Param input body model.User true "register user"
 // @Success 201
 // @Router /auth/register [post]
 func (handler *authHandlers) Register() echo.HandlerFunc {
@@ -120,7 +120,7 @@ func (handler *authHandlers) Confirmed() echo.HandlerFunc {
 // @Tags Auth
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.UserWithToken
+// @Success 200 {object} model.UserWithToken
 // @Router /auth/login [post]
 func (handler *authHandlers) Login() echo.HandlerFunc {
 	type Login struct {
@@ -174,7 +174,7 @@ func (handler *authHandlers) Login() echo.HandlerFunc {
 // @Tags Auth
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.UserBase
+// @Success 200 {object} model.UserBase
 // @Failure 500 {object} httpErrors.RestError
 // @Router /auth/check [get]
 func (handler *authHandlers) CheckLogged() echo.HandlerFunc {
@@ -202,7 +202,7 @@ func (handler *authHandlers) CheckLogged() echo.HandlerFunc {
 // @Tags Auth
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Tokens
+// @Success 200 {object} model.Tokens
 // @Router /auth/refresh [post]
 func (handler *authHandlers) RefreshToken() echo.HandlerFunc {
 	type Refresh struct {
@@ -324,7 +324,7 @@ func (handler *authHandlers) Logout() echo.HandlerFunc {
 // @Accept json
 // @Param id path int true "user_id"
 // @Produce json
-// @Success 200 {object} models.User
+// @Success 200 {object} model.User
 // @Router /auth/{id} [put]
 func (handler *authHandlers) Update() echo.HandlerFunc {
 	return func(echoCtx echo.Context) error {
@@ -358,7 +358,7 @@ func (handler *authHandlers) Update() echo.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param id path int true "user_id"
-// @Success 200 {object} models.User
+// @Success 200 {object} model.User
 // @Failure 500 {object} httpErrors.RestError
 // @Router /auth/{id} [get]
 func (handler *authHandlers) GetUserByID() echo.HandlerFunc {
@@ -414,7 +414,7 @@ func (handler *authHandlers) Delete() echo.HandlerFunc {
 // @Accept json
 // @Param name query string false "username" Format(username)
 // @Produce json
-// @Success 200 {object} models.UsersList
+// @Success 200 {object} model.UsersList
 // @Failure 500 {object} httpErrors.RestError
 // @Router /auth/find [get]
 func (handler *authHandlers) FindByName() echo.HandlerFunc {
@@ -449,7 +449,7 @@ func (handler *authHandlers) FindByName() echo.HandlerFunc {
 // @Param size query int false "number of elements per page" Format(size)
 // @Param orderBy query int false "filter name" Format(orderBy)
 // @Produce json
-// @Success 200 {object} models.UsersList
+// @Success 200 {object} model.UsersList
 // @Failure 500 {object} httpErrors.RestError
 // @Router /auth/all [get]
 func (handler *authHandlers) GetUsers() echo.HandlerFunc {

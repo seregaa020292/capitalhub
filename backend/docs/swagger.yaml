@@ -9,48 +9,17 @@ definitions:
       status:
         type: integer
     type: object
-  model.Portfolio:
-    properties:
-      active:
-        type: boolean
-      created_at:
-        type: string
-      currency_id:
-        type: string
-      portfolio_id:
-        type: string
-      title:
-        type: string
-      updated_at:
-        type: string
-      user_id:
-        type: string
-    required:
-    - active
-    - currency_id
-    - title
-    - user_id
-    type: object
-  model.PortfolioList:
-    properties:
-      asset_total:
-        items:
-          $ref: '#/definitions/models.AssetTotal'
-        type: array
-      portfolio:
-        $ref: '#/definitions/model.Portfolio'
-    type: object
-  models.AccessToken:
+  model.AccessToken:
     properties:
       prefixToken:
         type: string
       token:
         type: string
     type: object
-  models.Asset:
+  model.Asset:
     properties:
       amount:
-        type: number
+        type: integer
       asset_id:
         type: string
       created_at:
@@ -71,28 +40,28 @@ definitions:
     - portfolio_id
     - quantity
     type: object
-  models.AssetAdd:
+  model.AssetAdd:
     properties:
       amount:
-        type: number
+        type: integer
       marketId:
         type: string
       notationAt:
         type: string
-      portfolio_id:
+      portfolioId:
         type: string
       quantity:
         type: integer
     required:
     - amount
     - marketId
-    - portfolio_id
+    - portfolioId
     - quantity
     type: object
-  models.AssetBase:
+  model.AssetBase:
     properties:
       amount:
-        type: number
+        type: integer
       asset_id:
         type: string
       image_url:
@@ -119,11 +88,11 @@ definitions:
     - title
     - user_id
     type: object
-  models.AssetList:
+  model.AssetList:
     properties:
       assets:
         items:
-          $ref: '#/definitions/models.AssetBase'
+          $ref: '#/definitions/model.AssetBase'
         type: array
       has_more:
         type: boolean
@@ -136,10 +105,10 @@ definitions:
       total_pages:
         type: integer
     type: object
-  models.AssetTotal:
+  model.AssetTotal:
     properties:
       averagePurchasePrice:
-        type: number
+        type: integer
       firstNotationAt:
         type: string
       identify:
@@ -153,13 +122,13 @@ definitions:
       title:
         type: string
       totalAmount:
-        type: number
+        type: integer
       totalCount:
         type: integer
       totalQuantity:
         type: integer
     type: object
-  models.Market:
+  model.Market:
     properties:
       content:
         type: string
@@ -185,7 +154,7 @@ definitions:
     - ticker
     - title
     type: object
-  models.MarketBase:
+  model.MarketBase:
     properties:
       content:
         type: string
@@ -209,13 +178,13 @@ definitions:
     - title
     - title_instrument
     type: object
-  models.MarketList:
+  model.MarketList:
     properties:
       has_more:
         type: boolean
       markets:
         items:
-          $ref: '#/definitions/models.MarketBase'
+          $ref: '#/definitions/model.MarketBase'
         type: array
       page:
         type: integer
@@ -226,19 +195,50 @@ definitions:
       total_pages:
         type: integer
     type: object
-  models.RefreshToken:
+  model.Portfolio:
+    properties:
+      active:
+        type: boolean
+      createdAt:
+        type: string
+      currencyId:
+        type: string
+      portfolioId:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+      userId:
+        type: string
+    required:
+    - active
+    - currencyId
+    - title
+    - userId
+    type: object
+  model.PortfolioList:
+    properties:
+      assetTotal:
+        items:
+          $ref: '#/definitions/model.AssetTotal'
+        type: array
+      portfolio:
+        $ref: '#/definitions/model.Portfolio'
+    type: object
+  model.RefreshToken:
     properties:
       token:
         type: string
     type: object
-  models.Tokens:
+  model.Tokens:
     properties:
       accessToken:
-        $ref: '#/definitions/models.AccessToken'
+        $ref: '#/definitions/model.AccessToken'
       refreshToken:
-        $ref: '#/definitions/models.RefreshToken'
+        $ref: '#/definitions/model.RefreshToken'
     type: object
-  models.User:
+  model.User:
     properties:
       avatar:
         type: string
@@ -260,21 +260,21 @@ definitions:
     - name
     - password
     type: object
-  models.UserBase:
+  model.UserBase:
     properties:
       user:
-        $ref: '#/definitions/models.User'
+        $ref: '#/definitions/model.User'
     type: object
-  models.UserWithToken:
+  model.UserWithToken:
     properties:
       accessToken:
-        $ref: '#/definitions/models.AccessToken'
+        $ref: '#/definitions/model.AccessToken'
       refreshToken:
-        $ref: '#/definitions/models.RefreshToken'
+        $ref: '#/definitions/model.RefreshToken'
       user:
-        $ref: '#/definitions/models.User'
+        $ref: '#/definitions/model.User'
     type: object
-  models.UsersList:
+  model.UsersList:
     properties:
       has_more:
         type: boolean
@@ -288,7 +288,7 @@ definitions:
         type: integer
       users:
         items:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/model.User'
         type: array
     type: object
 host: localhost:8080
@@ -339,7 +339,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Asset'
+            $ref: '#/definitions/model.Asset'
         "500":
           description: Internal Server Error
           schema:
@@ -364,7 +364,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Asset'
+            $ref: '#/definitions/model.Asset'
         "500":
           description: Internal Server Error
           schema:
@@ -384,14 +384,14 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/models.AssetAdd'
+          $ref: '#/definitions/model.AssetAdd'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.Asset'
+            $ref: '#/definitions/model.Asset'
         "500":
           description: Internal Server Error
           schema:
@@ -411,7 +411,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.AssetList'
+            $ref: '#/definitions/model.AssetList'
         "500":
           description: Internal Server Error
           schema:
@@ -452,7 +452,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.AssetList'
+            $ref: '#/definitions/model.AssetList'
         "500":
           description: Internal Server Error
           schema:
@@ -473,7 +473,7 @@ paths:
           description: Created
           schema:
             items:
-              $ref: '#/definitions/models.AssetTotal'
+              $ref: '#/definitions/model.AssetTotal'
             type: array
         "500":
           description: Internal Server Error
@@ -525,7 +525,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/model.User'
         "500":
           description: Internal Server Error
           schema:
@@ -549,7 +549,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/model.User'
       security:
       - Auth: []
       summary: Обновить пользователя
@@ -618,7 +618,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UsersList'
+            $ref: '#/definitions/model.UsersList'
         "500":
           description: Internal Server Error
           schema:
@@ -637,7 +637,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UserBase'
+            $ref: '#/definitions/model.UserBase'
         "500":
           description: Internal Server Error
           schema:
@@ -687,7 +687,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UsersList'
+            $ref: '#/definitions/model.UsersList'
         "500":
           description: Internal Server Error
           schema:
@@ -706,7 +706,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UserWithToken'
+            $ref: '#/definitions/model.UserWithToken'
       summary: Вход пользователя
       tags:
       - Auth
@@ -736,7 +736,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Tokens'
+            $ref: '#/definitions/model.Tokens'
       security:
       - Auth: []
       summary: Обновить токен
@@ -753,7 +753,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/model.User'
       produces:
       - application/json
       responses:
@@ -820,7 +820,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Market'
+            $ref: '#/definitions/model.Market'
       security:
       - Auth: []
       summary: Получить по id ценную бумагу/товар
@@ -841,7 +841,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Market'
+            $ref: '#/definitions/model.Market'
       security:
       - Auth: []
       summary: Изменить данные ценной бумаги/товара
@@ -874,7 +874,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.MarketList'
+            $ref: '#/definitions/model.MarketList'
       security:
       - Auth: []
       summary: Получить все ценные бумаги/товары
@@ -890,7 +890,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.Market'
+            $ref: '#/definitions/model.Market'
       security:
       - Auth: []
       summary: Добавить новую ценную бумаги/товара
@@ -941,7 +941,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.MarketList'
+            $ref: '#/definitions/model.MarketList'
       security:
       - Auth: []
       summary: Поиск по названию

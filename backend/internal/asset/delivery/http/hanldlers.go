@@ -44,8 +44,8 @@ func NewAssetHandlers(
 // @Tags Asset
 // @Accept json
 // @Produce json
-// @Param input body models.AssetAdd true "Add asset"
-// @Success 201 {object} models.Asset
+// @Param input body model.AssetAdd true "Add asset"
+// @Success 201 {object} model.Asset
 // @Failure 500 {object} httpErrors.RestErr
 // @Router /asset/add [post]
 func (handler *assetHandlers) Add() echo.HandlerFunc {
@@ -86,7 +86,7 @@ func (handler *assetHandlers) Add() echo.HandlerFunc {
 // @Tags Asset
 // @Accept json
 // @Produce json
-// @Success 201 {object} models.AssetList
+// @Success 201 {object} model.AssetList
 // @Failure 500 {object} httpErrors.RestErr
 // @Router /asset/all [get]
 func (handler *assetHandlers) GetAll() echo.HandlerFunc {
@@ -114,7 +114,7 @@ func (handler *assetHandlers) GetAll() echo.HandlerFunc {
 // @Tags Asset
 // @Accept json
 // @Produce json
-// @Success 201 {object} []models.AssetTotal
+// @Success 201 {object} []model.AssetTotal
 // @Failure 500 {object} httpErrors.RestErr
 // @Router /asset/total-all [get]
 func (handler *assetHandlers) GetTotalAll() echo.HandlerFunc {
@@ -143,7 +143,7 @@ func (handler *assetHandlers) GetTotalAll() echo.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param id path int true "asset_id"
-// @Success 200 {object} models.Asset
+// @Success 200 {object} model.Asset
 // @Failure 500 {object} httpErrors.RestErr
 // @Router /asset/{id} [put]
 func (handler *assetHandlers) Update() echo.HandlerFunc {
@@ -213,7 +213,7 @@ func (handler *assetHandlers) Delete() echo.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param id path int true "asset_id"
-// @Success 200 {object} models.Asset
+// @Success 200 {object} model.Asset
 // @Failure 500 {object} httpErrors.RestErr
 // @Router /asset/{id} [get]
 func (handler *assetHandlers) GetByID() echo.HandlerFunc {
@@ -245,7 +245,7 @@ func (handler *assetHandlers) GetByID() echo.HandlerFunc {
 // @Param page query int false "page number" Format(page)
 // @Param size query int false "number of elements per page" Format(size)
 // @Param orderBy query int false "filter name" Format(orderBy)
-// @Success 200 {object} models.AssetList
+// @Success 200 {object} model.AssetList
 // @Failure 500 {object} httpErrors.RestErr
 // @Router /asset/market/{id} [get]
 func (handler *assetHandlers) GetAllByMarketID() echo.HandlerFunc {

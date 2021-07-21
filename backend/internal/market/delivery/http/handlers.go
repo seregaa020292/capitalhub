@@ -44,7 +44,7 @@ func NewMarketHandlers(
 // @Tags Market
 // @Accept json
 // @Produce json
-// @Success 201 {object} models.Market
+// @Success 201 {object} model.Market
 // @Router /market/create [post]
 func (handler marketHandlers) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -72,7 +72,7 @@ func (handler marketHandlers) Create() echo.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param id path int true "market_id"
-// @Success 200 {object} models.Market
+// @Success 200 {object} model.Market
 // @Router /market/{id} [put]
 func (handler marketHandlers) Update() echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -106,7 +106,7 @@ func (handler marketHandlers) Update() echo.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param id path int true "market_id"
-// @Success 200 {object} models.Market
+// @Success 200 {object} model.Market
 // @Router /market/{id} [get]
 func (handler marketHandlers) GetByID() echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -164,7 +164,7 @@ func (handler marketHandlers) Delete() echo.HandlerFunc {
 // @Param page query int false "page number" Format(page)
 // @Param size query int false "number of elements per page" Format(size)
 // @Param orderBy query int false "filter name" Format(orderBy)
-// @Success 200 {object} models.MarketList
+// @Success 200 {object} model.MarketList
 // @Router /market/all [get]
 func (handler marketHandlers) GetAll() echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -217,7 +217,7 @@ func (handler marketHandlers) Parse() echo.HandlerFunc {
 // @Param page query int false "page number" Format(page)
 // @Param size query int false "number of elements per page" Format(size)
 // @Param orderBy query int false "filter name" Format(orderBy)
-// @Success 200 {object} models.MarketList
+// @Success 200 {object} model.MarketList
 // @Router /market/search [get]
 func (handler marketHandlers) SearchByTitle() echo.HandlerFunc {
 	return func(c echo.Context) error {
