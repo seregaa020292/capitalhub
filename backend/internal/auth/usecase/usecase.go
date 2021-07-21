@@ -11,7 +11,7 @@ import (
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/internal/auth"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/httpErrors"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
@@ -43,7 +43,7 @@ func NewAuthUseCase(
 }
 
 // Создаем нового пользователя
-func (useCase *authUC) Register(ctx context.Context, user *models.User) (*models.User, error) {
+func (useCase *authUC) Register(ctx context.Context, user *model.User) (*model.User, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.Register")
 	defer span.Finish()
 
@@ -74,7 +74,7 @@ func (useCase *authUC) Confirmed(ctx context.Context, code uuid.UUID) error {
 }
 
 // Авторизация пользователя, возвращает модель пользователя с токеном jwt, refresh
-func (useCase *authUC) Login(ctx context.Context, user *models.User) (*models.UserWithToken, error) {
+func (useCase *authUC) Login(ctx context.Context, user *model.User) (*model.UserWithToken, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.Login")
 	defer span.Finish()
 
@@ -101,20 +101,20 @@ func (useCase *authUC) Login(ctx context.Context, user *models.User) (*models.Us
 		return nil, httpErrors.NewInternalServerError(errors.Wrap(err, "authUC.GetUsers.GenerateTokens"))
 	}
 
-	return &models.UserWithToken{
+	return &model.UserWithToken{
 		User: foundUser,
-		AccessToken: &models.AccessToken{
+		AccessToken: &model.AccessToken{
 			Token:       token.AccessToken,
 			PrefixToken: useCase.cfg.Auth.PrefixAccessToken,
 		},
-		RefreshToken: &models.RefreshToken{
+		RefreshToken: &model.RefreshToken{
 			Token: token.RefreshToken,
 		},
 	}, nil
 }
 
 // Обновить существующего пользователя
-func (useCase *authUC) Update(ctx context.Context, user *models.User) (*models.User, error) {
+func (useCase *authUC) Update(ctx context.Context, user *model.User) (*model.User, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.Update")
 	defer span.Finish()
 
@@ -155,7 +155,7 @@ func (useCase *authUC) Delete(ctx context.Context, userID uuid.UUID) error {
 }
 
 // Возвращаем пользователя с новыми токенами
-func (useCase *authUC) GetRefreshByID(ctx context.Context, userID uuid.UUID) (*models.UserWithToken, error) {
+func (useCase *authUC) GetRefreshByID(ctx context.Context, userID uuid.UUID) (*model.UserWithToken, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.GetRefreshByID")
 	defer span.Finish()
 
@@ -170,20 +170,20 @@ func (useCase *authUC) GetRefreshByID(ctx context.Context, userID uuid.UUID) (*m
 		return nil, httpErrors.NewInternalServerError(errors.Wrap(err, "authUC.GetUsers.GenerateTokens"))
 	}
 
-	return &models.UserWithToken{
+	return &model.UserWithToken{
 		User: user,
-		AccessToken: &models.AccessToken{
+		AccessToken: &model.AccessToken{
 			Token:       token.AccessToken,
 			PrefixToken: useCase.cfg.Auth.PrefixAccessToken,
 		},
-		RefreshToken: &models.RefreshToken{
+		RefreshToken: &model.RefreshToken{
 			Token: token.RefreshToken,
 		},
 	}, nil
 }
 
 // Получаем пользователя по id
-func (useCase *authUC) GetByID(ctx context.Context, userID uuid.UUID) (*models.User, error) {
+func (useCase *authUC) GetByID(ctx context.Context, userID uuid.UUID) (*model.User, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.GetByID")
 	defer span.Finish()
 
@@ -210,7 +210,7 @@ func (useCase *authUC) GetByID(ctx context.Context, userID uuid.UUID) (*models.U
 }
 
 // Находим пользователей по имени
-func (useCase *authUC) FindByName(ctx context.Context, name string, query *utils.PaginationQuery) (*models.UsersList, error) {
+func (useCase *authUC) FindByName(ctx context.Context, name string, query *utils.PaginationQuery) (*model.UsersList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.FindByName")
 	defer span.Finish()
 
@@ -218,7 +218,7 @@ func (useCase *authUC) FindByName(ctx context.Context, name string, query *utils
 }
 
 // Получение пользователей с разбивкой на страницы
-func (useCase *authUC) GetUsers(ctx context.Context, pq *utils.PaginationQuery) (*models.UsersList, error) {
+func (useCase *authUC) GetUsers(ctx context.Context, pq *utils.PaginationQuery) (*model.UsersList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.GetUsers")
 	defer span.Finish()
 
@@ -226,7 +226,7 @@ func (useCase *authUC) GetUsers(ctx context.Context, pq *utils.PaginationQuery) 
 }
 
 // Загрузить аватар пользователя
-func (useCase *authUC) UploadAvatar(ctx context.Context, userID uuid.UUID, file models.UploadInput) (*models.User, error) {
+func (useCase *authUC) UploadAvatar(ctx context.Context, userID uuid.UUID, file model.UploadInput) (*model.User, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.UploadAvatar")
 	defer span.Finish()
 
@@ -237,7 +237,7 @@ func (useCase *authUC) UploadAvatar(ctx context.Context, userID uuid.UUID, file 
 
 	avatarURL := useCase.generateAWSMinioURL(file.BucketName, uploadInfo.Key)
 
-	updatedUser, err := useCase.authRepo.Update(ctx, &models.User{
+	updatedUser, err := useCase.authRepo.Update(ctx, &model.User{
 		UserID: userID,
 		Avatar: &avatarURL,
 	})

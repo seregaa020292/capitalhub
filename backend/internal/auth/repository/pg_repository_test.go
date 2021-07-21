@@ -10,7 +10,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/require"
 
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 )
 
@@ -33,11 +33,11 @@ func TestAuthRepo_Register(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"first_name", "last_name", "password", "email", "role", "gender"}).AddRow(
 			"Alex", "Bryksin", "123456", "alex@gmail.com", "admin", &gender)
 
-		user := &models.User{
-			Name: "Alex",
-			Email:     "alex@gmail.com",
-			Password:  "123456",
-			Role:      &role,
+		user := &model.User{
+			Name:     "Alex",
+			Email:    "alex@gmail.com",
+			Password: "123456",
+			Role:     &role,
 		}
 
 		mock.ExpectQuery(createUserQuery).WithArgs(&user.Name, &user.Email,
@@ -69,10 +69,10 @@ func TestAuthRepo_GetByID(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"user_id", "first_name", "last_name", "email"}).AddRow(
 			uid, "Alex", "Bryksin", "alex@mail.ru")
 
-		testUser := &models.User{
-			UserID:    uid,
-			Name: "Alex",
-			Email:     "alex@mail.ru",
+		testUser := &model.User{
+			UserID: uid,
+			Name:   "Alex",
+			Email:  "alex@mail.ru",
 		}
 
 		mock.ExpectQuery(getUserQuery).
@@ -140,11 +140,11 @@ func TestAuthRepo_Update(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"first_name", "last_name", "password", "email", "role", "gender"}).AddRow(
 			"Alex", "Bryksin", "123456", "alex@gmail.com", "admin", &gender)
 
-		user := &models.User{
-			Name: "Alex",
-			Email:     "alex@gmail.com",
-			Password:  "123456",
-			Role:      &role,
+		user := &model.User{
+			Name:     "Alex",
+			Email:    "alex@gmail.com",
+			Password: "123456",
+			Role:     &role,
 		}
 
 		mock.ExpectQuery(updateUserQuery).WithArgs(&user.Name, &user.Email,
@@ -176,10 +176,10 @@ func TestAuthRepo_FindByEmail(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"user_id", "first_name", "last_name", "email"}).AddRow(
 			uid, "Alex", "Bryksin", "alex@mail.ru")
 
-		testUser := &models.User{
-			UserID:    uid,
-			Name: "Alex",
-			Email:     "alex@mail.ru",
+		testUser := &model.User{
+			UserID: uid,
+			Name:   "Alex",
+			Email:  "alex@mail.ru",
 		}
 
 		mock.ExpectQuery(findUserByEmail).WithArgs(testUser.Email).WillReturnRows(rows)

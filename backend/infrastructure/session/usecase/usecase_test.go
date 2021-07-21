@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/seregaa020292/capitalhub/infrastructure/session/mock"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 )
 
 func TestSessionUC_CreateSession(t *testing.T) {
@@ -22,7 +22,7 @@ func TestSessionUC_CreateSession(t *testing.T) {
 	sessUC := NewSessionUseCase(mockSessRepo, nil)
 
 	ctx := context.Background()
-	sess := &models.Session{}
+	sess := &model.Session{}
 	sid := "session id"
 
 	mockSessRepo.EXPECT().CreateSession(gomock.Any(), gomock.Eq(sess), 10).Return(sid, nil)
@@ -43,7 +43,7 @@ func TestSessionUC_GetSessionByID(t *testing.T) {
 	sessUC := NewSessionUseCase(mockSessRepo, nil)
 
 	ctx := context.Background()
-	sess := &models.Session{}
+	sess := &model.Session{}
 	uid := uuid.New()
 	sid := "session id"
 

@@ -16,7 +16,7 @@ import (
 	"github.com/seregaa020292/capitalhub/internal/asset/mock"
 	"github.com/seregaa020292/capitalhub/internal/asset/model"
 	"github.com/seregaa020292/capitalhub/internal/asset/usecase"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	model2 "github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/converter"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
@@ -51,7 +51,7 @@ func TestAssetHandlers_Create(t *testing.T) {
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/assets", strings.NewReader(buf.String()))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	res := httptest.NewRecorder()
-	u := &models.User{
+	u := &model2.User{
 		UserID: userID,
 	}
 	ctxWithValue := context.WithValue(context.Background(), utils.UserCtxKey{}, u)
@@ -125,7 +125,7 @@ func TestAssetHandlers_Delete(t *testing.T) {
 
 	r := httptest.NewRequest(http.MethodDelete, "/api/v1/assets/5c9a9d67-ad38-499c-9858-086bfdeaf7d2", nil)
 	w := httptest.NewRecorder()
-	u := &models.User{
+	u := &model2.User{
 		UserID: userID,
 	}
 	ctxWithValue := context.WithValue(context.Background(), utils.UserCtxKey{}, u)

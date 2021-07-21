@@ -12,7 +12,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/seregaa020292/capitalhub/config"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/csrf"
 	"github.com/seregaa020292/capitalhub/pkg/httpErrors"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
@@ -89,8 +89,8 @@ func SetCSRFHeader(echoCtx echo.Context, sid string, salt string, logger logger.
 type UserCtxKey struct{}
 
 // Get user from context
-func GetUserFromCtx(ctx context.Context) (*models.User, error) {
-	user, ok := ctx.Value(UserCtxKey{}).(*models.User)
+func GetUserFromCtx(ctx context.Context) (*model.User, error) {
+	user, ok := ctx.Value(UserCtxKey{}).(*model.User)
 	if !ok {
 		return nil, httpErrors.Unauthorized
 	}

@@ -6,12 +6,12 @@ import (
 
 	"github.com/minio/minio-go/v7"
 
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 )
 
 // Minio AWS S3 interface
 type AWSRepository interface {
-	PutObject(ctx context.Context, input models.UploadInput) (*minio.UploadInfo, error)
+	PutObject(ctx context.Context, input model.UploadInput) (*minio.UploadInfo, error)
 	GetObject(ctx context.Context, bucket string, fileName string) (*minio.Object, error)
 	RemoveObject(ctx context.Context, bucket string, fileName string) error
 }

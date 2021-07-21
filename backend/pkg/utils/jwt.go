@@ -12,7 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/seregaa020292/capitalhub/config"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/httpErrors"
 )
 
@@ -30,7 +30,7 @@ type Tokens struct {
 }
 
 // Создание токенов
-func GenerateTokens(user *models.User, config *config.Config) (Tokens, error) {
+func GenerateTokens(user *model.User, config *config.Config) (Tokens, error) {
 	accessToken, err := GenerateAccessToken(user, config)
 	if err != nil {
 		return Tokens{}, err
@@ -43,7 +43,7 @@ func GenerateTokens(user *models.User, config *config.Config) (Tokens, error) {
 }
 
 // Создание Access токена
-func GenerateAccessToken(user *models.User, config *config.Config) (string, error) {
+func GenerateAccessToken(user *model.User, config *config.Config) (string, error) {
 	// Declare the token with the algorithm used for signing, and the claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &Claims{
 		Email: user.Email,

@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/seregaa020292/capitalhub/internal/auth"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 )
 
 func SetupRedis() auth.RedisRepository {
@@ -35,9 +35,9 @@ func TestAuthRedisRepo_GetByIDCtx(t *testing.T) {
 	t.Run("GetByIDCtx", func(t *testing.T) {
 		key := uuid.New().String()
 		userID := uuid.New()
-		u := &models.User{
-			UserID:    userID,
-			Name: "Alex",
+		u := &model.User{
+			UserID: userID,
+			Name:   "Alex",
 		}
 
 		err := authRedisRepo.SetUserCtx(context.Background(), key, 10, u)
@@ -58,9 +58,9 @@ func TestAuthRedisRepo_SetUserCtx(t *testing.T) {
 	t.Run("SetUserCtx", func(t *testing.T) {
 		key := uuid.New().String()
 		userID := uuid.New()
-		u := &models.User{
-			UserID:    userID,
-			Name: "Alex",
+		u := &model.User{
+			UserID: userID,
+			Name:   "Alex",
 		}
 
 		err := authRedisRepo.SetUserCtx(context.Background(), key, 10, u)

@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/seregaa020292/capitalhub/internal/auth"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 )
 
@@ -25,11 +25,11 @@ func NewAuthRepository(db *sqlx.DB) auth.Repository {
 }
 
 // Создание пользователя
-func (repo *authRepo) Register(ctx context.Context, user *models.User) (*models.User, error) {
+func (repo *authRepo) Register(ctx context.Context, user *model.User) (*model.User, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authRepo.Register")
 	defer span.Finish()
 
-	u := &models.User{}
+	u := &model.User{}
 	if err := repo.db.QueryRowxContext(ctx, createUserQuery,
 		&user.Name, &user.Email, &user.Password, &user.Role, &user.Avatar,
 	).StructScan(u); err != nil {
@@ -60,11 +60,11 @@ func (repo *authRepo) Confirmed(ctx context.Context, code uuid.UUID) error {
 }
 
 // Изменение данных пользователя
-func (repo *authRepo) Update(ctx context.Context, user *models.User) (*models.User, error) {
+func (repo *authRepo) Update(ctx context.Context, user *model.User) (*model.User, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authRepo.Update")
 	defer span.Finish()
 
-	u := &models.User{}
+	u := &model.User{}
 	if err := repo.db.GetContext(ctx, u, updateUserQuery, &user.Name, &user.Email,
 		&user.Role, &user.Avatar, &user.UserID,
 	); err != nil {
@@ -95,11 +95,11 @@ func (repo *authRepo) Delete(ctx context.Context, userID uuid.UUID) error {
 }
 
 // Вернуть пользователя по ид
-func (repo *authRepo) GetByID(ctx context.Context, userID uuid.UUID) (*models.User, error) {
+func (repo *authRepo) GetByID(ctx context.Context, userID uuid.UUID) (*model.User, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authRepo.GetByID")
 	defer span.Finish()
 
-	user := &models.User{}
+	user := &model.User{}
 	if err := repo.db.QueryRowxContext(ctx, getUserQuery, userID).StructScan(user); err != nil {
 		return nil, errors.Wrap(err, "authRepo.GetByID.QueryRowxContext")
 	}
@@ -107,7 +107,7 @@ func (repo *authRepo) GetByID(ctx context.Context, userID uuid.UUID) (*models.Us
 }
 
 // Найти пользователей по имени
-func (repo *authRepo) FindByName(ctx context.Context, name string, query *utils.PaginationQuery) (*models.UsersList, error) {
+func (repo *authRepo) FindByName(ctx context.Context, name string, query *utils.PaginationQuery) (*model.UsersList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authRepo.FindByName")
 	defer span.Finish()
 
@@ -117,13 +117,13 @@ func (repo *authRepo) FindByName(ctx context.Context, name string, query *utils.
 	}
 
 	if totalCount == 0 {
-		return &models.UsersList{
+		return &model.UsersList{
 			TotalCount: totalCount,
 			TotalPages: utils.GetTotalPages(totalCount, query.GetSize()),
 			Page:       query.GetPage(),
 			Size:       query.GetSize(),
 			HasMore:    utils.GetHasMore(query.GetPage(), totalCount, query.GetSize()),
-			Users:      make([]*models.User, 0),
+			Users:      make([]*model.User, 0),
 		}, nil
 	}
 
@@ -133,9 +133,9 @@ func (repo *authRepo) FindByName(ctx context.Context, name string, query *utils.
 	}
 	defer rows.Close()
 
-	var users = make([]*models.User, 0, query.GetSize())
+	var users = make([]*model.User, 0, query.GetSize())
 	for rows.Next() {
-		var user models.User
+		var user model.User
 		if err = rows.StructScan(&user); err != nil {
 			return nil, errors.Wrap(err, "authRepo.FindByName.StructScan")
 		}
@@ -146,7 +146,7 @@ func (repo *authRepo) FindByName(ctx context.Context, name string, query *utils.
 		return nil, errors.Wrap(err, "authRepo.FindByName.rows.Err")
 	}
 
-	return &models.UsersList{
+	return &model.UsersList{
 		TotalCount: totalCount,
 		TotalPages: utils.GetTotalPages(totalCount, query.GetSize()),
 		Page:       query.GetPage(),
@@ -157,7 +157,7 @@ func (repo *authRepo) FindByName(ctx context.Context, name string, query *utils.
 }
 
 // Вернуть всех пользователей
-func (repo *authRepo) GetUsers(ctx context.Context, pq *utils.PaginationQuery) (*models.UsersList, error) {
+func (repo *authRepo) GetUsers(ctx context.Context, pq *utils.PaginationQuery) (*model.UsersList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authRepo.GetUsers")
 	defer span.Finish()
 
@@ -167,17 +167,17 @@ func (repo *authRepo) GetUsers(ctx context.Context, pq *utils.PaginationQuery) (
 	}
 
 	if totalCount == 0 {
-		return &models.UsersList{
+		return &model.UsersList{
 			TotalCount: totalCount,
 			TotalPages: utils.GetTotalPages(totalCount, pq.GetSize()),
 			Page:       pq.GetPage(),
 			Size:       pq.GetSize(),
 			HasMore:    utils.GetHasMore(pq.GetPage(), totalCount, pq.GetSize()),
-			Users:      make([]*models.User, 0),
+			Users:      make([]*model.User, 0),
 		}, nil
 	}
 
-	var users = make([]*models.User, 0, pq.GetSize())
+	var users = make([]*model.User, 0, pq.GetSize())
 	if err := repo.db.SelectContext(
 		ctx,
 		&users,
@@ -189,7 +189,7 @@ func (repo *authRepo) GetUsers(ctx context.Context, pq *utils.PaginationQuery) (
 		return nil, errors.Wrap(err, "authRepo.GetUsers.SelectContext")
 	}
 
-	return &models.UsersList{
+	return &model.UsersList{
 		TotalCount: totalCount,
 		TotalPages: utils.GetTotalPages(totalCount, pq.GetSize()),
 		Page:       pq.GetPage(),
@@ -200,11 +200,11 @@ func (repo *authRepo) GetUsers(ctx context.Context, pq *utils.PaginationQuery) (
 }
 
 // Найти пользователя по email
-func (repo *authRepo) FindByEmail(ctx context.Context, user *models.User) (*models.User, error) {
+func (repo *authRepo) FindByEmail(ctx context.Context, user *model.User) (*model.User, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authRepo.FindByEmail")
 	defer span.Finish()
 
-	foundUser := &models.User{}
+	foundUser := &model.User{}
 	if err := repo.db.QueryRowxContext(ctx, findUserByEmail, user.Email).StructScan(foundUser); err != nil {
 		return nil, errors.Wrap(err, "authRepo.FindByEmail.QueryRowxContext")
 	}

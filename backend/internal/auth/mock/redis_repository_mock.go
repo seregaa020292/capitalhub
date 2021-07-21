@@ -6,10 +6,10 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 )
 
 // MockRedisRepository is a mock of RedisRepository interface.
@@ -50,10 +50,10 @@ func (mr *MockRedisRepositoryMockRecorder) DeleteUserCtx(ctx, key interface{}) *
 }
 
 // GetByIDCtx mocks base method.
-func (m *MockRedisRepository) GetByIDCtx(ctx context.Context, key string) (*models.User, error) {
+func (m *MockRedisRepository) GetByIDCtx(ctx context.Context, key string) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByIDCtx", ctx, key)
-	ret0, _ := ret[0].(*models.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -65,7 +65,7 @@ func (mr *MockRedisRepositoryMockRecorder) GetByIDCtx(ctx, key interface{}) *gom
 }
 
 // SetUserCtx mocks base method.
-func (m *MockRedisRepository) SetUserCtx(ctx context.Context, key string, seconds int, user *models.User) error {
+func (m *MockRedisRepository) SetUserCtx(ctx context.Context, key string, seconds int, user *model.User) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetUserCtx", ctx, key, seconds, user)
 	ret0, _ := ret[0].(error)

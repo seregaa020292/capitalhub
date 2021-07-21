@@ -6,11 +6,11 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 )
 
 // MockSessRepository is a mock of SessRepository interface.
@@ -51,7 +51,7 @@ func (mr *MockSessRepositoryMockRecorder) CleanMaxSession(ctx, userID interface{
 }
 
 // CreateSession mocks base method.
-func (m *MockSessRepository) CreateSession(ctx context.Context, session *models.Session, expire int) (string, error) {
+func (m *MockSessRepository) CreateSession(ctx context.Context, session *model.Session, expire int) (string, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateSession", ctx, session, expire)
 	ret0, _ := ret[0].(string)
@@ -80,10 +80,10 @@ func (mr *MockSessRepositoryMockRecorder) DeleteByID(ctx, userID, sessionID inte
 }
 
 // GetSessionByID mocks base method.
-func (m *MockSessRepository) GetSessionByID(ctx context.Context, userID uuid.UUID, sessionID string) (*models.Session, error) {
+func (m *MockSessRepository) GetSessionByID(ctx context.Context, userID uuid.UUID, sessionID string) (*model.Session, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSessionByID", ctx, userID, sessionID)
-	ret0, _ := ret[0].(*models.Session)
+	ret0, _ := ret[0].(*model.Session)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -95,7 +95,7 @@ func (mr *MockSessRepositoryMockRecorder) GetSessionByID(ctx, userID, sessionID 
 }
 
 // RefreshByID mocks base method.
-func (m *MockSessRepository) RefreshByID(ctx context.Context, sess *models.Session, newSessionID string, expire int) (string, error) {
+func (m *MockSessRepository) RefreshByID(ctx context.Context, sess *model.Session, newSessionID string, expire int) (string, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RefreshByID", ctx, sess, newSessionID, expire)
 	ret0, _ := ret[0].(string)

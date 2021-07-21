@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/seregaa020292/capitalhub/internal/auth"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 )
 
 // Auth AWS S3 repository
@@ -24,7 +24,7 @@ func NewAuthAWSRepository(awsClient *minio.Client) auth.AWSRepository {
 }
 
 // Upload file to AWS
-func (aws *authAWSRepository) PutObject(ctx context.Context, input models.UploadInput) (*minio.UploadInfo, error) {
+func (aws *authAWSRepository) PutObject(ctx context.Context, input model.UploadInput) (*minio.UploadInfo, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authAWSRepository.PutObject")
 	defer span.Finish()
 

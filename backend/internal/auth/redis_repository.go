@@ -3,13 +3,12 @@ package auth
 
 import (
 	"context"
-
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 )
 
 // Auth Redis repository interface
 type RedisRepository interface {
-	GetByIDCtx(ctx context.Context, key string) (*models.User, error)
-	SetUserCtx(ctx context.Context, key string, seconds int, user *models.User) error
+	GetByIDCtx(ctx context.Context, key string) (*model.User, error)
+	SetUserCtx(ctx context.Context, key string, seconds int, user *model.User) error
 	DeleteUserCtx(ctx context.Context, key string) error
 }

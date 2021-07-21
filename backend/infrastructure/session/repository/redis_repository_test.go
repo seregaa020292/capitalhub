@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/seregaa020292/capitalhub/infrastructure/session"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 )
 
 func SetupRedis() session.SessRepository {
@@ -34,7 +34,7 @@ func TestSessionRepo_CreateSession(t *testing.T) {
 
 	t.Run("CreateSession", func(t *testing.T) {
 		sessUUID := uuid.New()
-		sess := &models.Session{
+		sess := &model.Session{
 			SessionID: sessUUID.String(),
 			UserID:    sessUUID,
 		}
@@ -51,7 +51,7 @@ func TestSessionRepo_GetSessionByID(t *testing.T) {
 
 	t.Run("GetSessionByID", func(t *testing.T) {
 		sessUUID := uuid.New()
-		sess := &models.Session{
+		sess := &model.Session{
 			SessionID: sessUUID.String(),
 			UserID:    sessUUID,
 		}

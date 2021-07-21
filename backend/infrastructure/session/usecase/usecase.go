@@ -8,7 +8,7 @@ import (
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/infrastructure/session"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 )
 
 // Session use case
@@ -23,7 +23,7 @@ func NewSessionUseCase(sessionRepo session.SessRepository, cfg *config.Config) s
 }
 
 // Создаем новую сессию
-func (u *sessionUC) CreateSession(ctx context.Context, session *models.Session, expire int) (string, error) {
+func (u *sessionUC) CreateSession(ctx context.Context, session *model.Session, expire int) (string, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "sessionUC.CreateSession")
 	defer span.Finish()
 
@@ -39,7 +39,7 @@ func (u *sessionUC) CleanMaxSession(ctx context.Context, userID uuid.UUID) int64
 }
 
 // Обновляем сессию по id
-func (u *sessionUC) RefreshByID(ctx context.Context, sess *models.Session, newSessionID string, expire int) (string, error) {
+func (u *sessionUC) RefreshByID(ctx context.Context, sess *model.Session, newSessionID string, expire int) (string, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "sessionUC.RefreshByID")
 	defer span.Finish()
 
@@ -55,7 +55,7 @@ func (u *sessionUC) DeleteByID(ctx context.Context, userID uuid.UUID, sessionID 
 }
 
 // Получаем сессию по id
-func (u *sessionUC) GetSessionByID(ctx context.Context, userID uuid.UUID, sessionID string) (*models.Session, error) {
+func (u *sessionUC) GetSessionByID(ctx context.Context, userID uuid.UUID, sessionID string) (*model.Session, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "sessionUC.GetSessionByID")
 	defer span.Finish()
 

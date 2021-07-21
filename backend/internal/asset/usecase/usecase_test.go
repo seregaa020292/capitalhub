@@ -11,7 +11,7 @@ import (
 
 	"github.com/seregaa020292/capitalhub/internal/asset/mock"
 	"github.com/seregaa020292/capitalhub/internal/asset/model"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	model2 "github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 )
@@ -59,7 +59,7 @@ func TestAssetUC_Update(t *testing.T) {
 		UserID: userUID,
 	}
 
-	user := &models.User{
+	user := &model2.User{
 		UserID: userUID,
 	}
 
@@ -96,7 +96,7 @@ func TestAssetUC_Delete(t *testing.T) {
 		UserID: userUID,
 	}
 
-	user := &models.User{
+	user := &model2.User{
 		UserID: userUID,
 	}
 

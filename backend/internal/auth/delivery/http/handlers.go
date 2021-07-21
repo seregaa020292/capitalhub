@@ -15,7 +15,7 @@ import (
 	"github.com/seregaa020292/capitalhub/infrastructure/service"
 	"github.com/seregaa020292/capitalhub/infrastructure/session"
 	"github.com/seregaa020292/capitalhub/internal/auth"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/internal/portfolio"
 	"github.com/seregaa020292/capitalhub/pkg/csrf"
 	"github.com/seregaa020292/capitalhub/pkg/httpErrors"
@@ -66,7 +66,7 @@ func (handler *authHandlers) Register() echo.HandlerFunc {
 		span, ctx := opentracing.StartSpanFromContext(utils.GetRequestCtx(echoCtx), "authHandlers.Register")
 		defer span.Finish()
 
-		user := &models.User{}
+		user := &model.User{}
 		if err := utils.ReadRequest(echoCtx, user); err != nil {
 			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
 		}
@@ -137,7 +137,7 @@ func (handler *authHandlers) Login() echo.HandlerFunc {
 			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
 		}
 
-		userWithToken, err := handler.authUseCase.Login(ctx, &models.User{
+		userWithToken, err := handler.authUseCase.Login(ctx, &model.User{
 			Email:    login.Email,
 			Password: login.Password,
 		})
@@ -146,7 +146,7 @@ func (handler *authHandlers) Login() echo.HandlerFunc {
 		}
 
 		// Записываем refresh токен в хранилище
-		if _, err := handler.sessUseCase.CreateSession(ctx, &models.Session{
+		if _, err := handler.sessUseCase.CreateSession(ctx, &model.Session{
 			Fingerprint: login.Fingerprint,
 			SessionID:   userWithToken.RefreshToken.Token,
 			UserID:      userWithToken.User.UserID,
@@ -182,7 +182,7 @@ func (handler *authHandlers) CheckLogged() echo.HandlerFunc {
 		span, _ := opentracing.StartSpanFromContext(utils.GetRequestCtx(echoCtx), "authHandlers.checkLogged")
 		defer span.Finish()
 
-		user, ok := echoCtx.Get("user").(*models.User)
+		user, ok := echoCtx.Get("user").(*model.User)
 		if !ok {
 			return utils.ErrResponseWithLog(echoCtx, handler.logger, httpErrors.NewUnauthorizedError(httpErrors.Unauthorized))
 		}
@@ -191,7 +191,7 @@ func (handler *authHandlers) CheckLogged() echo.HandlerFunc {
 		sid, _ := echoCtx.Get("sid").(string)
 		utils.SetCSRFHeader(echoCtx, sid, handler.cfg.Server.CsrfSalt, handler.logger)
 
-		return echoCtx.JSON(http.StatusOK, &models.UserBase{User: user})
+		return echoCtx.JSON(http.StatusOK, &model.UserBase{User: user})
 	}
 }
 
@@ -258,7 +258,7 @@ func (handler *authHandlers) RefreshToken() echo.HandlerFunc {
 		}
 
 		// Обновляем токен в хранилище
-		if _, err := handler.sessUseCase.RefreshByID(ctx, &models.Session{
+		if _, err := handler.sessUseCase.RefreshByID(ctx, &model.Session{
 			SessionID:   cookie.Value,
 			UserID:      userUUID,
 			Fingerprint: refresh.Fingerprint,
@@ -272,7 +272,7 @@ func (handler *authHandlers) RefreshToken() echo.HandlerFunc {
 		// Создаем и отдаем в заголовке CSRF токен
 		utils.SetCSRFHeader(echoCtx, userWithToken.AccessToken.Token, handler.cfg.Server.CsrfSalt, handler.logger)
 
-		return echoCtx.JSON(http.StatusOK, &models.Tokens{
+		return echoCtx.JSON(http.StatusOK, &model.Tokens{
 			AccessToken:  userWithToken.AccessToken,
 			RefreshToken: userWithToken.RefreshToken,
 		})
@@ -336,7 +336,7 @@ func (handler *authHandlers) Update() echo.HandlerFunc {
 			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
 		}
 
-		user := &models.User{}
+		user := &model.User{}
 		user.UserID = uID
 
 		if err = utils.ReadRequest(echoCtx, user); err != nil {
@@ -544,7 +544,7 @@ func (handler *authHandlers) UploadAvatar() echo.HandlerFunc {
 
 		reader := bytes.NewReader(binaryImage.Bytes())
 
-		updatedUser, err := handler.authUseCase.UploadAvatar(ctx, uID, models.UploadInput{
+		updatedUser, err := handler.authUseCase.UploadAvatar(ctx, uID, model.UploadInput{
 			File:        reader,
 			Name:        image.Filename,
 			Size:        image.Size,

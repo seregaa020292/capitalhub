@@ -14,7 +14,7 @@ import (
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/infrastructure/session"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 )
 
 const (
@@ -34,7 +34,7 @@ func NewSessionRepository(redisClient *redis.Client, cfg *config.Config) session
 }
 
 // Создаем сессию в Redis
-func (repository *sessionRepo) CreateSession(ctx context.Context, sess *models.Session, expire int) (string, error) {
+func (repository *sessionRepo) CreateSession(ctx context.Context, sess *model.Session, expire int) (string, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "sessionRepo.CreateSession")
 	defer span.Finish()
 
@@ -85,7 +85,7 @@ func (repository *sessionRepo) CleanMaxSession(ctx context.Context, userID uuid.
 }
 
 // Получаем сессию по id
-func (repository *sessionRepo) GetSessionByID(ctx context.Context, userID uuid.UUID, sessionID string) (*models.Session, error) {
+func (repository *sessionRepo) GetSessionByID(ctx context.Context, userID uuid.UUID, sessionID string) (*model.Session, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "sessionRepo.GetSessionByID")
 	defer span.Finish()
 
@@ -94,7 +94,7 @@ func (repository *sessionRepo) GetSessionByID(ctx context.Context, userID uuid.U
 		return nil, errors.Wrap(err, "sessionRep.GetSessionByID.redisClient.Get")
 	}
 
-	sess := &models.Session{}
+	sess := &model.Session{}
 	if err = json.Unmarshal(sessBytes, &sess); err != nil {
 		return nil, errors.Wrap(err, "sessionRepo.GetSessionByID.json.Unmarshal")
 	}
@@ -102,7 +102,7 @@ func (repository *sessionRepo) GetSessionByID(ctx context.Context, userID uuid.U
 }
 
 // Обновляем сессию по id
-func (repository *sessionRepo) RefreshByID(ctx context.Context, sess *models.Session, newSessionID string, expire int) (string, error) {
+func (repository *sessionRepo) RefreshByID(ctx context.Context, sess *model.Session, newSessionID string, expire int) (string, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "sessionRepo.RefreshByID")
 	defer span.Finish()
 

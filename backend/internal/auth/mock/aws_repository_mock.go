@@ -6,11 +6,11 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
 	minio "github.com/minio/minio-go/v7"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 )
 
 // MockAWSRepository is a mock of AWSRepository interface.
@@ -52,7 +52,7 @@ func (mr *MockAWSRepositoryMockRecorder) GetObject(ctx, bucket, fileName interfa
 }
 
 // PutObject mocks base method.
-func (m *MockAWSRepository) PutObject(ctx context.Context, input models.UploadInput) (*minio.UploadInfo, error) {
+func (m *MockAWSRepository) PutObject(ctx context.Context, input model.UploadInput) (*minio.UploadInfo, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PutObject", ctx, input)
 	ret0, _ := ret[0].(*minio.UploadInfo)

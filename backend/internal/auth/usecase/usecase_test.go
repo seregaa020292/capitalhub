@@ -15,7 +15,7 @@ import (
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/internal/auth/mock"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 )
@@ -42,7 +42,7 @@ func TestAuthUC_Register(t *testing.T) {
 	mockAuthRepo := mock.NewMockRepository(ctrl)
 	authUC := NewAuthUseCase(cfg, mockAuthRepo, nil, nil, apiLogger)
 
-	user := &models.User{
+	user := &model.User{
 		Password: "123456",
 		Email:    "email@gmail.com",
 	}
@@ -84,7 +84,7 @@ func TestAuthUC_Update(t *testing.T) {
 	mockRedisRepo := mock.NewMockRedisRepository(ctrl)
 	authUC := NewAuthUseCase(cfg, mockAuthRepo, mockRedisRepo, nil, apiLogger)
 
-	user := &models.User{
+	user := &model.User{
 		Password: "123456",
 		Email:    "email@gmail.com",
 	}
@@ -127,7 +127,7 @@ func TestAuthUC_Delete(t *testing.T) {
 	mockRedisRepo := mock.NewMockRedisRepository(ctrl)
 	authUC := NewAuthUseCase(cfg, mockAuthRepo, mockRedisRepo, nil, apiLogger)
 
-	user := &models.User{
+	user := &model.User{
 		Password: "123456",
 		Email:    "email@gmail.com",
 	}
@@ -168,7 +168,7 @@ func TestAuthUC_GetByID(t *testing.T) {
 	mockRedisRepo := mock.NewMockRedisRepository(ctrl)
 	authUC := NewAuthUseCase(cfg, mockAuthRepo, mockRedisRepo, nil, apiLogger)
 
-	user := &models.User{
+	user := &model.User{
 		Password: "123456",
 		Email:    "email@gmail.com",
 	}
@@ -221,7 +221,7 @@ func TestAuthUC_FindByName(t *testing.T) {
 	span, ctxWithTrace := opentracing.StartSpanFromContext(ctx, "authUC.FindByName")
 	defer span.Finish()
 
-	usersList := &models.UsersList{}
+	usersList := &model.UsersList{}
 
 	mockAuthRepo.EXPECT().FindByName(ctxWithTrace, gomock.Eq(userName), query).Return(usersList, nil)
 
@@ -263,7 +263,7 @@ func TestAuthUC_GetUsers(t *testing.T) {
 	span, ctxWithTrace := opentracing.StartSpanFromContext(ctx, "authUC.GetUsers")
 	defer span.Finish()
 
-	usersList := &models.UsersList{}
+	usersList := &model.UsersList{}
 
 	mockAuthRepo.EXPECT().GetUsers(ctxWithTrace, query).Return(usersList, nil)
 
@@ -300,7 +300,7 @@ func TestAuthUC_Login(t *testing.T) {
 	span, ctxWithTrace := opentracing.StartSpanFromContext(ctx, "authUC.Login")
 	defer span.Finish()
 
-	user := &models.User{
+	user := &model.User{
 		Password: "123456",
 		Email:    "email@gmail.com",
 	}
@@ -308,7 +308,7 @@ func TestAuthUC_Login(t *testing.T) {
 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	require.NoError(t, err)
 
-	mockUser := &models.User{
+	mockUser := &model.User{
 		Email:    "email@gmail.com",
 		Password: string(hashPassword),
 	}
@@ -349,11 +349,11 @@ func TestAuthUC_UploadAvatar(t *testing.T) {
 	span, ctxWithTrace := opentracing.StartSpanFromContext(ctx, "authUC.UploadAvatar")
 	defer span.Finish()
 
-	file := models.UploadInput{}
+	file := model.UploadInput{}
 	uploadInfo := &minio.UploadInfo{}
 	userUID := uuid.New()
 
-	user := &models.User{
+	user := &model.User{
 		UserID:   userUID,
 		Password: "123456",
 		Email:    "email@gmail.com",

@@ -6,11 +6,11 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 	utils "github.com/seregaa020292/capitalhub/pkg/utils"
 )
 
@@ -66,10 +66,10 @@ func (mr *MockUseCaseMockRecorder) Delete(ctx, userID interface{}) *gomock.Call 
 }
 
 // FindByName mocks base method.
-func (m *MockUseCase) FindByName(ctx context.Context, name string, query *utils.PaginationQuery) (*models.UsersList, error) {
+func (m *MockUseCase) FindByName(ctx context.Context, name string, query *utils.PaginationQuery) (*model.UsersList, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindByName", ctx, name, query)
-	ret0, _ := ret[0].(*models.UsersList)
+	ret0, _ := ret[0].(*model.UsersList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -81,10 +81,10 @@ func (mr *MockUseCaseMockRecorder) FindByName(ctx, name, query interface{}) *gom
 }
 
 // GetByID mocks base method.
-func (m *MockUseCase) GetByID(ctx context.Context, userID uuid.UUID) (*models.User, error) {
+func (m *MockUseCase) GetByID(ctx context.Context, userID uuid.UUID) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByID", ctx, userID)
-	ret0, _ := ret[0].(*models.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -96,10 +96,10 @@ func (mr *MockUseCaseMockRecorder) GetByID(ctx, userID interface{}) *gomock.Call
 }
 
 // GetRefreshByID mocks base method.
-func (m *MockUseCase) GetRefreshByID(ctx context.Context, userID uuid.UUID) (*models.UserWithToken, error) {
+func (m *MockUseCase) GetRefreshByID(ctx context.Context, userID uuid.UUID) (*model.UserWithToken, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetRefreshByID", ctx, userID)
-	ret0, _ := ret[0].(*models.UserWithToken)
+	ret0, _ := ret[0].(*model.UserWithToken)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -111,10 +111,10 @@ func (mr *MockUseCaseMockRecorder) GetRefreshByID(ctx, userID interface{}) *gomo
 }
 
 // GetUsers mocks base method.
-func (m *MockUseCase) GetUsers(ctx context.Context, pq *utils.PaginationQuery) (*models.UsersList, error) {
+func (m *MockUseCase) GetUsers(ctx context.Context, pq *utils.PaginationQuery) (*model.UsersList, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUsers", ctx, pq)
-	ret0, _ := ret[0].(*models.UsersList)
+	ret0, _ := ret[0].(*model.UsersList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -126,10 +126,10 @@ func (mr *MockUseCaseMockRecorder) GetUsers(ctx, pq interface{}) *gomock.Call {
 }
 
 // Login mocks base method.
-func (m *MockUseCase) Login(ctx context.Context, user *models.User) (*models.UserWithToken, error) {
+func (m *MockUseCase) Login(ctx context.Context, user *model.User) (*model.UserWithToken, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Login", ctx, user)
-	ret0, _ := ret[0].(*models.UserWithToken)
+	ret0, _ := ret[0].(*model.UserWithToken)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -141,10 +141,10 @@ func (mr *MockUseCaseMockRecorder) Login(ctx, user interface{}) *gomock.Call {
 }
 
 // Register mocks base method.
-func (m *MockUseCase) Register(ctx context.Context, user *models.User) (*models.User, error) {
+func (m *MockUseCase) Register(ctx context.Context, user *model.User) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Register", ctx, user)
-	ret0, _ := ret[0].(*models.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -156,10 +156,10 @@ func (mr *MockUseCaseMockRecorder) Register(ctx, user interface{}) *gomock.Call 
 }
 
 // Update mocks base method.
-func (m *MockUseCase) Update(ctx context.Context, user *models.User) (*models.User, error) {
+func (m *MockUseCase) Update(ctx context.Context, user *model.User) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", ctx, user)
-	ret0, _ := ret[0].(*models.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -171,10 +171,10 @@ func (mr *MockUseCaseMockRecorder) Update(ctx, user interface{}) *gomock.Call {
 }
 
 // UploadAvatar mocks base method.
-func (m *MockUseCase) UploadAvatar(ctx context.Context, userID uuid.UUID, file models.UploadInput) (*models.User, error) {
+func (m *MockUseCase) UploadAvatar(ctx context.Context, userID uuid.UUID, file model.UploadInput) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UploadAvatar", ctx, userID, file)
-	ret0, _ := ret[0].(*models.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

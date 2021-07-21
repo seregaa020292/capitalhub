@@ -9,7 +9,7 @@ import (
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/internal/auth"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/httpErrors"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 )
@@ -29,7 +29,7 @@ func (mw *MiddlewareManager) AuthJWTMiddleware(next echo.HandlerFunc) echo.Handl
 // Роль администратора
 func (mw *MiddlewareManager) AdminMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		user, ok := c.Get("user").(*models.User)
+		user, ok := c.Get("user").(*model.User)
 		if !ok || *user.Role != "admin" {
 			return c.JSON(http.StatusForbidden, httpErrors.NewUnauthorizedError(httpErrors.PermissionDenied))
 		}
@@ -41,7 +41,7 @@ func (mw *MiddlewareManager) AdminMiddleware(next echo.HandlerFunc) echo.Handler
 func (mw *MiddlewareManager) OwnerOrAdminMiddleware() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			user, ok := c.Get("user").(*models.User)
+			user, ok := c.Get("user").(*model.User)
 			if !ok {
 				mw.logger.Errorf("Error c.Get(user) RequestID: %s, ERROR: %s,", utils.GetRequestID(c), "invalid user ctx")
 				return c.JSON(http.StatusUnauthorized, httpErrors.NewUnauthorizedError(httpErrors.Unauthorized))
@@ -69,7 +69,7 @@ func (mw *MiddlewareManager) OwnerOrAdminMiddleware() echo.MiddlewareFunc {
 func (mw *MiddlewareManager) RoleBasedAuthMiddleware(roles []string) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			user, ok := c.Get("user").(*models.User)
+			user, ok := c.Get("user").(*model.User)
 			if !ok {
 				mw.logger.Errorf("Error c.Get(user) RequestID: %s, UserID: %s, ERROR: %s,",
 					utils.GetRequestID(c),

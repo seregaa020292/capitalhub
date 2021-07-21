@@ -16,7 +16,7 @@ import (
 	"github.com/seregaa020292/capitalhub/infrastructure/service"
 	mockSess "github.com/seregaa020292/capitalhub/infrastructure/session/mock"
 	"github.com/seregaa020292/capitalhub/internal/auth/mock"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/converter"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/mailer"
@@ -56,7 +56,7 @@ func TestAuthHandlers_Register(t *testing.T) {
 
 	authHandlers := NewAuthHandlers(cfg, mockAuthUC, mockSessUC, emailService, apiLogger)
 
-	user := &models.User{
+	user := &model.User{
 		Name:     "Name",
 		Email:    "email@gmail.com",
 		Password: "123456",
@@ -80,12 +80,12 @@ func TestAuthHandlers_Register(t *testing.T) {
 	handlerFunc := authHandlers.Register()
 
 	userUID := uuid.New()
-	userWithToken := &models.UserWithToken{
-		User: &models.User{
+	userWithToken := &model.UserWithToken{
+		User: &model.User{
 			UserID: userUID,
 		},
 	}
-	sess := &models.Session{
+	sess := &model.Session{
 		UserID: userUID,
 	}
 	session := "session"
@@ -141,7 +141,7 @@ func TestAuthHandlers_Login(t *testing.T) {
 		Password: "123456",
 	}
 
-	user := &models.User{
+	user := &model.User{
 		Email:    login.Email,
 		Password: login.Password,
 	}
@@ -164,12 +164,12 @@ func TestAuthHandlers_Login(t *testing.T) {
 	handlerFunc := authHandlers.Login()
 
 	userUID := uuid.New()
-	userWithToken := &models.UserWithToken{
-		User: &models.User{
+	userWithToken := &model.UserWithToken{
+		User: &model.User{
 			UserID: userUID,
 		},
 	}
-	sess := &models.Session{
+	sess := &model.Session{
 		UserID: userUID,
 	}
 	session := "session"

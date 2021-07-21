@@ -6,18 +6,18 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/auth/model"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 )
 
 // Auth repository interface
 type Repository interface {
-	Register(ctx context.Context, user *models.User) (*models.User, error)
-	Update(ctx context.Context, user *models.User) (*models.User, error)
+	Register(ctx context.Context, user *model.User) (*model.User, error)
+	Update(ctx context.Context, user *model.User) (*model.User, error)
 	Confirmed(ctx context.Context, code uuid.UUID) error
 	Delete(ctx context.Context, userID uuid.UUID) error
-	GetByID(ctx context.Context, userID uuid.UUID) (*models.User, error)
-	FindByName(ctx context.Context, name string, query *utils.PaginationQuery) (*models.UsersList, error)
-	FindByEmail(ctx context.Context, user *models.User) (*models.User, error)
-	GetUsers(ctx context.Context, pq *utils.PaginationQuery) (*models.UsersList, error)
+	GetByID(ctx context.Context, userID uuid.UUID) (*model.User, error)
+	FindByName(ctx context.Context, name string, query *utils.PaginationQuery) (*model.UsersList, error)
+	FindByEmail(ctx context.Context, user *model.User) (*model.User, error)
+	GetUsers(ctx context.Context, pq *utils.PaginationQuery) (*model.UsersList, error)
 }
