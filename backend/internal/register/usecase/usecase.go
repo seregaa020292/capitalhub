@@ -2,12 +2,13 @@ package usecase
 
 import (
 	"context"
+
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 
 	"github.com/seregaa020292/capitalhub/config"
-	"github.com/seregaa020292/capitalhub/internal/models"
 	"github.com/seregaa020292/capitalhub/internal/register"
+	"github.com/seregaa020292/capitalhub/internal/register/model"
 	"github.com/seregaa020292/capitalhub/pkg/httpErrors"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
@@ -32,7 +33,7 @@ func NewRegisterUseCase(
 	}
 }
 
-func (useCase *registerUC) Create(ctx context.Context, register *models.Register) (*models.Register, error) {
+func (useCase *registerUC) Create(ctx context.Context, register *model.Register) (*model.Register, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "registerUC.Create")
 	defer span.Finish()
 

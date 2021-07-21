@@ -4,19 +4,20 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/google/uuid"
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/google/uuid"
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/internal/currency"
 	"github.com/seregaa020292/capitalhub/internal/instrument"
 	"github.com/seregaa020292/capitalhub/internal/market"
 	"github.com/seregaa020292/capitalhub/internal/market/model"
-	"github.com/seregaa020292/capitalhub/internal/models"
 	"github.com/seregaa020292/capitalhub/internal/provider"
 	"github.com/seregaa020292/capitalhub/internal/register"
+	registerModel "github.com/seregaa020292/capitalhub/internal/register/model"
 )
 
 type ParseService struct {
@@ -118,7 +119,7 @@ func (service ParseService) TCSParse(entity string) error {
 			}
 		}
 
-		if _, err := service.registerUC.Create(ctx, &models.Register{
+		if _, err := service.registerUC.Create(ctx, &registerModel.Register{
 			Identify:   stock.Figi,
 			ProviderID: providerModel.ProviderID,
 			MarketID:   marketModel.MarketID,

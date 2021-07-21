@@ -4,10 +4,10 @@ package register
 import (
 	"context"
 
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/register/model"
 )
 
 // Register Repository
 type Repository interface {
-	Create(ctx context.Context, register *models.Register) (*models.Register, error)
+	Create(ctx context.Context, register *model.Register) (*model.Register, error)
 }

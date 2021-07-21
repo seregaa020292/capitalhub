@@ -6,10 +6,10 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/register/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 )
 
 // MockUseCase is a mock of UseCase interface.
@@ -36,10 +36,10 @@ func (m *MockUseCase) EXPECT() *MockUseCaseMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockUseCase) Create(ctx context.Context, register *models.Register) (*models.Register, error) {
+func (m *MockUseCase) Create(ctx context.Context, register *model.Register) (*model.Register, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, register)
-	ret0, _ := ret[0].(*models.Register)
+	ret0, _ := ret[0].(*model.Register)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
