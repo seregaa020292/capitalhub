@@ -9,5 +9,5 @@ const (
 					 FROM portfolios
 					 WHERE active and user_id = $1`
 
-	hasPortfolio = `SELECT TRUE as exist FROM portfolios WHERE portfolio_id = $1 and user_id = $2`
+	hasPortfolioUser = `SELECT TRUE as exist FROM portfolios WHERE portfolio_id = $1 and user_id = $2`
 )

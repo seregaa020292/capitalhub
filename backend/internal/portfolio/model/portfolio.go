@@ -1,10 +1,11 @@
 package model
 
 import (
-	"github.com/seregaa020292/capitalhub/internal/models"
 	"time"
 
 	"github.com/google/uuid"
+
+	"github.com/seregaa020292/capitalhub/internal/asset/model"
 )
 
 // Portfolio base model
@@ -19,6 +20,6 @@ type Portfolio struct {
 }
 
 type PortfolioList struct {
-	Portfolio  Portfolio           `json:"portfolio"`
-	AssetTotal []models.AssetTotal `json:"assetTotal"`
+	Portfolio  Portfolio          `json:"portfolio"`
+	AssetTotal []model.AssetTotal `json:"assetTotal"`
 }

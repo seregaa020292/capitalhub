@@ -10,7 +10,7 @@ import (
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/internal/asset"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/asset/model"
 	"github.com/seregaa020292/capitalhub/pkg/httpErrors"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
@@ -29,20 +29,20 @@ func NewAssetUseCase(cfg *config.Config, assetRepo asset.Repository, logger logg
 }
 
 // Create asset
-func (u *assetUC) Create(ctx context.Context, asset *models.Asset) (*models.AssetTotal, error) {
+func (u *assetUC) Create(ctx context.Context, asset *model.Asset) (*model.AssetTotal, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "assetUC.Create")
 	defer span.Finish()
 	return u.assetRepo.Create(ctx, asset)
 }
 
-func (u *assetUC) GetAll(ctx context.Context, userID uuid.UUID) (*[]models.AssetBase, error) {
+func (u *assetUC) GetAll(ctx context.Context, userID uuid.UUID) (*[]model.AssetBase, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "assetUC.GetAll")
 	defer span.Finish()
 
 	return u.assetRepo.GetAll(ctx, userID)
 }
 
-func (u *assetUC) GetTotalAll(ctx context.Context, userID uuid.UUID) (*[]models.AssetTotal, error) {
+func (u *assetUC) GetTotalAll(ctx context.Context, userID uuid.UUID) (*[]model.AssetTotal, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "assetUC.GetTotalAll")
 	defer span.Finish()
 
@@ -50,7 +50,7 @@ func (u *assetUC) GetTotalAll(ctx context.Context, userID uuid.UUID) (*[]models.
 }
 
 // Update asset
-func (u *assetUC) Update(ctx context.Context, asset *models.Asset) (*models.Asset, error) {
+func (u *assetUC) Update(ctx context.Context, asset *model.Asset) (*model.Asset, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "assetUC.Update")
 	defer span.Finish()
 
@@ -93,7 +93,7 @@ func (u *assetUC) Delete(ctx context.Context, assetID uuid.UUID) error {
 }
 
 // GetByID asset
-func (u *assetUC) GetByID(ctx context.Context, assetID uuid.UUID) (*models.AssetBase, error) {
+func (u *assetUC) GetByID(ctx context.Context, assetID uuid.UUID) (*model.AssetBase, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "assetUC.GetByID")
 	defer span.Finish()
 
@@ -101,7 +101,7 @@ func (u *assetUC) GetByID(ctx context.Context, assetID uuid.UUID) (*models.Asset
 }
 
 // GetAllByMarketID asset
-func (u *assetUC) GetAllByMarketID(ctx context.Context, marketID uuid.UUID, query *utils.PaginationQuery) (*models.AssetList, error) {
+func (u *assetUC) GetAllByMarketID(ctx context.Context, marketID uuid.UUID, query *utils.PaginationQuery) (*model.AssetList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "assetUC.GetAllByMarketID")
 	defer span.Finish()
 

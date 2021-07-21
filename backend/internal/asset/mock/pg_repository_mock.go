@@ -6,11 +6,11 @@ package mock
 
 import (
 	context "context"
+	"github.com/seregaa020292/capitalhub/internal/asset/model"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
-	models "github.com/seregaa020292/capitalhub/internal/models"
 	utils "github.com/seregaa020292/capitalhub/pkg/utils"
 )
 
@@ -38,10 +38,10 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockRepository) Create(ctx context.Context, asset *models.Asset) (*models.Asset, error) {
+func (m *MockRepository) Create(ctx context.Context, asset *model.Asset) (*model.Asset, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, asset)
-	ret0, _ := ret[0].(*models.Asset)
+	ret0, _ := ret[0].(*model.Asset)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -67,10 +67,10 @@ func (mr *MockRepositoryMockRecorder) Delete(ctx, assetID interface{}) *gomock.C
 }
 
 // GetAll mocks base method.
-func (m *MockRepository) GetAll(ctx context.Context, userID uuid.UUID) (*[]models.AssetBase, error) {
+func (m *MockRepository) GetAll(ctx context.Context, userID uuid.UUID) (*[]model.AssetBase, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll", ctx, userID)
-	ret0, _ := ret[0].(*[]models.AssetBase)
+	ret0, _ := ret[0].(*[]model.AssetBase)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -82,10 +82,10 @@ func (mr *MockRepositoryMockRecorder) GetAll(ctx, userID interface{}) *gomock.Ca
 }
 
 // GetAllByMarketID mocks base method.
-func (m *MockRepository) GetAllByMarketID(ctx context.Context, marketID uuid.UUID, query *utils.PaginationQuery) (*models.AssetList, error) {
+func (m *MockRepository) GetAllByMarketID(ctx context.Context, marketID uuid.UUID, query *utils.PaginationQuery) (*model.AssetList, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAllByMarketID", ctx, marketID, query)
-	ret0, _ := ret[0].(*models.AssetList)
+	ret0, _ := ret[0].(*model.AssetList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -97,10 +97,10 @@ func (mr *MockRepositoryMockRecorder) GetAllByMarketID(ctx, marketID, query inte
 }
 
 // GetByID mocks base method.
-func (m *MockRepository) GetByID(ctx context.Context, assetID uuid.UUID) (*models.AssetBase, error) {
+func (m *MockRepository) GetByID(ctx context.Context, assetID uuid.UUID) (*model.AssetBase, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByID", ctx, assetID)
-	ret0, _ := ret[0].(*models.AssetBase)
+	ret0, _ := ret[0].(*model.AssetBase)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -112,10 +112,10 @@ func (mr *MockRepositoryMockRecorder) GetByID(ctx, assetID interface{}) *gomock.
 }
 
 // Update mocks base method.
-func (m *MockRepository) Update(ctx context.Context, asset *models.Asset) (*models.Asset, error) {
+func (m *MockRepository) Update(ctx context.Context, asset *model.Asset) (*model.Asset, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", ctx, asset)
-	ret0, _ := ret[0].(*models.Asset)
+	ret0, _ := ret[0].(*model.Asset)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

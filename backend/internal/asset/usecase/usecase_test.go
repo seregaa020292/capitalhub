@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/seregaa020292/capitalhub/internal/asset/mock"
+	"github.com/seregaa020292/capitalhub/internal/asset/model"
 	"github.com/seregaa020292/capitalhub/internal/models"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
@@ -25,7 +26,7 @@ func TestAssetUC_Create(t *testing.T) {
 	mockAssetRepo := mock.NewMockRepository(ctrl)
 	assetUC := NewAssetUseCase(nil, mockAssetRepo, apiLogger)
 
-	asset := &models.Asset{}
+	asset := &model.Asset{}
 
 	span, ctx := opentracing.StartSpanFromContext(context.Background(), "assetUC.Create")
 	defer span.Finish()
@@ -49,12 +50,12 @@ func TestAssetUC_Update(t *testing.T) {
 
 	userUID := uuid.New()
 
-	asset := &models.Asset{
+	asset := &model.Asset{
 		AssetID: uuid.New(),
 		UserID:  userUID,
 	}
 
-	baseAsset := &models.AssetBase{
+	baseAsset := &model.AssetBase{
 		UserID: userUID,
 	}
 
@@ -86,12 +87,12 @@ func TestAssetUC_Delete(t *testing.T) {
 
 	userUID := uuid.New()
 
-	asset := &models.Asset{
+	asset := &model.Asset{
 		AssetID: uuid.New(),
 		UserID:  userUID,
 	}
 
-	baseAsset := &models.AssetBase{
+	baseAsset := &model.AssetBase{
 		UserID: userUID,
 	}
 
@@ -121,11 +122,11 @@ func TestAssetUC_GetByID(t *testing.T) {
 	mockAssetRepo := mock.NewMockRepository(ctrl)
 	assetUC := NewAssetUseCase(nil, mockAssetRepo, apiLogger)
 
-	asset := &models.Asset{
+	asset := &model.Asset{
 		AssetID: uuid.New(),
 	}
 
-	baseAsset := &models.AssetBase{}
+	baseAsset := &model.AssetBase{}
 
 	ctx := context.Background()
 	span, ctxWithTrace := opentracing.StartSpanFromContext(ctx, "assetUC.GetByID")
@@ -151,12 +152,12 @@ func TestAssetUC_GetAllByMarketID(t *testing.T) {
 
 	marketID := uuid.New()
 
-	asset := &models.Asset{
-		AssetID: uuid.New(),
-		MarketID:    marketID,
+	asset := &model.Asset{
+		AssetID:  uuid.New(),
+		MarketID: marketID,
 	}
 
-	assetList := &models.AssetList{}
+	assetList := &model.AssetList{}
 
 	ctx := context.Background()
 	span, ctxWithTrace := opentracing.StartSpanFromContext(ctx, "assetUC.GetAllByMarketID")

@@ -1,15 +1,16 @@
 package http
 
 import (
+	"net/http"
+
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/opentracing/opentracing-go"
-	"github.com/seregaa020292/capitalhub/internal/portfolio"
-	"net/http"
 
 	"github.com/seregaa020292/capitalhub/config"
 	"github.com/seregaa020292/capitalhub/internal/asset"
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/asset/model"
+	"github.com/seregaa020292/capitalhub/internal/portfolio"
 	"github.com/seregaa020292/capitalhub/pkg/logger"
 	"github.com/seregaa020292/capitalhub/pkg/utils"
 )
@@ -57,14 +58,14 @@ func (handler *assetHandlers) Add() echo.HandlerFunc {
 			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
 		}
 
-		assetModel := &models.AssetAdd{}
+		assetModel := &model.AssetAdd{}
 		if err := utils.SanitizeRequest(echoCtx, assetModel); err != nil {
 			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
 		}
 
 		handler.portfolioUC.CheckUserPortfolio(ctx, user.UserID, assetModel.PortfolioID)
 
-		createdAsset, err := handler.assetUC.Create(ctx, &models.Asset{
+		createdAsset, err := handler.assetUC.Create(ctx, &model.Asset{
 			MarketID:    assetModel.MarketID,
 			PortfolioID: assetModel.PortfolioID,
 			Amount:      assetModel.Amount,
@@ -164,7 +165,7 @@ func (handler *assetHandlers) Update() echo.HandlerFunc {
 			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
 		}
 
-		updatedAsset, err := handler.assetUC.Update(ctx, &models.Asset{
+		updatedAsset, err := handler.assetUC.Update(ctx, &model.Asset{
 			AssetID:  assetID,
 			Amount:   assetModel.Amount,
 			Quantity: assetModel.Quantity,

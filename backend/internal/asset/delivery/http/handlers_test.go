@@ -14,6 +14,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/seregaa020292/capitalhub/internal/asset/mock"
+	"github.com/seregaa020292/capitalhub/internal/asset/model"
 	"github.com/seregaa020292/capitalhub/internal/asset/usecase"
 	"github.com/seregaa020292/capitalhub/internal/models"
 	"github.com/seregaa020292/capitalhub/pkg/converter"
@@ -36,10 +37,10 @@ func TestAssetHandlers_Create(t *testing.T) {
 
 	userID := uuid.New()
 	assetUID := uuid.New()
-	asset := &models.Asset{
-		UserID: userID,
-		Message:  "message Key: 'Asset.Message' Error:Field validation for 'Message' failed on the 'gte' tag",
-		AssetID:   assetUID,
+	asset := &model.Asset{
+		UserID:  userID,
+		Message: "message Key: 'Asset.Message' Error:Field validation for 'Message' failed on the 'gte' tag",
+		AssetID: assetUID,
 	}
 
 	buf, err := converter.AnyToBytesBuffer(asset)
@@ -59,10 +60,10 @@ func TestAssetHandlers_Create(t *testing.T) {
 	e := echo.New()
 	ctx := e.NewContext(req, res)
 
-	mockAsset := &models.Asset{
-		UserID: userID,
-		AssetID:   asset.AssetID,
-		Message:  "message",
+	mockAsset := &model.Asset{
+		UserID:  userID,
+		AssetID: asset.AssetID,
+		Message: "message",
 	}
 
 	fmt.Printf("ASSET: %#v\n", asset)
@@ -94,7 +95,7 @@ func TestAssetHandlers_GetByID(t *testing.T) {
 	c.SetParamNames("asset_id")
 	c.SetParamValues("5c9a9d67-ad38-499c-9858-086bfdeaf7d2")
 
-	asset := &models.AssetBase{}
+	asset := &model.AssetBase{}
 
 	mockAssetUC.EXPECT().GetByID(gomock.Any(), gomock.Any()).Return(asset, nil)
 
@@ -117,7 +118,7 @@ func TestAssetHandlers_Delete(t *testing.T) {
 
 	userID := uuid.New()
 	assetID := uuid.New()
-	asset := &models.AssetBase{
+	asset := &model.AssetBase{
 		AssetID: assetID,
 		UserID:  userID,
 	}

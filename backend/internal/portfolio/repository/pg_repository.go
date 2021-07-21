@@ -53,7 +53,7 @@ func (repo *portfolioRepo) CheckUserPortfolio(ctx context.Context, userID uuid.U
 	defer span.Finish()
 
 	var exist bool
-	if err := repo.db.QueryRowContext(ctx, hasPortfolio, portfolioID, userID).Scan(&exist); err != nil {
+	if err := repo.db.QueryRowContext(ctx, hasPortfolioUser, portfolioID, userID).Scan(&exist); err != nil {
 		return errors.Wrap(err, "portfolioRepo.CheckUserPortfolio.QueryRowxContext")
 	}
 

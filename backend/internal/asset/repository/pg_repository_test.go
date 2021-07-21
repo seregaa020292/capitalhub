@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 
-	"github.com/seregaa020292/capitalhub/internal/models"
+	"github.com/seregaa020292/capitalhub/internal/asset/model"
 )
 
 func TestAssetRepo_Create(t *testing.T) {
@@ -32,9 +32,9 @@ func TestAssetRepo_Create(t *testing.T) {
 
 		rows := sqlmock.NewRows([]string{"user_id", "asset_id", "amount"}).AddRow(userUID, assetID, amount)
 
-		asset := &models.Asset{
-			UserID: userUID,
-			AssetID:   assetID,
+		asset := &model.Asset{
+			UserID:  userUID,
+			AssetID: assetID,
 			Amount:  amount,
 		}
 
@@ -52,9 +52,9 @@ func TestAssetRepo_Create(t *testing.T) {
 		amount := 20e3
 		createErr := errors.New("Create asset error")
 
-		asset := &models.Asset{
-			AssetID:  assetID,
-			Amount: amount,
+		asset := &model.Asset{
+			AssetID: assetID,
+			Amount:  amount,
 		}
 
 		mock.ExpectQuery(createAsset).WithArgs(asset.UserID, &asset.AssetID, asset.Amount).WillReturnError(createErr)
@@ -85,9 +85,9 @@ func TestAssetRepo_Update(t *testing.T) {
 
 		rows := sqlmock.NewRows([]string{"user_id", "asset_id", "amount"}).AddRow(userUID, assetUID, amount)
 
-		asset := &models.Asset{
+		asset := &model.Asset{
 			AssetID: assetUID,
-			Amount:   amount,
+			Amount:  amount,
 		}
 
 		mock.ExpectQuery(updateAsset).WithArgs(asset.Amount, asset.AssetID).WillReturnRows(rows)
@@ -104,9 +104,9 @@ func TestAssetRepo_Update(t *testing.T) {
 		amount := 20e3
 		updateErr := errors.New("Create asset error")
 
-		asset := &models.Asset{
+		asset := &model.Asset{
 			AssetID: assetUID,
-			Amount:   amount,
+			Amount:  amount,
 		}
 
 		mock.ExpectQuery(updateAsset).WithArgs(asset.Amount, asset.AssetID).WillReturnError(updateErr)
