@@ -57,14 +57,13 @@ export default defineComponent({
     })
     const portfolioFetchUseCase = PortfolioFetchUseCaseContainer()
     const portfolioPresenter = PortfolioPresenterContainer()
+    const socket = new QuoteClientSocket()
 
     const portfolio = computed(() => portfolioPresenter.portfolio())
 
-    const socket = new QuoteClientSocket()
-    socket.subscribe()
-
     onMounted(async () => {
       await portfolioFetchUseCase.execute()
+      socket.subscribe()
     })
 
     onUnmounted(() => {

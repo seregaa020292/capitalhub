@@ -21,7 +21,7 @@ export default class Main {
 
     /**
      ******************************
-     * Else auth, then check logged
+     * If auth, then check logged
      ******************************
      */
     await AuthServiceContainer().checkLogged()

@@ -8,9 +8,11 @@ export const loggedInMiddleware = (
 ): void => {
   if (to.matched.some((record) => record.meta.auth)) {
     if (AuthPresenterContainer().loggedIn()) {
-      return next()
+      next()
+      return
     }
     next({ name: 'login' })
+    return
   }
   next()
 }
