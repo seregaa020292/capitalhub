@@ -15,3 +15,9 @@ http://localhost:9090
 ### Пользовательский интерфейс Grafana:
 
 http://localhost:3000
+
+### Проект:
+
+http://localhost:8080
+
+![Домашняя страничка](./assets/home.jpg)
