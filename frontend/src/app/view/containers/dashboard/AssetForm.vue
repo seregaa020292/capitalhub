@@ -42,8 +42,8 @@
     <el-form-item prop="notationAt">
       <el-date-picker
         v-model="state.asset.notationAt"
-        type="datetime"
-        placeholder="Выберите дату и время"
+        type="date"
+        placeholder="Выберите дату"
         class="w-100"
       />
     </el-form-item>
@@ -55,12 +55,10 @@
       </el-col>
       <el-col :md="12">
         <el-form-item prop="quantity">
-          <el-input-number
-            :controls="false"
-            min="1"
+          <el-input
             name="quantity"
             placeholder="Количество, шт."
-            v-model="state.asset.quantity"
+            v-model.number="state.asset.quantity"
             class="w-100"
           />
         </el-form-item>
@@ -110,7 +108,9 @@ export default defineComponent({
       portfolioId: portfolioPresenter.portfolio().portfolioId,
     }))
     const totalAmount = computed(() =>
-      currencyFormatter.rub.format(assetNotation.value.amount * assetNotation.value.quantity)
+      currencyFormatter.rub.format(
+        (assetNotation.value.amount || 0) * (assetNotation.value.quantity || 0)
+      )
     )
 
     const remoteMethod = async (query: string) => {

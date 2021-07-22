@@ -5,7 +5,7 @@
       <template v-slot="{ row }">
         <el-tooltip :content="row.title" placement="top-start">
           <router-link
-            :to="`/currency/${row.ticker}`"
+            :to="`/dashboard/${row.ticker}`"
             class="ticker-link route-link white underline"
           >
             <el-avatar

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, onUpdated } from 'vue'
 import useCurrencyInput, { CurrencyInputOptions } from 'vue-currency-input'
 
 export default defineComponent({
@@ -19,7 +19,7 @@ export default defineComponent({
     },
   },
   setup: (props) => {
-    const { inputRef, formattedValue } = useCurrencyInput({
+    const { inputRef, formattedValue, setValue } = useCurrencyInput({
       locale: 'ru',
       hideCurrencySymbolOnFocus: false,
       hideGroupingSeparatorOnFocus: false,
@@ -30,6 +30,11 @@ export default defineComponent({
       ...props.options,
       currency: props.options.currency || 'RUB',
     })
+
+    onUpdated(() => {
+      setValue(props.modelValue || null)
+    })
+
     return { inputRef, formattedValue }
   },
 })

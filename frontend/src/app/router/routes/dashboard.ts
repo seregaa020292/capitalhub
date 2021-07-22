@@ -16,7 +16,7 @@ const DashboardRouter: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: '/currency/:ticker',
+    path: '/dashboard/:ticker',
     component: () => import('@/app/view/pages/dashboard/Ticker.vue'),
   },
 ]
