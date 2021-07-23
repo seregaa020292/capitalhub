@@ -39,14 +39,28 @@
         </el-option-group>
       </el-select>
     </el-form-item>
-    <el-form-item prop="notationAt">
-      <el-date-picker
-        v-model="state.asset.notationAt"
-        type="date"
-        placeholder="Выберите дату"
-        class="w-100"
-      />
-    </el-form-item>
+    <el-row :gutter="8">
+      <el-col :md="12">
+        <el-form-item prop="notationAt">
+          <el-date-picker
+            v-model="state.asset.notationAt"
+            type="date"
+            placeholder="Выберите дату"
+            class="w-100"
+          />
+        </el-form-item>
+      </el-col>
+      <el-col :md="12">
+        <el-select v-model="state.operation" placeholder="Операция" class="w-100">
+          <el-option
+            v-for="({ operation, label }, idx) in state.operations"
+            :key="idx"
+            :label="label"
+            :value="operation"
+          />
+        </el-select>
+      </el-col>
+    </el-row>
     <el-row :gutter="8">
       <el-col :md="12">
         <el-form-item prop="amount">
@@ -66,7 +80,18 @@
     </el-row>
     <el-form-item><strong>Итоговая сумма</strong>: {{ totalAmount }}</el-form-item>
     <br />
-    <el-button native-type="submit" type="primary" class="w-100">Добавить</el-button>
+    <el-row :gutter="8">
+      <el-col :md="12">
+        <el-button native-type="submit" type="primary" class="w-100">
+          Добавить и продолжить
+        </el-button>
+      </el-col>
+      <el-col :md="12">
+        <el-button @click="onSubmitAndClose" type="info" class="w-100">
+          Добавить и закрыть
+        </el-button>
+      </el-col>
+    </el-row>
   </el-form>
 </template>
 
@@ -84,7 +109,8 @@ import { currencyFormatter } from '@/utils/number'
 
 export default defineComponent({
   name: 'AssetForm',
-  setup: () => {
+  emits: ['close-form'],
+  setup: (props, { emit }) => {
     const state = reactive({
       asset: {
         marketId: '',
@@ -96,6 +122,17 @@ export default defineComponent({
         loading: false,
         items: [] as IMarketOption[],
       },
+      operation: 1,
+      operations: [
+        {
+          operation: 1,
+          label: 'Покупка',
+        },
+        {
+          operation: -1,
+          label: 'Продажа',
+        },
+      ],
     })
     const marketSearchUseCase = MarketSearchUseCaseContainer()
     const assetAddUseCase = AssetAddUseCaseContainer()
@@ -103,7 +140,7 @@ export default defineComponent({
 
     const assetNotation: ComputedRef<IAssetNotation> = computed(() => ({
       ...state.asset,
-      amount: Number(state.asset.amount),
+      amount: Number(state.asset.amount) * state.operation,
       quantity: Number(state.asset.quantity),
       portfolioId: portfolioPresenter.portfolio().portfolioId,
     }))
@@ -114,16 +151,16 @@ export default defineComponent({
     )
 
     const remoteMethod = async (query: string) => {
-      if (query.length >= 2) {
-        state.market.loading = true
-        const searchExecute = await marketSearchUseCase.execute(query)
-        if (searchExecute) {
-          state.market.items = searchExecute
-        }
-        state.market.loading = false
+      if (query.length < 2) {
+        state.market.items = []
         return
       }
-      state.market.items = []
+      state.market.loading = true
+      const searchExecute = await marketSearchUseCase.execute(query)
+      if (searchExecute) {
+        state.market.items = searchExecute
+      }
+      state.market.loading = false
     }
 
     const ruleFormRef: any = ref(null)
@@ -134,12 +171,26 @@ export default defineComponent({
       quantity: assetValidator.quantity,
     })
 
-    const onSubmit = () => {
+    const onSubmit = (): boolean => {
+      let hasSent = false
       ruleFormRef.value.validate(async (valid: boolean) => {
-        if (!valid) return false
-        await assetAddUseCase.execute(assetNotation.value)
-        ruleFormRef.value.resetFields()
+        if (!valid) {
+          return false
+        }
+        const hasAdded = await assetAddUseCase.execute(assetNotation.value)
+        if (hasAdded) {
+          ruleFormRef.value.resetFields()
+          hasSent = true
+        }
       })
+
+      return hasSent
+    }
+
+    const onSubmitAndClose = () => {
+      if (onSubmit()) {
+        emit('close-form')
+      }
     }
 
     return {
@@ -148,6 +199,7 @@ export default defineComponent({
       rules,
       ruleFormRef,
       onSubmit,
+      onSubmitAndClose,
       remoteMethod,
     }
   },

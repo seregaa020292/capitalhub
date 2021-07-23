@@ -39,7 +39,7 @@ import {
   ElTooltip,
   locale
 } from 'element-plus'
-import { ElCurrencyInput } from '@/app/view/ui-theme/element/components'
+import { ElCurrencyInput } from '@/app/themes/element/components'
 
 import lang from 'element-plus/lib/locale/lang/ru'
 import 'dayjs/locale/ru'
@@ -88,8 +88,16 @@ export default (app: ReturnType<typeof createApp>): void => {
     ElTooltip,
   ]
 
+  const plugins = [
+    ElLoading,
+  ]
+
   components.forEach((component) => {
     app.component(component.name, component)
+  })
+
+  plugins.forEach(plugin => {
+    app.use(plugin)
   })
 
   app.config.globalProperties.$loading = ElLoading.service

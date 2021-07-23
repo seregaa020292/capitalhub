@@ -1,27 +1,30 @@
 <template>
-  <el-container direction="vertical" class="min-h-100vh">
-    <header-app />
+  <el-container direction="vertical" class="dashboard-container">
     <router-view v-slot="{ Component }">
       <transition-page>
         <component :is="Component" />
       </transition-page>
     </router-view>
-    <footer-app />
   </el-container>
+  <navbar-app />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HeaderApp from '@/app/view/layout/dashboard/Header.vue'
-import FooterApp from '@/app/view/layout/dashboard/Footer.vue'
+import NavbarApp from '@/app/view/layout/dashboard/Navbar.vue'
 import TransitionPage from '@/app/view/components/transition/TransitionPage.vue'
 
 export default defineComponent({
   name: 'DashboardLayout',
   components: {
     TransitionPage,
-    HeaderApp,
-    FooterApp,
+    NavbarApp,
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.dashboard-container {
+  margin-bottom: 70px;
+}
+</style>

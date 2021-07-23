@@ -8,7 +8,7 @@
     append-to-body
     @closed="dialogClosedHandle"
   >
-    <asset-form />
+    <asset-form @close-form="dialogClosedHandle" />
   </el-dialog>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="assets" empty-text="Нет данных">
+  <el-table v-loading="loading" :data="assets" empty-text="Нет данных">
     <el-table-column fixed type="index" label="#" />
     <el-table-column fixed width="125px" label="Наименование">
       <template v-slot="{ row }">
@@ -87,9 +87,11 @@ export default defineComponent({
     const tooltipNotation = (notationAt: string) => `Актив добавлен: ${dayjs().to(notationAt)}`
 
     const assets = computed(() => assetPresenter.assets())
+    const loading = computed(() => assetPresenter.loadingAssets())
 
     return {
       assets,
+      loading,
       tooltipNotation,
       currencyFormatter,
     }

@@ -5,8 +5,9 @@ import { IPortfolioRepository } from '@/domain/portfolio/repositories/PortfolioR
 import { IPortfolioClientApi } from '@/services/api/PortfolioClientApi'
 import { IPortfolioTotal } from '@/domain/portfolio/entities/PortfolioEntity'
 import { IAssetRepository } from '@/domain/asset/repositories/AssetRepository'
+import { IErrorHandler } from '@/infrastructure/handlers/ErrorHandler'
 
-export  interface IPortfolioFetchUseCase extends BaseUseCase<unknown, Promise<void>> {}
+export interface IPortfolioFetchUseCase extends BaseUseCase<unknown, Promise<void>> {}
 
 @injectable()
 export class PortfolioFetchUseCase implements IPortfolioFetchUseCase {
@@ -19,9 +20,21 @@ export class PortfolioFetchUseCase implements IPortfolioFetchUseCase {
   @inject(types.IAssetRepository)
   private assetRepository!: IAssetRepository
 
+  @inject(types.IErrorHandler)
+  private errorHandler!: IErrorHandler
+
   async execute() {
-    const response: IPortfolioTotal = await this.portfolioClient.fetchActiveTotal()
-    this.portfolioRepository.setPortfolio(response.portfolio)
-    this.assetRepository.saveAssets(response.assetTotal)
+    try {
+      this.assetRepository.loadingAssets(true)
+
+      const response: IPortfolioTotal = await this.portfolioClient.fetchActiveTotal()
+
+      this.portfolioRepository.setPortfolio(response.portfolio)
+      this.assetRepository.saveAssets(response.assetTotal)
+    } catch (error) {
+      this.errorHandler.handle(error)
+    } finally {
+      this.assetRepository.loadingAssets(false)
+    }
   }
 }

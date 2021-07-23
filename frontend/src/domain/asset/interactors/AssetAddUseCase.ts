@@ -6,7 +6,7 @@ import { IAsset, IAssetNotation } from '@/domain/asset/entities/AssetEntity'
 import { IAssetClientApi } from '@/services/api/AssetClientApi'
 import { IErrorHandler } from '@/infrastructure/handlers/ErrorHandler'
 
-export  interface IAssetAddUseCase extends BaseUseCase<IAssetNotation, Promise<void>> {}
+export  interface IAssetAddUseCase extends BaseUseCase<IAssetNotation, Promise<boolean>> {}
 
 @injectable()
 export class AssetAddUseCase implements IAssetAddUseCase {
@@ -19,12 +19,14 @@ export class AssetAddUseCase implements IAssetAddUseCase {
   @inject(types.IErrorHandler)
   private errorHandler!: IErrorHandler
 
-  async execute(assetNotation: IAssetNotation) {
+  async execute(assetNotation: IAssetNotation): Promise<boolean> {
     try {
       const response: IAsset = await this.assetClient.addAsset(assetNotation)
       this.assetRepository.addAsset(response)
+      return true
     } catch (error) {
       this.errorHandler.handle(error).report()
+      return false
     }
   }
 }

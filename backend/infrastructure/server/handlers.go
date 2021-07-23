@@ -109,7 +109,7 @@ func (server *Server) MapHandlers(echoInstance *echo.Echo) error {
 	marketSocket.MapMarketRoutes(marketSocketGroup, marketSocketHandlers, middleware)
 
 	echoInstance.GET("/health", func(echoCtx echo.Context) error {
-		if server.cfg.Server.Mode != "Development" {
+		if !server.cfg.Server.IsDevelopment() {
 			server.logger.Infof("Health check RequestID: %s", utils.GetRequestID(echoCtx))
 		}
 		return echoCtx.JSON(http.StatusOK, map[string]string{"status": "OK"})

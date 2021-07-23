@@ -79,7 +79,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/app/view/ui-theme/element/variables';
+@import '@/app/themes/element/variables';
 
 .toolbar {
   text-align: right;

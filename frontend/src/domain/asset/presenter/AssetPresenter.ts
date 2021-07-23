@@ -5,6 +5,7 @@ import { IAsset } from '@/domain/asset/entities/AssetEntity'
 
 export interface IAssetPresenter {
   assets(): IAsset[]
+  loadingAssets(): boolean
 }
 
 @injectable()
@@ -14,5 +15,9 @@ export class AssetPresenter implements IAssetPresenter {
 
   assets(): IAsset[] {
     return this.assetRepository.getAssets()
+  }
+
+  loadingAssets(): boolean {
+    return this.assetRepository.getLoadingAssets()
   }
 }

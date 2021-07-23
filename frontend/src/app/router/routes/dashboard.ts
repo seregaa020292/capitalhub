@@ -3,6 +3,11 @@ import collects from '@/app/view/layout/collects'
 
 const DashboardRouter: Array<RouteRecordRaw> = [
   {
+    path: '/portfolios',
+    name: 'portfolios',
+    component: () => import('@/app/view/pages/dashboard/Portfolio.vue'),
+  },
+  {
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/app/view/pages/dashboard/Main.vue'),

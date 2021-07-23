@@ -3,6 +3,7 @@ import { IAsset, IAssetPrice } from '@/domain/asset/entities/AssetEntity'
 
 export interface IAssetState {
   assets: IAsset[]
+  loadingItems: boolean,
 }
 
 /**
@@ -12,6 +13,7 @@ export interface IAssetState {
  */
 export const state = (): IAssetState => ({
   assets: [],
+  loadingItems: false,
 })
 
 /**
@@ -21,6 +23,7 @@ export const state = (): IAssetState => ({
  */
 export enum Types {
   FETCH_ASSETS = 'asset/fetch',
+  LOADING_ASSETS = 'asset/loading-items',
   CLEAR_ASSETS = 'asset/clear',
   ASSET_ADD = 'asset/add',
   CHANGE_PRICE = 'asset/change_price',
@@ -29,6 +32,11 @@ export enum Types {
 export class FetchAssets implements FluxStandardAction {
   public type = Types.FETCH_ASSETS
   constructor(public payload: IAsset[]) {}
+}
+
+export class LoadingAssets implements FluxStandardAction {
+  public type = Types.LOADING_ASSETS
+  constructor(public payload: boolean) {}
 }
 
 export class ClearAssets implements FluxStandardAction {
@@ -48,6 +56,9 @@ export class ChangePrice implements FluxStandardAction {
 export const mutations: MutationTree<IAssetState> = {
   [Types.FETCH_ASSETS]: (state, action: FetchAssets) => {
     state.assets = action.payload
+  },
+  [Types.LOADING_ASSETS]: (state, action: LoadingAssets) => {
+    state.loadingItems = action.payload
   },
   [Types.CLEAR_ASSETS]: (state) => {
     state.assets = []
