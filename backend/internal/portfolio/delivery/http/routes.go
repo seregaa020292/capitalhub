@@ -10,4 +10,6 @@ import (
 // Map portfolio routes
 func MapPortfolioRoutes(portfolioGroup *echo.Group, handler portfolio.Handlers, mw *middleware.MiddlewareManager) {
 	portfolioGroup.GET("/active-total", handler.GetActiveTotal(), mw.AuthJWTMiddleware, mw.CSRF)
+	portfolioGroup.GET("/all-stats", handler.GetAllStats(), mw.AuthJWTMiddleware, mw.CSRF)
+	portfolioGroup.POST("/add", handler.Add(), mw.AuthJWTMiddleware, mw.CSRF)
 }

@@ -23,3 +23,14 @@ type PortfolioList struct {
 	Portfolio  Portfolio          `json:"portfolio"`
 	AssetTotal []model.AssetTotal `json:"assetTotal"`
 }
+
+type PortfolioStats struct {
+	PortfolioID   uuid.UUID `json:"portfolioId" db:"portfolio_id"`
+	Title         string    `json:"title" db:"title"`
+	Active        bool      `json:"active" db:"active"`
+	CurrencyID    uuid.UUID `json:"currencyId" db:"currency_id"`
+	CurrencyTitle string    `json:"currencyTitle" db:"currency_title"`
+	CurrencyDesc  string    `json:"currencyDesc" db:"currency_desc"`
+	AssetQuantity int       `json:"assetQuantity" db:"asset_quantity"`
+	AssetAmount   int       `json:"assetAmount" db:"asset_amount"`
+}

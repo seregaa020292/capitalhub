@@ -226,6 +226,25 @@ definitions:
       portfolio:
         $ref: '#/definitions/model.Portfolio'
     type: object
+  model.PortfolioStats:
+    properties:
+      active:
+        type: boolean
+      assetAmount:
+        type: integer
+      assetQuantity:
+        type: integer
+      currencyDesc:
+        type: string
+      currencyId:
+        type: string
+      currencyTitle:
+        type: string
+      portfolioId:
+        type: string
+      title:
+        type: string
+    type: object
   model.RefreshToken:
     properties:
       token:
@@ -965,6 +984,40 @@ paths:
       security:
       - Auth: []
       summary: Портфель пользователя
+      tags:
+      - Portfolio
+  /portfolio/add:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PortfolioStats'
+      security:
+      - Auth: []
+      summary: Портфели пользователя
+      tags:
+      - Portfolio
+  /portfolio/all-stats:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.PortfolioStats'
+            type: array
+      security:
+      - Auth: []
+      summary: Портфели пользователя
       tags:
       - Portfolio
 securityDefinitions:

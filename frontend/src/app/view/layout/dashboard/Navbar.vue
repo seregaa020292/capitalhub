@@ -14,7 +14,7 @@
         active-text-color="#409EFF"
       >
         <el-menu-item index="/dashboard" class="menu-item">
-          <i class="el-icon-star-on" />
+          <i class="el-icon-suitcase" />
           <span>Мой портфель</span>
         </el-menu-item>
         <el-menu-item index="/portfolios" class="menu-item">
@@ -79,7 +79,7 @@ export default defineComponent({
   }
 
   .menu-item {
-    padding: 0 45px;
+    padding: 0 40px;
   }
 
   .menu-horizontal {

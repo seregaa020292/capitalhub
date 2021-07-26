@@ -1,10 +1,12 @@
 import { inject, injectable } from 'inversify'
 import types from '@/infrastructure/di/types'
 import { IPortfolioRepository } from '@/domain/portfolio/repositories/PortfolioRepository'
-import { IPortfolio } from '@/domain/portfolio/entities/PortfolioEntity'
+import { IPortfolio, IPortfolioStats } from '@/domain/portfolio/entities/PortfolioEntity'
 
 export interface IPortfolioPresenter {
   portfolio(): IPortfolio
+  portfolios(): IPortfolioStats[]
+  loadingPortfolios(): boolean
 }
 
 @injectable()
@@ -14,5 +16,13 @@ export class PortfolioPresenter implements IPortfolioPresenter {
 
   portfolio(): IPortfolio {
     return this.portfolioRepository.getPortfolio()
+  }
+
+  portfolios(): IPortfolioStats[] {
+    return this.portfolioRepository.getPortfolios()
+  }
+
+  loadingPortfolios(): boolean {
+    return this.portfolioRepository.getLoadingPortfolios()
   }
 }

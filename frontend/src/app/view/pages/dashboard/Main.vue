@@ -1,10 +1,6 @@
 <template>
   <el-main>
     <h1 class="title text-center mb-3">{{ portfolio.title }}</h1>
-    <div class="toolbar mb-2">
-      <el-button type="success" icon="el-icon-download">Импорт</el-button>
-      <el-button type="default" icon="el-icon-upload2">Экспорт</el-button>
-    </div>
     <div class="table-wrapper">
       <el-row :gutter="10" class="table-menu">
         <el-col :md="16">
@@ -80,10 +76,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/app/themes/element/variables';
-
-.toolbar {
-  text-align: right;
-}
 
 .table-wrapper {
   background-color: $--color-main-darker;

@@ -11,6 +11,8 @@ export default {
   IUserFetchUseCase: Symbol.for('IUserFetchUseCase'),
   IMarketSearchUseCase: Symbol.for('IMarketSearchUseCase'),
   IPortfolioFetchUseCase: Symbol.for('IPortfolioFetchUseCase'),
+  IPortfoliosFetchUseCase: Symbol.for('IPortfoliosFetchUseCase'),
+  IPortfolioAddUseCase: Symbol.for('IPortfolioAddUseCase'),
 
   IUserRepository: Symbol.for('IUserRepository'),
   IAuthRepository: Symbol.for('IAuthRepository'),

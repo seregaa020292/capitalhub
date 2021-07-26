@@ -87,9 +87,7 @@
         </el-button>
       </el-col>
       <el-col :md="12">
-        <el-button @click="onSubmitAndClose" type="info" class="w-100">
-          Добавить и закрыть
-        </el-button>
+        <el-button @click="onSubmitClose" type="info" class="w-100">Добавить и закрыть</el-button>
       </el-col>
     </el-row>
   </el-form>
@@ -171,27 +169,18 @@ export default defineComponent({
       quantity: assetValidator.quantity,
     })
 
-    const onSubmit = (): boolean => {
-      let hasSent = false
+    const assetAdded = (fn: (hasAdded: boolean) => void) => {
       ruleFormRef.value.validate(async (valid: boolean) => {
         if (!valid) {
           return false
         }
         const hasAdded = await assetAddUseCase.execute(assetNotation.value)
-        if (hasAdded) {
-          ruleFormRef.value.resetFields()
-          hasSent = true
-        }
+        fn(hasAdded)
       })
-
-      return hasSent
     }
 
-    const onSubmitAndClose = () => {
-      if (onSubmit()) {
-        emit('close-form')
-      }
-    }
+    const onSubmit = () => assetAdded((hasAdded) => hasAdded && ruleFormRef.value.resetFields())
+    const onSubmitClose = () => assetAdded((hasAdded) => hasAdded && emit('close-form'))
 
     return {
       state,
@@ -199,7 +188,7 @@ export default defineComponent({
       rules,
       ruleFormRef,
       onSubmit,
-      onSubmitAndClose,
+      onSubmitClose,
       remoteMethod,
     }
   },

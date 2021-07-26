@@ -2,27 +2,68 @@
   <el-main>
     <h1 class="title text-center mb-3">Мои портфели</h1>
     <el-row :gutter="12">
-      <el-col :md="6">
+      <el-col
+        v-for="{
+          title,
+          portfolioId,
+          active,
+          currencyTitle,
+          assetAmount,
+          assetQuantity,
+        } in portfolios"
+        :key="portfolioId"
+        :md="6"
+      >
         <el-card shadow="hover">
           <template #header>
-            <div class="card-header">Портфель 1</div>
+            <div class="card-header">
+              <i v-if="active" class="el-icon-star-on" />
+              {{ title }}
+            </div>
           </template>
+          <div class="mb-1">
+            Стоимость: {{ currencyFormatter[currencyTitle.toLowerCase()].format(assetAmount) }}
+          </div>
+          <div>Кол-во активов: {{ assetQuantity }} шт.</div>
         </el-card>
       </el-col>
       <el-col :md="6">
-        <el-card shadow="hover">
-          <i class="el-icon-circle-plus" />
-          Добавить еще портфель
-        </el-card>
+        <edit-modal />
       </el-col>
     </el-row>
   </el-main>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, computed } from 'vue'
+import {
+  PortfolioPresenterContainer,
+  PortfoliosFetchUseCaseContainer,
+} from '@/infrastructure/di/containers'
+import { currencyFormatter } from '@/utils/number'
+import EditModal from '@/app/view/containers/portfolio/edit/Modal.vue'
 
 export default defineComponent({
   name: 'Portfolio',
+  components: {
+    EditModal,
+  },
+  setup() {
+    const portfoliosFetchUseCase = PortfoliosFetchUseCaseContainer()
+    const portfolioPresenter = PortfolioPresenterContainer()
+
+    const loading = computed(() => portfolioPresenter.loadingPortfolios())
+    const portfolios = computed(() => portfolioPresenter.portfolios())
+
+    onMounted(async () => {
+      await portfoliosFetchUseCase.execute()
+    })
+
+    return {
+      loading,
+      portfolios,
+      currencyFormatter,
+    }
+  },
 })
 </script>

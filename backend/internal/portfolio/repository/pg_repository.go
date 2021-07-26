@@ -53,9 +53,31 @@ func (repo *portfolioRepo) CheckUserPortfolio(ctx context.Context, userID uuid.U
 	defer span.Finish()
 
 	var exist bool
-	if err := repo.db.QueryRowContext(ctx, hasPortfolioUser, portfolioID, userID).Scan(&exist); err != nil {
+	if err := repo.db.QueryRowContext(ctx, hasPortfolioUserQuery, portfolioID, userID).Scan(&exist); err != nil {
 		return errors.Wrap(err, "portfolioRepo.CheckUserPortfolio.QueryRowxContext")
 	}
 
 	return nil
+}
+
+func (repo *portfolioRepo) GetAllStats(ctx context.Context, userID uuid.UUID) (*[]model.PortfolioStats, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioRepo.GetAllStats")
+	defer span.Finish()
+
+	portfolios := &[]model.PortfolioStats{}
+	if err := repo.db.SelectContext(ctx, portfolios, getAllTotalQuery, userID); err != nil {
+		return nil, errors.Wrap(err, "portfolioRepo.GetAllStats.SelectContext")
+	}
+	return portfolios, nil
+}
+
+func (repo *portfolioRepo) GetStats(ctx context.Context, portfolioID uuid.UUID) (*model.PortfolioStats, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioRepo.GetStats")
+	defer span.Finish()
+
+	portfolioStats := &model.PortfolioStats{}
+	if err := repo.db.QueryRowxContext(ctx, getStatsQuery, portfolioID).StructScan(portfolioStats); err != nil {
+		return nil, errors.Wrap(err, "portfolioRepo.GetStats.QueryRowxContext")
+	}
+	return portfolioStats, nil
 }

@@ -10,6 +10,8 @@ import { IAssetFetchUseCase } from '@/domain/asset/interactors/AssetFetchUseCase
 import { IAssetAddUseCase } from '@/domain/asset/interactors/AssetAddUseCase'
 import { IPortfolioFetchUseCase } from '@/domain/portfolio/interactors/PortfolioFetchUseCase'
 import { IPortfolioPresenter } from '@/domain/portfolio/presenter/PortfolioPresenter'
+import { IPortfoliosFetchUseCase } from '@/domain/portfolio/interactors/PortfoliosFetchUseCase'
+import { IPortfolioAddUseCase } from '@/domain/portfolio/interactors/PortfolioAddUseCase'
 
 /**
  * Make to: Services, Presenters, UseCases
@@ -23,6 +25,8 @@ export const AssetFetchUseCaseContainer = (): IAssetFetchUseCase => DIContainer.
 export const AssetAddUseCaseContainer = (): IAssetAddUseCase => DIContainer.get(types.IAssetAddUseCase)
 export const MarketSearchUseCaseContainer = (): IMarketSearchUseCase => DIContainer.get(types.IMarketSearchUseCase)
 export const PortfolioFetchUseCaseContainer = (): IPortfolioFetchUseCase => DIContainer.get(types.IPortfolioFetchUseCase)
+export const PortfoliosFetchUseCaseContainer = (): IPortfoliosFetchUseCase => DIContainer.get(types.IPortfoliosFetchUseCase)
+export const PortfolioAddUseCaseContainer = (): IPortfolioAddUseCase => DIContainer.get(types.IPortfolioAddUseCase)
 
 export const AuthServiceContainer = (): IAuthService => DIContainer.get(types.IAuthService)
 export const StorageServiceContainer = (): IStorageService => DIContainer.get(types.IStorageService)

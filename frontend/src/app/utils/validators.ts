@@ -38,3 +38,7 @@ export const assetValidator: IValidatorList = {
   amount: [{ required: true, message: 'Введите стоимость', trigger: 'blur' }],
   quantity: [{ required: true, message: 'Введите количество', trigger: 'blur' }],
 }
+
+export const portfolioValidator: IValidatorList = {
+  title: [{ required: true, message: 'Введите название', trigger: 'blur' }]
+}

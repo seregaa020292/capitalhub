@@ -47,6 +47,18 @@ func (useCase *portfolioUC) CreateFirst(ctx context.Context, userID uuid.UUID) (
 	})
 }
 
+func (useCase *portfolioUC) Create(ctx context.Context, portfolio *model.Portfolio) (*model.PortfolioStats, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioUC.Create")
+	defer span.Finish()
+
+	portfolioModel, err := useCase.portfolioRepo.Create(ctx, portfolio)
+	if err != nil {
+		return nil, err
+	}
+
+	return useCase.portfolioRepo.GetStats(ctx, portfolioModel.PortfolioID)
+}
+
 // Получаем активный портфель по id пользователя
 func (useCase *portfolioUC) GetActive(ctx context.Context, userID uuid.UUID) (*model.Portfolio, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioUC.GetActive")
@@ -65,4 +77,11 @@ func (useCase *portfolioUC) CheckUserPortfolio(ctx context.Context, userID uuid.
 	}
 
 	return true
+}
+
+func (useCase *portfolioUC) GetAllStats(ctx context.Context, userID uuid.UUID) (*[]model.PortfolioStats, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioUC.GetAllStats")
+	defer span.Finish()
+
+	return useCase.portfolioRepo.GetAllStats(ctx, userID)
 }

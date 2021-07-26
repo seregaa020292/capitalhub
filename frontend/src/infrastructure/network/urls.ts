@@ -20,6 +20,8 @@ const urls = {
     MARKETS: 'market/all',
     SEARCH_MARKETS: 'market/search',
     PORTFOLIO_ACTIVE_TOTAL: 'portfolio/active-total',
+    PORTFOLIO_ALL_STATS: 'portfolio/all-stats',
+    PORTFOLIO_ADD: 'portfolio/add',
   },
   ws: {
     BITFINEX: 'wss://api.bitfinex.com/ws',

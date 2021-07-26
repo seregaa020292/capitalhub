@@ -48,7 +48,7 @@ export class AssetRepository implements IAssetRepository {
     this.store.commit(new AssetAdd(asset))
   }
 
-  changePriceAsset(assetPrice: IAssetPrice): void{
+  changePriceAsset(assetPrice: IAssetPrice): void {
     this.store.commit(new ChangePrice(assetPrice))
   }
 }

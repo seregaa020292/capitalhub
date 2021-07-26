@@ -1082,6 +1082,63 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/portfolio/add": {
+            "get": {
+                "security": [
+                    {
+                        "Auth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Portfolio"
+                ],
+                "summary": "Портфели пользователя",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.PortfolioStats"
+                        }
+                    }
+                }
+            }
+        },
+        "/portfolio/all-stats": {
+            "get": {
+                "security": [
+                    {
+                        "Auth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Portfolio"
+                ],
+                "summary": "Портфели пользователя",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.PortfolioStats"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1417,6 +1474,35 @@ var doc = `{
                 },
                 "portfolio": {
                     "$ref": "#/definitions/model.Portfolio"
+                }
+            }
+        },
+        "model.PortfolioStats": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "assetAmount": {
+                    "type": "integer"
+                },
+                "assetQuantity": {
+                    "type": "integer"
+                },
+                "currencyDesc": {
+                    "type": "string"
+                },
+                "currencyId": {
+                    "type": "string"
+                },
+                "currencyTitle": {
+                    "type": "string"
+                },
+                "portfolioId": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         },

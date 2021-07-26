@@ -14,4 +14,6 @@ type Repository interface {
 	Create(ctx context.Context, portfolio *model.Portfolio) (*model.Portfolio, error)
 	GetActive(ctx context.Context, userID uuid.UUID) (*model.Portfolio, error)
 	CheckUserPortfolio(ctx context.Context, userID uuid.UUID, portfolioID uuid.UUID) error
+	GetAllStats(ctx context.Context, userID uuid.UUID) (*[]model.PortfolioStats, error)
+	GetStats(ctx context.Context, portfolioID uuid.UUID) (*model.PortfolioStats, error)
 }

@@ -42,6 +42,14 @@ import {
   IPortfolioPresenter,
   PortfolioPresenter,
 } from '@/domain/portfolio/presenter/PortfolioPresenter'
+import {
+  IPortfoliosFetchUseCase,
+  PortfoliosFetchUseCase,
+} from '@/domain/portfolio/interactors/PortfoliosFetchUseCase'
+import {
+  IPortfolioAddUseCase,
+  PortfolioAddUseCase,
+} from '@/domain/portfolio/interactors/PortfolioAddUseCase'
 
 const DIContainer = new Container()
 
@@ -59,6 +67,8 @@ DIContainer.bind<IAssetAddUseCase>(types.IAssetAddUseCase).to(AssetAddUseCase).i
 DIContainer.bind<IUserFetchUseCase>(types.IUserFetchUseCase).to(UserFetchUseCase).inSingletonScope()
 DIContainer.bind<IMarketSearchUseCase>(types.IMarketSearchUseCase).to(MarketSearchUseCase).inSingletonScope()
 DIContainer.bind<IPortfolioFetchUseCase>(types.IPortfolioFetchUseCase).to(PortfolioFetchUseCase).inSingletonScope()
+DIContainer.bind<IPortfoliosFetchUseCase>(types.IPortfoliosFetchUseCase).to(PortfoliosFetchUseCase).inSingletonScope()
+DIContainer.bind<IPortfolioAddUseCase>(types.IPortfolioAddUseCase).to(PortfolioAddUseCase).inSingletonScope()
 
 DIContainer.bind<IAuthPresenter>(types.IAuthPresenter).to(AuthPresenter).inSingletonScope()
 DIContainer.bind<IUserPresenter>(types.IUserPresenter).to(UserPresenter).inSingletonScope()
