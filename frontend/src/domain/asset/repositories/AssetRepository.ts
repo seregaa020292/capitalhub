@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify'
 import { StoreRoot } from '@/app/store'
-import types from '@/infrastructure/di/types'
+import { baseTypes } from '@/infrastructure/di/types'
 import { IAsset, IAssetPrice } from '@/domain/asset/entities/AssetEntity'
 import {
   FetchAssets,
@@ -22,7 +22,7 @@ export interface IAssetRepository {
 
 @injectable()
 export class AssetRepository implements IAssetRepository {
-  constructor(@inject(types.IStoreRoot) private store: StoreRoot) {}
+  constructor(@inject(baseTypes.IStoreRoot) private store: StoreRoot) {}
 
   getAssets(): IAsset[] {
     return this.store.state.asset.assets

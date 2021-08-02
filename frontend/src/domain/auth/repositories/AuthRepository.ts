@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify'
 import { StoreRoot } from '@/app/store'
+import { baseTypes } from '@/infrastructure/di/types'
 import { FetchAuth, IAuthState } from '@/app/store/modules/auth'
-import types from '@/infrastructure/di/types'
 
 export interface IAuthRepository {
   getState(): IAuthState
@@ -10,7 +10,7 @@ export interface IAuthRepository {
 
 @injectable()
 export class AuthRepository implements IAuthRepository {
-  @inject(types.IStoreRoot)
+  @inject(baseTypes.IStoreRoot)
   private store!: StoreRoot
 
   getState(): IAuthState {

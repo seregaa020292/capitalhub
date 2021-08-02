@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify'
 import { StoreRoot } from '@/app/store'
-import types from '@/infrastructure/di/types'
+import { baseTypes } from '@/infrastructure/di/types'
 import { IMarket } from '@/domain/market/entities/MarketEntity'
 import { FetchMarkets, ClearMarkets } from '@/app/store/modules/market'
 
@@ -12,7 +12,7 @@ export interface IMarketRepository {
 
 @injectable()
 export class MarketRepository implements IMarketRepository {
-  constructor(@inject(types.IStoreRoot) private store: StoreRoot) {}
+  constructor(@inject(baseTypes.IStoreRoot) private store: StoreRoot) {}
 
   getMarkets(): IMarket[] {
     return this.store.state.market.markets

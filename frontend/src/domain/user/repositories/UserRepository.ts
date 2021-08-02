@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify'
 import { StoreRoot } from '@/app/store'
-import types from '@/infrastructure/di/types'
+import { baseTypes } from '@/infrastructure/di/types'
 import { IUser } from '@/domain/user/entities/UserEntity'
 import { ClearUserPersonData, FetchUserPersonData } from '@/app/store/modules/user'
 
@@ -12,7 +12,7 @@ export interface IUserRepository {
 
 @injectable()
 export class UserRepository implements IUserRepository {
-  constructor(@inject(types.IStoreRoot) private store: StoreRoot) {}
+  constructor(@inject(baseTypes.IStoreRoot) private store: StoreRoot) {}
 
   getUser(): IUser {
     return this.store.state.user.personData

@@ -74,7 +74,7 @@
 import { computed, defineComponent } from 'vue'
 import { dayjs } from '@/utils/dayjs'
 import { currencyFormatter } from '@/utils/number'
-import { AssetPresenterContainer } from '@/infrastructure/di/containers'
+import { AssetPresenterDI } from '@/domain/asset/module/di'
 import IndicatorCaretIcon from '@/app/view/components/currency/IndicatorCaretIcon.vue'
 
 export default defineComponent({
@@ -83,7 +83,7 @@ export default defineComponent({
     IndicatorCaretIcon,
   },
   setup: () => {
-    const assetPresenter = AssetPresenterContainer()
+    const assetPresenter = AssetPresenterDI()
     const tooltipNotation = (notationAt: string) => `Актив добавлен: ${dayjs().to(notationAt)}`
 
     const assets = computed(() => assetPresenter.assets())

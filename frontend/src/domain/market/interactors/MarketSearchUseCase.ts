@@ -1,8 +1,9 @@
 import { inject, injectable } from 'inversify'
 import { BaseUseCase } from '@/types/domain'
-import types from '@/infrastructure/di/types'
+import { types } from '@/domain/market/module/types'
+import { baseTypes } from '@/infrastructure/di/types'
 import { IMarketGroup, IMarketOption } from '@/domain/market/entities/MarketEntity'
-import { IMarketClientApi } from '@/services/api/MarketClientApi'
+import { IMarketClientApi } from '@/domain/market/clients/api/MarketClientApi'
 import { IErrorHandler } from '@/infrastructure/handlers/ErrorHandler'
 
 export interface IMarketSearchUseCase extends BaseUseCase<string, Promise<IMarketOption[] | null>> {
@@ -13,7 +14,7 @@ export class MarketSearchUseCase implements IMarketSearchUseCase {
   @inject(types.IMarketClientApi)
   private marketClient!: IMarketClientApi
 
-  @inject(types.IErrorHandler)
+  @inject(baseTypes.IErrorHandler)
   private errorHandler!: IErrorHandler
 
   async execute(title: string) {

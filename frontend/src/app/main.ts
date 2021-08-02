@@ -7,7 +7,7 @@ import { initPlugins } from '@/app/plugins'
 import { initDirectives } from '@/app/directives'
 import { elementRegister } from '@/app/themes'
 import registerServiceWorker from '@/app/registerServiceWorker'
-import { AuthServiceContainer } from '@/infrastructure/di/containers'
+import { AuthUseCaseDI } from '@/domain/auth/module/di'
 import { config } from '@/data/config/app'
 
 @injectable()
@@ -24,7 +24,7 @@ export default class Main {
      * If auth, then check logged
      ******************************
      */
-    await AuthServiceContainer().checkLogged()
+    await AuthUseCaseDI().checkLogged()
 
     /**
      ******************************

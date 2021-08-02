@@ -20,6 +20,9 @@ export default defineComponent({
     TransitionPage,
     NavbarApp,
   },
+  setup() {
+    //ApplicationDataUseCaseContainer().execute()
+  },
 })
 </script>
 

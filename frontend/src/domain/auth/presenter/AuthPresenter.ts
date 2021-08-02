@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify'
-import types from '@/infrastructure/di/types'
-import { IAuthRepository } from '@/services/auth/AuthRepository'
+import { types } from '@/domain/auth/module/types'
+import { IAuthRepository } from '@/domain/auth/repositories/AuthRepository'
 
 export interface IAuthPresenter {
   loggedIn(): boolean

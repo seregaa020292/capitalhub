@@ -37,10 +37,7 @@
 import { defineComponent, reactive, onUnmounted, onMounted, computed } from 'vue'
 import TableAsset from '@/app/view/containers/dashboard/TableAsset.vue'
 import QuoteClientSocket from '@/services/socket/QuoteClientSocket'
-import {
-  PortfolioFetchUseCaseContainer,
-  PortfolioPresenterContainer,
-} from '@/infrastructure/di/containers'
+import { PortfolioFetchUseCaseDI, PortfolioPresenterDI } from '@/domain/portfolio/module/di'
 
 export default defineComponent({
   name: 'Main',
@@ -51,8 +48,8 @@ export default defineComponent({
     const state = reactive({
       search: '',
     })
-    const portfolioFetchUseCase = PortfolioFetchUseCaseContainer()
-    const portfolioPresenter = PortfolioPresenterContainer()
+    const portfolioFetchUseCase = PortfolioFetchUseCaseDI()
+    const portfolioPresenter = PortfolioPresenterDI()
     const socket = new QuoteClientSocket()
 
     const portfolio = computed(() => portfolioPresenter.portfolio())

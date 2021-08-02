@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify'
 import { StoreRoot } from '@/app/store'
-import types from '@/infrastructure/di/types'
+import { baseTypes } from '@/infrastructure/di/types'
 import {
   AddPortfolio,
   FetchPortfolio,
@@ -21,7 +21,7 @@ export interface IPortfolioRepository {
 
 @injectable()
 export class PortfolioRepository implements IPortfolioRepository {
-  constructor(@inject(types.IStoreRoot) private store: StoreRoot) {}
+  constructor(@inject(baseTypes.IStoreRoot) private store: StoreRoot) {}
 
   getPortfolio(): IPortfolio {
     return this.store.state.portfolio.active

@@ -97,11 +97,9 @@
 import { computed, ComputedRef, defineComponent, reactive, ref } from 'vue'
 import { assetValidator } from '@/app/utils/validators'
 import { IMarketOption } from '@/domain/market/entities/MarketEntity'
-import {
-  AssetAddUseCaseContainer,
-  MarketSearchUseCaseContainer,
-  PortfolioPresenterContainer,
-} from '@/infrastructure/di/containers'
+import { AssetAddUseCaseDI } from '@/domain/asset/module/di'
+import { MarketSearchUseCaseDI } from '@/domain/market/module/di'
+import { PortfolioPresenterDI } from '@/domain/portfolio/module/di'
 import { IAssetNotation } from '@/domain/asset/entities/AssetEntity'
 import { currencyFormatter } from '@/utils/number'
 
@@ -132,9 +130,9 @@ export default defineComponent({
         },
       ],
     })
-    const marketSearchUseCase = MarketSearchUseCaseContainer()
-    const assetAddUseCase = AssetAddUseCaseContainer()
-    const portfolioPresenter = PortfolioPresenterContainer()
+    const marketSearchUseCase = MarketSearchUseCaseDI()
+    const assetAddUseCase = AssetAddUseCaseDI()
+    const portfolioPresenter = PortfolioPresenterDI()
 
     const assetNotation: ComputedRef<IAssetNotation> = computed(() => ({
       ...state.asset,

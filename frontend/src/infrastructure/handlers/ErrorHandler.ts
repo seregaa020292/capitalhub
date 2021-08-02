@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify'
-import types from '@/infrastructure/di/types'
+import { baseTypes } from '@/infrastructure/di/types'
 import { BaseHandler } from '@/types/infrastructure'
 import { ILoggerService } from '@/services/logger/LoggerService'
 import { IMessageService } from '@/services/message/MessageService'
@@ -13,10 +13,10 @@ export interface IErrorHandler extends BaseHandler<unknown, IHandleResult> {}
 
 @injectable()
 export class ErrorHandler implements IErrorHandler {
-  @inject(types.IMessageService)
+  @inject(baseTypes.IMessageService)
   private messageService!: IMessageService
 
-  @inject(types.ILoggerService)
+  @inject(baseTypes.ILoggerService)
   private loggerService!: ILoggerService
 
   public handle(error: unknown) {

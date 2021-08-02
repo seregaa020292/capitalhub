@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify'
-import types from '@/infrastructure/di/types'
+import { types } from '@/domain/market/module/types'
 import { IMarketRepository } from '@/domain/market/repositories/MarketRepository'
 import { IMarket } from '@/domain/market/entities/MarketEntity'
 

@@ -1,7 +1,7 @@
 import { injectable } from 'inversify'
 import { IAccessToken } from '@/domain/user/entities/UserEntity'
 
-export interface IStorageService {
+export interface ITokenRepository {
   getAccessToken(): IAccessToken | null
   getAccessTokenWithPrefix(): string
   saveAccessToken(token: IAccessToken): void
@@ -12,7 +12,7 @@ export interface IStorageService {
 const KEY_ACCESS_TOKEN = '_access-token_'
 
 @injectable()
-export class StorageService implements IStorageService {
+export class TokenRepository implements ITokenRepository {
   getAccessToken(): IAccessToken | null {
     return this.hasAccessToken() ? JSON.parse(<string>localStorage.getItem(KEY_ACCESS_TOKEN)) : null
   }

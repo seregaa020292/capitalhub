@@ -13,7 +13,7 @@
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import LogoCompany from '@/app/view/components/logoCompany/index.vue'
-import { AuthServiceContainer } from '@/infrastructure/di/containers'
+import { AuthUseCaseDI } from '@/domain/auth/module/di'
 
 export default defineComponent({
   name: 'Header',
@@ -24,7 +24,7 @@ export default defineComponent({
     const router = useRouter()
 
     const onLogout = async () => {
-      await AuthServiceContainer().logout()
+      await AuthUseCaseDI().logout()
       router.push({ name: 'login' })
     }
 

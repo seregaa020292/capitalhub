@@ -1,21 +1,23 @@
 import { inject, injectable } from 'inversify'
-import types from '@/infrastructure/di/types'
+import { baseTypes } from '@/infrastructure/di/types'
+import { types } from '@/domain/auth/module/types'
+import { types as userTypes } from '@/domain/user/module/types'
 import { IErrorHandler } from '@/infrastructure/handlers/ErrorHandler'
-import { IStorageService } from '@/services/auth/StorageService'
+import { ITokenRepository } from '@/domain/auth/repositories/TokenRepository'
 import { INotifyService } from '@/services/notify/NotifyService'
 import { IMessageService } from '@/services/message/MessageService'
 import { IRouterService } from '@/services/router/RouterService'
-import { JwtService } from '@/services/auth/JwtService'
+import { JwtService } from '@/services/jwt/JwtService'
 import { IUserRepository } from '@/domain/user/repositories/UserRepository'
-import { IAuthRepository } from '@/services/auth/AuthRepository'
+import { IAuthRepository } from '@/domain/auth/repositories/AuthRepository'
 import {
   IAuthClientApi,
   ILoginParams,
   IRegisterParams,
-} from '@/services/api/AuthClientApi'
+} from '@/domain/auth/clients/api/AuthClientApi'
 import { initFingerprintJS } from '@/utils/device'
 
-export interface IAuthService {
+export interface IAuthUseCase {
   login(credentials: ILoginParams): Promise<boolean>
   registration(credentials: IRegisterParams): Promise<boolean>
   refreshToken(): Promise<void>
@@ -31,29 +33,29 @@ export interface IAuthService {
  ******************************
  */
 @injectable()
-export class AuthService implements IAuthService {
+export class AuthUseCase implements IAuthUseCase {
   @inject(types.IAuthClientApi)
   private authClient!: IAuthClientApi
 
-  @inject(types.IStorageService)
-  private storageService!: IStorageService
+  @inject(types.ITokenRepository)
+  private tokenRepository!: ITokenRepository
 
-  @inject(types.IUserRepository)
+  @inject(userTypes.IUserRepository)
   private userRepository!: IUserRepository
 
   @inject(types.IAuthRepository)
   private authRepository!: IAuthRepository
 
-  @inject(types.IErrorHandler)
+  @inject(baseTypes.IErrorHandler)
   private errorHandler!: IErrorHandler
 
-  @inject(types.IMessageService)
+  @inject(baseTypes.IMessageService)
   private messageService!: IMessageService
 
-  @inject(types.INotifyService)
+  @inject(baseTypes.INotifyService)
   private notifyService!: INotifyService
 
-  @inject(types.IRouterService)
+  @inject(baseTypes.IRouterService)
   private routerService!: IRouterService
 
   public async login({ email, password }: ILoginParams): Promise<boolean> {
@@ -67,7 +69,7 @@ export class AuthService implements IAuthService {
       const accessToken = new JwtService(response.accessToken.token)
 
       this.userRepository.savePersonData(response.user)
-      this.storageService.saveAccessToken(response.accessToken)
+      this.tokenRepository.saveAccessToken(response.accessToken)
       this.authRepository.setCondition({
         loggedIn: true,
         csrf: response.csrf,
@@ -99,7 +101,7 @@ export class AuthService implements IAuthService {
       const response = await this.authClient.refresh({ fingerprint: fingerprint.visitorId })
       const accessToken = new JwtService(response.accessToken.token)
 
-      this.storageService.saveAccessToken(response.accessToken)
+      this.tokenRepository.saveAccessToken(response.accessToken)
       this.authRepository.setCondition({
         loggedIn: true,
         csrf: response.csrf,
@@ -113,9 +115,9 @@ export class AuthService implements IAuthService {
 
   public async checkLogged(): Promise<boolean> {
     try {
-      if (this.storageService.hasAccessToken()) {
+      if (this.tokenRepository.hasAccessToken()) {
         const response = await this.authClient.checkLogged()
-        const accessToken = new JwtService(this.storageService.getAccessToken()!.token)
+        const accessToken = new JwtService(this.tokenRepository.getAccessToken()!.token)
 
         this.userRepository.savePersonData(response.user)
         this.authRepository.setCondition({
@@ -137,7 +139,7 @@ export class AuthService implements IAuthService {
     } catch (error) {
       this.errorHandler.handle(error)
     } finally {
-      this.storageService.removeAccessToken()
+      this.tokenRepository.removeAccessToken()
       this.userRepository.clearPersonData()
     }
   }

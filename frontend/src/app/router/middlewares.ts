@@ -1,4 +1,4 @@
-import { AuthPresenterContainer } from '@/infrastructure/di/containers'
+import { AuthPresenterDI } from '@/domain/auth/module/di'
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
 export const loggedInMiddleware = (
@@ -7,7 +7,7 @@ export const loggedInMiddleware = (
   next: NavigationGuardNext,
 ): void => {
   if (to.matched.some((record) => record.meta.auth)) {
-    if (AuthPresenterContainer().loggedIn()) {
+    if (AuthPresenterDI().loggedIn()) {
       next()
       return
     }

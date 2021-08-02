@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify'
 import { BaseUseCase } from '@/types/domain'
-import types from '@/infrastructure/di/types'
+import { types } from '@/domain/market/module/types'
 import { IMarketRepository } from '@/domain/market/repositories/MarketRepository'
 import { IMarket } from '@/domain/market/entities/MarketEntity'
-import { IMarketClientApi } from '@/services/api/MarketClientApi'
+import { IMarketClientApi } from '@/domain/market/clients/api/MarketClientApi'
 
 @injectable()
 export class MarketFetchUseCase implements BaseUseCase<void, Promise<void>> {

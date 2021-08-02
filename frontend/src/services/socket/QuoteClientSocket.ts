@@ -1,9 +1,8 @@
-import { Socket, Unsubscribe } from '@/infrastructure/network/socket'
-import { StorageServiceContainer } from '@/infrastructure/di/containers'
 import urls from '@/infrastructure/network/urls'
+import { Socket, Unsubscribe } from '@/infrastructure/network/socket'
+import { TokenRepositoryDI } from '@/domain/auth/module/di'
 import { IAssetRepository } from '@/domain/asset/repositories/AssetRepository'
-import { DIContainer } from '@/infrastructure/di'
-import types from '@/infrastructure/di/types'
+import { AssetRepositoryDI } from '@/domain/asset/module/di'
 
 export type QuoteData = {
   event: string // Название события
@@ -24,9 +23,9 @@ export default class QuoteClientSocket {
   private assetRepository: IAssetRepository
 
   constructor() {
-    this.socket = new Socket(`${urls.ws.QUOTES}?authorization=${StorageServiceContainer().getAccessTokenWithPrefix()}`)
+    this.socket = new Socket(`${urls.ws.QUOTES}?authorization=${TokenRepositoryDI().getAccessTokenWithPrefix()}`)
     this.socket.init()
-    this.assetRepository = DIContainer.get(types.IAssetRepository)
+    this.assetRepository = AssetRepositoryDI()
   }
 
   public subscribe(): Unsubscribe {

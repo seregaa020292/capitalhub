@@ -1,8 +1,10 @@
 import { inject, injectable } from 'inversify'
 import { BaseUseCase } from '@/types/domain'
-import types from '@/infrastructure/di/types'
+import { types } from '@/domain/portfolio/module/types'
+import { types as assetTypes } from '@/domain/asset/module/types'
+import { baseTypes } from '@/infrastructure/di/types'
 import { IPortfolioRepository } from '@/domain/portfolio/repositories/PortfolioRepository'
-import { IPortfolioClientApi } from '@/services/api/PortfolioClientApi'
+import { IPortfolioClientApi } from '@/domain/portfolio/clients/api/PortfolioClientApi'
 import { IPortfolioTotal } from '@/domain/portfolio/entities/PortfolioEntity'
 import { IAssetRepository } from '@/domain/asset/repositories/AssetRepository'
 import { IErrorHandler } from '@/infrastructure/handlers/ErrorHandler'
@@ -17,10 +19,10 @@ export class PortfolioFetchUseCase implements IPortfolioFetchUseCase {
   @inject(types.IPortfolioRepository)
   private portfolioRepository!: IPortfolioRepository
 
-  @inject(types.IAssetRepository)
+  @inject(assetTypes.IAssetRepository)
   private assetRepository!: IAssetRepository
 
-  @inject(types.IErrorHandler)
+  @inject(baseTypes.IErrorHandler)
   private errorHandler!: IErrorHandler
 
   async execute() {

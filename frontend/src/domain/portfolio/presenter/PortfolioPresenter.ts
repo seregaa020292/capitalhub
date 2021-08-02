@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify'
-import types from '@/infrastructure/di/types'
+import { types } from '@/domain/portfolio/module/types'
 import { IPortfolioRepository } from '@/domain/portfolio/repositories/PortfolioRepository'
 import { IPortfolio, IPortfolioStats } from '@/domain/portfolio/entities/PortfolioEntity'
 

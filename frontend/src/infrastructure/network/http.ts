@@ -1,10 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { MessageService } from '@/services/message/MessageService'
-import {
-  AuthPresenterContainer,
-  AuthServiceContainer,
-  StorageServiceContainer,
-} from '@/infrastructure/di/containers'
+import { AuthPresenterDI, AuthUseCaseDI, TokenRepositoryDI } from '@/domain/auth/module/di'
 import { baseURL } from '@/infrastructure/network/urls'
 import { responseReject } from '@/utils/server'
 import { config as configApp} from '@/data/config/app'
@@ -44,11 +40,11 @@ const httpEasy: AxiosInstance = createAxiosInstance()
  ******************************
  */
 const requestOnFulfilled = (config: AxiosRequestConfig) => {
-  const accessTokenWithPrefix = StorageServiceContainer().getAccessTokenWithPrefix()
+  const accessTokenWithPrefix = TokenRepositoryDI().getAccessTokenWithPrefix()
   if (accessTokenWithPrefix !== '') {
     config.headers.Authorization = accessTokenWithPrefix
   }
-  const csrf = AuthPresenterContainer().getCsrf()
+  const csrf = AuthPresenterDI().getCsrf()
   if (csrf !== '') {
     config.headers[configApp.xsrfHeaderName] = csrf
   }
@@ -86,13 +82,13 @@ const responseOnRejected = async (error: AxiosError) => {
     originalRequest._isRetry = true
 
     try {
-      await AuthServiceContainer().refreshToken()
-      originalRequest.headers.Authorization = StorageServiceContainer().getAccessTokenWithPrefix()
-      originalRequest.headers[configApp.xsrfHeaderName] = AuthPresenterContainer().getCsrf()
+      await AuthUseCaseDI().refreshToken()
+      originalRequest.headers.Authorization = TokenRepositoryDI().getAccessTokenWithPrefix()
+      originalRequest.headers[configApp.xsrfHeaderName] = AuthPresenterDI().getCsrf()
       return await httpEasy.request(originalRequest)
     } catch (error) {
       if ([401, 403].includes(Number(error?.data?.status))) {
-        await AuthServiceContainer().autoLogout()
+        await AuthUseCaseDI().autoLogout()
         return Promise.reject(new Error('401'))
       }
       throw error

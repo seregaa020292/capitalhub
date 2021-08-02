@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify'
 import { BaseUseCase } from '@/types/domain'
-import types from '@/infrastructure/di/types'
+import { types } from '@/domain/asset/module/types'
 import { IAssetRepository } from '@/domain/asset/repositories/AssetRepository'
 import { IAsset } from '@/domain/asset/entities/AssetEntity'
-import { IAssetClientApi } from '@/services/api/AssetClientApi'
+import { IAssetClientApi } from '@/domain/asset/clients/api/AssetClientApi'
 
 export  interface IAssetFetchUseCase extends BaseUseCase<unknown, Promise<void>> {}
 

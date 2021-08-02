@@ -30,7 +30,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { portfolioValidator } from '@/app/utils/validators'
-import { PortfolioAddUseCaseContainer } from '@/infrastructure/di/containers'
+import { PortfolioAddUseCaseDI } from '@/domain/portfolio/module/di'
 
 export default defineComponent({
   name: 'Form',
@@ -45,8 +45,9 @@ export default defineComponent({
     const ruleFormRef: any = ref(null)
     const rules = ref({
       title: portfolioValidator.title,
+      currencyId: portfolioValidator.currencyId,
     })
-    const portfolioAddUseCase = PortfolioAddUseCaseContainer()
+    const portfolioAddUseCase = PortfolioAddUseCaseDI()
 
     const onSubmit = () => {
       ruleFormRef.value.validate(async (valid: boolean) => {

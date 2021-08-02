@@ -36,10 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, computed } from 'vue'
-import {
-  PortfolioPresenterContainer,
-  PortfoliosFetchUseCaseContainer,
-} from '@/infrastructure/di/containers'
+import { PortfolioPresenterDI, PortfoliosFetchUseCaseDI } from '@/domain/portfolio/module/di'
 import { currencyFormatter } from '@/utils/number'
 import EditModal from '@/app/view/containers/portfolio/edit/Modal.vue'
 
@@ -49,8 +46,8 @@ export default defineComponent({
     EditModal,
   },
   setup() {
-    const portfoliosFetchUseCase = PortfoliosFetchUseCaseContainer()
-    const portfolioPresenter = PortfolioPresenterContainer()
+    const portfoliosFetchUseCase = PortfoliosFetchUseCaseDI()
+    const portfolioPresenter = PortfolioPresenterDI()
 
     const loading = computed(() => portfolioPresenter.loadingPortfolios())
     const portfolios = computed(() => portfolioPresenter.portfolios())

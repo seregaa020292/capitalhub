@@ -1,7 +1,5 @@
 import { onMounted, onUnmounted, reactive } from 'vue'
-import CurrencyClientSocket, {
-  CurrencyTicker,
-} from '@/services/socket/CurrencyClientSocket'
+import CurrencyClientSocket, { CurrencyTicker } from '@/services/socket/CurrencyClientSocket'
 
 interface ICurrencyBtcUsd {
   state: {
