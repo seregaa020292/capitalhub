@@ -34,7 +34,7 @@ import { defineComponent, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { authValidator } from '@/app/utils/validators'
 import AuthCard from '@/app/view/containers/auth/AuthCard.vue'
-import { AuthUseCaseDI } from '@/domain/auth/module/di'
+import { AuthLoginUseCaseDI } from '@/domain/auth/module/di'
 
 export default defineComponent({
   name: 'Login',
@@ -46,10 +46,9 @@ export default defineComponent({
       email: '',
       password: '',
     })
-
     const ruleFormRef: Ref = ref(null)
-
     const router = useRouter()
+    const authLoginUseCase = AuthLoginUseCaseDI()
 
     const rules = ref({
       email: authValidator.email,
@@ -60,7 +59,7 @@ export default defineComponent({
       ruleFormRef.value.validate(async (valid: boolean) => {
         if (!valid) return false
 
-        const isLogin = await AuthUseCaseDI().login({
+        const isLogin = await authLoginUseCase.execute({
           email: credentials.value.email,
           password: credentials.value.password,
         })

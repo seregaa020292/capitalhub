@@ -41,7 +41,7 @@ import { defineComponent, ref, Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { authValidator } from '@/app/utils/validators'
 import AuthCard from '@/app/view/containers/auth/AuthCard.vue'
-import { AuthUseCaseDI } from '@/domain/auth/module/di'
+import { AuthRegistrationUseCaseDI } from '@/domain/auth/module/di'
 
 export default defineComponent({
   name: 'Register',
@@ -55,10 +55,9 @@ export default defineComponent({
       password: '',
       agree: true,
     })
-
     const router = useRouter()
-
     const ruleFormRef: Ref = ref(null)
+    const authRegistrationUseCase = AuthRegistrationUseCaseDI()
 
     const rules = ref({
       email: authValidator.email,
@@ -71,7 +70,7 @@ export default defineComponent({
       ruleFormRef.value.validate(async (valid: boolean) => {
         if (!valid) return false
 
-        const isReg = await AuthUseCaseDI().registration({
+        const isReg = await authRegistrationUseCase.execute({
           email: candidate.value.email,
           name: candidate.value.name,
           password: candidate.value.password,

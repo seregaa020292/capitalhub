@@ -10,7 +10,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { AuthUseCaseDI } from '@/domain/auth/module/di'
+import { AuthConfirmedUseCaseDI } from '@/domain/auth/module/di'
 import { MessageService } from '@/services/message/MessageService'
 
 export default defineComponent({
@@ -18,10 +18,11 @@ export default defineComponent({
   setup: () => {
     const { params } = useRoute()
     const router = useRouter()
+    const authConfirmedUseCase = AuthConfirmedUseCaseDI()
 
     onBeforeMount(async () => {
       if (params.code !== '') {
-        const isConfirmed = await AuthUseCaseDI().confirmed(params.code as string)
+        const isConfirmed = await authConfirmedUseCase.execute(params.code as string)
 
         if (isConfirmed) {
           MessageService.instance().success('Почта подтверждена.')

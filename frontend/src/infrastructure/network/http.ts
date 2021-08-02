@@ -1,9 +1,14 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { MessageService } from '@/services/message/MessageService'
-import { AuthPresenterDI, AuthUseCaseDI, TokenRepositoryDI } from '@/domain/auth/module/di'
+import {
+  AuthAutoLogoutUseCaseDI,
+  AuthPresenterDI,
+  AuthRefreshTokenUseCaseDI,
+  TokenRepositoryDI,
+} from '@/domain/auth/module/di'
 import { baseURL } from '@/infrastructure/network/urls'
 import { responseReject } from '@/utils/server'
-import { config as configApp} from '@/data/config/app'
+import { config as configApp } from '@/data/config/app'
 
 export interface HttpResponse {
   status?: number
@@ -82,13 +87,13 @@ const responseOnRejected = async (error: AxiosError) => {
     originalRequest._isRetry = true
 
     try {
-      await AuthUseCaseDI().refreshToken()
+      await AuthRefreshTokenUseCaseDI().execute()
       originalRequest.headers.Authorization = TokenRepositoryDI().getAccessTokenWithPrefix()
       originalRequest.headers[configApp.xsrfHeaderName] = AuthPresenterDI().getCsrf()
       return await httpEasy.request(originalRequest)
     } catch (error) {
       if ([401, 403].includes(Number(error?.data?.status))) {
-        await AuthUseCaseDI().autoLogout()
+        await AuthAutoLogoutUseCaseDI().execute()
         return Promise.reject(new Error('401'))
       }
       throw error
