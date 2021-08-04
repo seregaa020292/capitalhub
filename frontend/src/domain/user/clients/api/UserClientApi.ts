@@ -1,5 +1,5 @@
 import { http } from '@/infrastructure/network/http'
-import urls from '@/infrastructure/network/urls'
+import { urls } from '@/infrastructure/network/urls'
 import { IUser } from '@/domain/user/entities/UserEntity'
 import { injectable } from 'inversify'
 

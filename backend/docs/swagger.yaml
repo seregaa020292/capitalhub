@@ -1005,6 +1005,22 @@ paths:
       summary: Поиск по названию
       tags:
       - Market
+  /portfolio/{portfolio_id}/choose:
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: boolean
+      security:
+      - Auth: []
+      summary: Сменить активный портфель пользователя
+      tags:
+      - Portfolio
   /portfolio/active-total:
     get:
       consumes:

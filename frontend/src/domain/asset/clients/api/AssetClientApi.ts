@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 import { http } from '@/infrastructure/network/http'
-import urls from '@/infrastructure/network/urls'
+import { urls } from '@/infrastructure/network/urls'
 import { IAsset, IAssetNotation } from '@/domain/asset/entities/AssetEntity'
 
 export interface IAssetClientApi {

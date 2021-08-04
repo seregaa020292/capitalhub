@@ -36,6 +36,29 @@ func (repo *portfolioRepo) Create(ctx context.Context, portfolio *model.Portfoli
 	return portfolioModel, nil
 }
 
+func (repo *portfolioRepo) Choose(ctx context.Context, portfolioID uuid.UUID, userID uuid.UUID) (bool, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioRepo.Choose")
+	defer span.Finish()
+
+	tx, err := repo.db.BeginTx(ctx, nil)
+	if err != nil {
+		return false, err
+	}
+
+	if _, err := tx.Exec(clearActiveQuery, userID); err != nil {
+		tx.Rollback()
+		return false, err
+	}
+
+	if _, err := tx.Exec(setActiveQuery, portfolioID, userID); err != nil {
+		tx.Rollback()
+		return false, err
+	}
+
+	tx.Commit()
+	return true, nil
+}
+
 // Вернуть активный портфель
 func (repo *portfolioRepo) GetActive(ctx context.Context, userID uuid.UUID) (*model.Portfolio, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioRepo.GetActive")

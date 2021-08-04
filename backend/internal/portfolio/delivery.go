@@ -7,4 +7,5 @@ type Handlers interface {
 	GetActiveTotal() echo.HandlerFunc
 	GetAllStats() echo.HandlerFunc
 	Add() echo.HandlerFunc
+	Choose() echo.HandlerFunc
 }

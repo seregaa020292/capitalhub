@@ -3,9 +3,9 @@
  * Список внешних маршрутов
  ******************************
  */
-export const baseURL = '/api/'
+const baseURL = '/api/'
 
-const urls = {
+const mapUrls = {
   api_v1: {
     LOGIN: 'auth/login',
     LOGOUT: 'auth/logout',
@@ -22,6 +22,7 @@ const urls = {
     PORTFOLIO_ACTIVE_TOTAL: 'portfolio/active-total',
     PORTFOLIO_ALL_STATS: 'portfolio/all-stats',
     PORTFOLIO_ADD: 'portfolio/add',
+    PORTFOLIO_CHOOSE: 'portfolio/{portfolioId}/choose',
     APP_DASHBOARD: 'application/dashboard',
   },
   ws: {
@@ -46,7 +47,7 @@ const versions = {
  * @param {versions}
  ******************************
  */
-type Urls = typeof urls
+type Urls = typeof mapUrls
 type Versions = typeof versions
 type ProxyPaths = { [key: string]: unknown }
 
@@ -60,4 +61,14 @@ const proxyUrls = (proxyPaths: ProxyPaths, [type, paths]: [string, any]) => {
   return proxyPaths
 }
 
-export default Object.entries(urls).reduce(proxyUrls, {}) as Urls
+const urls = Object.entries(mapUrls).reduce(proxyUrls, {}) as Urls
+
+/**
+ ******************************
+ * Склеить маршрут по шаблону
+ ******************************
+ */
+const parsePatternUrl = (url: string, ...params: string[]): string =>
+  url.replace(/({\S+?})/gi, () => params.shift() as string)
+
+export { urls, baseURL, parsePatternUrl }

@@ -1166,6 +1166,33 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/portfolio/{portfolio_id}/choose": {
+            "put": {
+                "security": [
+                    {
+                        "Auth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Portfolio"
+                ],
+                "summary": "Сменить активный портфель пользователя",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

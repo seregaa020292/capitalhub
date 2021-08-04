@@ -140,3 +140,35 @@ func (handler *portfolioHandlers) Add() echo.HandlerFunc {
 		return echoCtx.JSON(http.StatusOK, portfolioStats)
 	}
 }
+
+// Choose
+// @Summary Сменить активный портфель пользователя
+// @Security Auth
+// @Tags Portfolio
+// @Accept json
+// @Produce json
+// @Success 200 {object} bool
+// @Router /portfolio/{portfolio_id}/choose [put]
+func (handler *portfolioHandlers) Choose() echo.HandlerFunc {
+	return func(echoCtx echo.Context) error {
+		span, ctx := opentracing.StartSpanFromContext(utils.GetRequestCtx(echoCtx), "portfolioHandlers.Choose")
+		defer span.Finish()
+
+		portfolioID, err := uuid.Parse(echoCtx.Param("portfolio_id"))
+		if err != nil {
+			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
+		}
+
+		user, err := utils.GetUserFromCtx(ctx)
+		if err != nil {
+			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
+		}
+
+		choosePortfolio, err := handler.portfolioUC.Choose(ctx, portfolioID, user.UserID)
+		if err != nil {
+			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
+		}
+
+		return echoCtx.JSON(http.StatusOK, choosePortfolio)
+	}
+}

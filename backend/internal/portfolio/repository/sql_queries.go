@@ -7,6 +7,12 @@ const (
 						VALUES ($1, $2, $3, $4) 
 						RETURNING *`
 
+	clearActiveQuery = `UPDATE portfolios SET active = FALSE
+						WHERE user_id = $1`
+
+	setActiveQuery = `UPDATE portfolios SET active = TRUE
+						WHERE portfolio_id = $1 and user_id = $2`
+
 	getActiveQuery = `SELECT *
 					 FROM portfolios
 					 WHERE active and user_id = $1`

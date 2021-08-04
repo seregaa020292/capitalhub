@@ -59,6 +59,17 @@ func (useCase *portfolioUC) Create(ctx context.Context, portfolio *model.Portfol
 	return useCase.portfolioRepo.GetStats(ctx, portfolioModel.PortfolioID)
 }
 
+func (useCase *portfolioUC) Choose(ctx context.Context, portfolioID uuid.UUID, userID uuid.UUID) (bool, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioUC.Choose")
+	defer span.Finish()
+
+	if err := useCase.portfolioRepo.CheckUserPortfolio(ctx, userID, portfolioID); err != nil {
+		return false, err
+	}
+
+	return useCase.portfolioRepo.Choose(ctx, portfolioID, userID)
+}
+
 // Получаем активный портфель по id пользователя
 func (useCase *portfolioUC) GetActive(ctx context.Context, userID uuid.UUID) (*model.Portfolio, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioUC.GetActive")

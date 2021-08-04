@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 import { http, httpEasy, HttpResponse } from '@/infrastructure/network/http'
-import urls from '@/infrastructure/network/urls'
+import { urls } from '@/infrastructure/network/urls'
 import { IToken, IUser } from '@/domain/user/entities/UserEntity'
 import { responseWithCSRF } from '@/utils/server'
 

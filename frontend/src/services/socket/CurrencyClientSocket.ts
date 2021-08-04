@@ -1,4 +1,4 @@
-import urls from '@/infrastructure/network/urls'
+import { urls } from '@/infrastructure/network/urls'
 import { Socket, Unsubscribe } from '@/infrastructure/network/socket'
 
 export type CurrencyTicker = {

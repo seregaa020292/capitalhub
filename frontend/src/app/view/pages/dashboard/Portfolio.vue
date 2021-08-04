@@ -13,12 +13,14 @@
         } in portfolios"
         :key="portfolioId"
         :md="6"
+        class="mb-2"
       >
         <el-card shadow="hover">
           <template #header>
-            <div class="card-header">
+            <div @click="() => choosePortfolio(portfolioId)" class="card-header">
               <i v-if="active" class="el-icon-star-on" />
               {{ title }}
+              <i class="el-icon-right" />
             </div>
           </template>
           <div class="mb-1">
@@ -36,7 +38,12 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, computed } from 'vue'
-import { PortfolioPresenterDI, PortfoliosFetchUseCaseDI } from '@/domain/portfolio/module/di'
+import { useRouter } from 'vue-router'
+import {
+  PortfolioPresenterDI,
+  PortfoliosFetchUseCaseDI,
+  PortfolioChooseUseCaseDI,
+} from '@/domain/portfolio/module/di'
 import { currencyFormatter } from '@/utils/number'
 import EditModal from '@/app/view/containers/portfolio/edit/Modal.vue'
 
@@ -46,8 +53,10 @@ export default defineComponent({
     EditModal,
   },
   setup() {
+    const router = useRouter()
     const portfoliosFetchUseCase = PortfoliosFetchUseCaseDI()
     const portfolioPresenter = PortfolioPresenterDI()
+    const portfolioChooseUseCase = PortfolioChooseUseCaseDI()
 
     const loading = computed(() => portfolioPresenter.loadingPortfolios())
     const portfolios = computed(() => portfolioPresenter.portfolios())
@@ -56,11 +65,32 @@ export default defineComponent({
       await portfoliosFetchUseCase.execute()
     })
 
+    const choosePortfolio = async (portfolioId: string) => {
+      const isChoose = await portfolioChooseUseCase.execute(portfolioId)
+
+      if (isChoose) {
+        router.push({ name: 'dashboard' })
+      }
+    }
+
     return {
       loading,
       portfolios,
+      choosePortfolio,
       currencyFormatter,
     }
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.card-header {
+  display: inline-block;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+</style>

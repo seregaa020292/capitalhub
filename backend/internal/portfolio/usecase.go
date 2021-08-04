@@ -16,4 +16,5 @@ type UseCase interface {
 	GetActive(ctx context.Context, userID uuid.UUID) (*model.Portfolio, error)
 	CheckUserPortfolio(ctx context.Context, userID uuid.UUID, portfolioID uuid.UUID) bool
 	GetAllStats(ctx context.Context, userID uuid.UUID) (*[]model.PortfolioStats, error)
+	Choose(ctx context.Context, portfolioID uuid.UUID, userID uuid.UUID) (bool, error)
 }

@@ -12,4 +12,5 @@ func MapPortfolioRoutes(portfolioGroup *echo.Group, handler portfolio.Handlers, 
 	portfolioGroup.GET("/active-total", handler.GetActiveTotal(), mw.AuthJWTMiddleware, mw.CSRF)
 	portfolioGroup.GET("/all-stats", handler.GetAllStats(), mw.AuthJWTMiddleware, mw.CSRF)
 	portfolioGroup.POST("/add", handler.Add(), mw.AuthJWTMiddleware, mw.CSRF)
+	portfolioGroup.PUT("/:portfolio_id/choose", handler.Choose(), mw.AuthJWTMiddleware, mw.CSRF)
 }

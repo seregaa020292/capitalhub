@@ -1,5 +1,5 @@
 import AxiosMockAdapter from 'axios-mock-adapter'
-import urls from '@/infrastructure/network/urls'
+import { urls } from '@/infrastructure/network/urls'
 import { serverResponse } from '@/utils/server'
 import { setCookie } from '@/utils/cookie'
 
