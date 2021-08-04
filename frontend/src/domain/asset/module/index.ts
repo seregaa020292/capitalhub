@@ -3,7 +3,7 @@ import { types } from '@/domain/asset/module/types'
 import { AssetClientApi, IAssetClientApi } from '@/domain/asset/clients/api/AssetClientApi'
 import { AssetFetchUseCase, IAssetFetchUseCase } from '@/domain/asset/interactors/AssetFetchUseCase'
 import { AssetAddUseCase, IAssetAddUseCase } from '@/domain/asset/interactors/AssetAddUseCase'
-import { AssetPresenter, IAssetPresenter } from '@/domain/asset/presenter/AssetPresenter'
+import { AssetPresenter, IAssetPresenter } from '@/domain/asset/presenters/AssetPresenter'
 import { AssetRepository, IAssetRepository } from '@/domain/asset/repositories/AssetRepository'
 
 export const assetModule = new ContainerModule((bind) => {

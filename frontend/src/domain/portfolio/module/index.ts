@@ -19,7 +19,7 @@ import {
 import {
   IPortfolioPresenter,
   PortfolioPresenter,
-} from '@/domain/portfolio/presenter/PortfolioPresenter'
+} from '@/domain/portfolio/presenters/PortfolioPresenter'
 import {
   IPortfolioRepository,
   PortfolioRepository,

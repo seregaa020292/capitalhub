@@ -20,24 +20,24 @@ definitions:
     properties:
       amount:
         type: integer
-      asset_id:
+      assetId:
         type: string
-      created_at:
+      createdAt:
         type: string
-      market_id:
+      marketId:
         type: string
-      notation_at:
+      notationAt:
         type: string
-      portfolio_id:
+      portfolioId:
         type: string
       quantity:
         type: integer
-      updated_at:
+      updatedAt:
         type: string
     required:
     - amount
-    - market_id
-    - portfolio_id
+    - marketId
+    - portfolioId
     - quantity
     type: object
   model.AssetAdd:
@@ -62,13 +62,13 @@ definitions:
     properties:
       amount:
         type: integer
-      asset_id:
+      assetId:
         type: string
-      image_url:
+      imageUrl:
         type: string
-      notation_at:
+      notationAt:
         type: string
-      portfolio_id:
+      portfolioId:
         type: string
       quantity:
         type: integer
@@ -76,17 +76,17 @@ definitions:
         type: string
       title:
         type: string
-      updated_at:
+      updatedAt:
         type: string
-      user_id:
+      userId:
         type: string
     required:
     - amount
-    - portfolio_id
+    - portfolioId
     - quantity
     - ticker
     - title
-    - user_id
+    - userId
     type: object
   model.AssetList:
     properties:
@@ -94,15 +94,15 @@ definitions:
         items:
           $ref: '#/definitions/model.AssetBase'
         type: array
-      has_more:
+      hasMore:
         type: boolean
       page:
         type: integer
       size:
         type: integer
-      total_count:
+      totalCount:
         type: integer
-      total_pages:
+      totalPages:
         type: integer
     type: object
   model.AssetTotal:
@@ -113,7 +113,7 @@ definitions:
         type: string
       identify:
         type: string
-      image_url:
+      imageUrl:
         type: string
       marketId:
         type: string
@@ -128,29 +128,52 @@ definitions:
       totalQuantity:
         type: integer
     type: object
+  model.Currency:
+    properties:
+      createdAt:
+        type: string
+      currencyId:
+        type: string
+      description:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - description
+    - title
+    type: object
+  model.Dashboard:
+    properties:
+      currencies:
+        items:
+          $ref: '#/definitions/model.Currency'
+        type: array
+    type: object
   model.Market:
     properties:
       content:
         type: string
-      created_at:
+      createdAt:
         type: string
-      currency_id:
+      currencyId:
         type: string
-      image_url:
+      imageUrl:
         type: string
-      instrument_id:
+      instrumentId:
         type: string
-      market_id:
+      marketId:
         type: string
       ticker:
         type: string
       title:
         type: string
-      updated_at:
+      updatedAt:
         type: string
     required:
-    - currency_id
-    - instrument_id
+    - currencyId
+    - instrumentId
     - ticker
     - title
     type: object
@@ -158,29 +181,29 @@ definitions:
     properties:
       content:
         type: string
-      desc_instrument:
+      descInstrument:
         type: string
-      image_url:
+      imageUrl:
         type: string
-      market_id:
+      marketId:
         type: string
       ticker:
         type: string
       title:
         type: string
-      title_instrument:
+      titleInstrument:
         type: string
-      updated_at:
+      updatedAt:
         type: string
     required:
-    - desc_instrument
+    - descInstrument
     - ticker
     - title
-    - title_instrument
+    - titleInstrument
     type: object
   model.MarketList:
     properties:
-      has_more:
+      hasMore:
         type: boolean
       markets:
         items:
@@ -190,9 +213,9 @@ definitions:
         type: integer
       size:
         type: integer
-      total_count:
+      totalCount:
         type: integer
-      total_pages:
+      totalPages:
         type: integer
     type: object
   model.Portfolio:
@@ -261,7 +284,7 @@ definitions:
     properties:
       avatar:
         type: string
-      created_at:
+      createdAt:
         type: string
       email:
         type: string
@@ -271,9 +294,9 @@ definitions:
         type: string
       role:
         type: string
-      updated_at:
+      updatedAt:
         type: string
-      user_id:
+      userId:
         type: string
     required:
     - name
@@ -295,15 +318,15 @@ definitions:
     type: object
   model.UsersList:
     properties:
-      has_more:
+      hasMore:
         type: boolean
       page:
         type: integer
       size:
         type: integer
-      total_count:
+      totalCount:
         type: integer
-      total_pages:
+      totalPages:
         type: integer
       users:
         items:
@@ -317,6 +340,22 @@ info:
   title: REST API
   version: "1.0"
 paths:
+  /application/dashboard:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Dashboard'
+      security:
+      - Auth: []
+      summary: Общие данные для панели
+      tags:
+      - Application
   /asset/{id}:
     delete:
       consumes:

@@ -7,6 +7,6 @@ describe('LogoCompany.vue', () => {
     const wrapper = shallowMount(LogoCompany, {
       props: { native },
     })
-    expect(wrapper.props().native).toEqual(true)
+    expect(wrapper.props().native).toEqual(native)
   })
 })

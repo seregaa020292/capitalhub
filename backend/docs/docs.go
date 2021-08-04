@@ -23,6 +23,33 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/application/dashboard": {
+            "get": {
+                "security": [
+                    {
+                        "Auth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Application"
+                ],
+                "summary": "Общие данные для панели",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Dashboard"
+                        }
+                    }
+                }
+            }
+        },
         "/asset/add": {
             "post": {
                 "security": [
@@ -1171,33 +1198,33 @@ var doc = `{
             "type": "object",
             "required": [
                 "amount",
-                "market_id",
-                "portfolio_id",
+                "marketId",
+                "portfolioId",
                 "quantity"
             ],
             "properties": {
                 "amount": {
                     "type": "integer"
                 },
-                "asset_id": {
+                "assetId": {
                     "type": "string"
                 },
-                "created_at": {
+                "createdAt": {
                     "type": "string"
                 },
-                "market_id": {
+                "marketId": {
                     "type": "string"
                 },
-                "notation_at": {
+                "notationAt": {
                     "type": "string"
                 },
-                "portfolio_id": {
+                "portfolioId": {
                     "type": "string"
                 },
                 "quantity": {
                     "type": "integer"
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 }
             }
@@ -1232,26 +1259,26 @@ var doc = `{
             "type": "object",
             "required": [
                 "amount",
-                "portfolio_id",
+                "portfolioId",
                 "quantity",
                 "ticker",
                 "title",
-                "user_id"
+                "userId"
             ],
             "properties": {
                 "amount": {
                     "type": "integer"
                 },
-                "asset_id": {
+                "assetId": {
                     "type": "string"
                 },
-                "image_url": {
+                "imageUrl": {
                     "type": "string"
                 },
-                "notation_at": {
+                "notationAt": {
                     "type": "string"
                 },
-                "portfolio_id": {
+                "portfolioId": {
                     "type": "string"
                 },
                 "quantity": {
@@ -1263,10 +1290,10 @@ var doc = `{
                 "title": {
                     "type": "string"
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 },
-                "user_id": {
+                "userId": {
                     "type": "string"
                 }
             }
@@ -1280,7 +1307,7 @@ var doc = `{
                         "$ref": "#/definitions/model.AssetBase"
                     }
                 },
-                "has_more": {
+                "hasMore": {
                     "type": "boolean"
                 },
                 "page": {
@@ -1289,10 +1316,10 @@ var doc = `{
                 "size": {
                     "type": "integer"
                 },
-                "total_count": {
+                "totalCount": {
                     "type": "integer"
                 },
-                "total_pages": {
+                "totalPages": {
                     "type": "integer"
                 }
             }
@@ -1309,7 +1336,7 @@ var doc = `{
                 "identify": {
                     "type": "string"
                 },
-                "image_url": {
+                "imageUrl": {
                     "type": "string"
                 },
                 "marketId": {
@@ -1332,11 +1359,46 @@ var doc = `{
                 }
             }
         },
+        "model.Currency": {
+            "type": "object",
+            "required": [
+                "description",
+                "title"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "currencyId": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Dashboard": {
+            "type": "object",
+            "properties": {
+                "currencies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Currency"
+                    }
+                }
+            }
+        },
         "model.Market": {
             "type": "object",
             "required": [
-                "currency_id",
-                "instrument_id",
+                "currencyId",
+                "instrumentId",
                 "ticker",
                 "title"
             ],
@@ -1344,19 +1406,19 @@ var doc = `{
                 "content": {
                     "type": "string"
                 },
-                "created_at": {
+                "createdAt": {
                     "type": "string"
                 },
-                "currency_id": {
+                "currencyId": {
                     "type": "string"
                 },
-                "image_url": {
+                "imageUrl": {
                     "type": "string"
                 },
-                "instrument_id": {
+                "instrumentId": {
                     "type": "string"
                 },
-                "market_id": {
+                "marketId": {
                     "type": "string"
                 },
                 "ticker": {
@@ -1365,7 +1427,7 @@ var doc = `{
                 "title": {
                     "type": "string"
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 }
             }
@@ -1373,22 +1435,22 @@ var doc = `{
         "model.MarketBase": {
             "type": "object",
             "required": [
-                "desc_instrument",
+                "descInstrument",
                 "ticker",
                 "title",
-                "title_instrument"
+                "titleInstrument"
             ],
             "properties": {
                 "content": {
                     "type": "string"
                 },
-                "desc_instrument": {
+                "descInstrument": {
                     "type": "string"
                 },
-                "image_url": {
+                "imageUrl": {
                     "type": "string"
                 },
-                "market_id": {
+                "marketId": {
                     "type": "string"
                 },
                 "ticker": {
@@ -1397,10 +1459,10 @@ var doc = `{
                 "title": {
                     "type": "string"
                 },
-                "title_instrument": {
+                "titleInstrument": {
                     "type": "string"
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 }
             }
@@ -1408,7 +1470,7 @@ var doc = `{
         "model.MarketList": {
             "type": "object",
             "properties": {
-                "has_more": {
+                "hasMore": {
                     "type": "boolean"
                 },
                 "markets": {
@@ -1423,10 +1485,10 @@ var doc = `{
                 "size": {
                     "type": "integer"
                 },
-                "total_count": {
+                "totalCount": {
                     "type": "integer"
                 },
-                "total_pages": {
+                "totalPages": {
                     "type": "integer"
                 }
             }
@@ -1535,7 +1597,7 @@ var doc = `{
                 "avatar": {
                     "type": "string"
                 },
-                "created_at": {
+                "createdAt": {
                     "type": "string"
                 },
                 "email": {
@@ -1550,10 +1612,10 @@ var doc = `{
                 "role": {
                     "type": "string"
                 },
-                "updated_at": {
+                "updatedAt": {
                     "type": "string"
                 },
-                "user_id": {
+                "userId": {
                     "type": "string"
                 }
             }
@@ -1583,7 +1645,7 @@ var doc = `{
         "model.UsersList": {
             "type": "object",
             "properties": {
-                "has_more": {
+                "hasMore": {
                     "type": "boolean"
                 },
                 "page": {
@@ -1592,10 +1654,10 @@ var doc = `{
                 "size": {
                     "type": "integer"
                 },
-                "total_count": {
+                "totalCount": {
                     "type": "integer"
                 },
-                "total_pages": {
+                "totalPages": {
                     "type": "integer"
                 },
                 "users": {

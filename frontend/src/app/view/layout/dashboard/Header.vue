@@ -11,9 +11,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
 import LogoCompany from '@/app/view/components/logoCompany/index.vue'
-import { AuthLogoutUseCaseDI } from '@/domain/auth/module/di'
+import { useLogout } from '@/app/hooks/useLogout'
 
 export default defineComponent({
   name: 'Header',
@@ -21,13 +20,7 @@ export default defineComponent({
     LogoCompany,
   },
   setup: () => {
-    const router = useRouter()
-    const authLogoutUseCase = AuthLogoutUseCaseDI()
-
-    const onLogout = async () => {
-      await authLogoutUseCase.execute()
-      router.push({ name: 'login' })
-    }
+    const { onLogout } = useLogout()
 
     return {
       onLogout,

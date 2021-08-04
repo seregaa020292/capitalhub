@@ -4,6 +4,10 @@ import (
 	"github.com/labstack/echo/v4"
 	"net/http"
 
+	applicationHttp "github.com/seregaa020292/capitalhub/internal/application/delivery/http"
+	applicationRepository "github.com/seregaa020292/capitalhub/internal/application/repository"
+	applicationUseCase "github.com/seregaa020292/capitalhub/internal/application/usecase"
+
 	authHttp "github.com/seregaa020292/capitalhub/internal/auth/delivery/http"
 	authRepository "github.com/seregaa020292/capitalhub/internal/auth/repository"
 	authUseCase "github.com/seregaa020292/capitalhub/internal/auth/usecase"
@@ -62,6 +66,7 @@ func (server *Server) MapHandlers(echoInstance *echo.Echo) error {
 	instrumentRepo := instrumentRepository.NewInstrumentRepository(server.db)
 	currencyRepo := currencyRepository.NewCurrencyRepository(server.db)
 	registerRepo := registerRepository.NewRegisterRepository(server.db)
+	applicationRepo := applicationRepository.NewApplicationRepository(server.db)
 
 	// Init useCases
 	authUC := authUseCase.NewAuthUseCase(server.cfg, authRepo, authRedisRepo, authAWSRepo, server.logger)
@@ -73,6 +78,7 @@ func (server *Server) MapHandlers(echoInstance *echo.Echo) error {
 	instrumentUC := instrumentUseCase.NewInstrumentUseCase(server.cfg, instrumentRepo, server.logger)
 	currencyUC := currencyUseCase.NewCurrencyUseCase(server.cfg, currencyRepo, server.logger)
 	registerUC := registerUseCase.NewRegisterUseCase(server.cfg, registerRepo, server.logger)
+	applicationUC := applicationUseCase.NewRegisterUseCase(server.cfg, applicationRepo, server.logger)
 
 	// Init services
 	emailService := service.NewEmailService(server.cfg, mailerClient, server.logger)
@@ -84,6 +90,7 @@ func (server *Server) MapHandlers(echoInstance *echo.Echo) error {
 	marketSocketHandlers := marketSocket.NewMarketHandlers(server.cfg, marketUC, quotesClient, server.logger)
 	assetHttpHandlers := assetHttp.NewAssetHandlers(server.cfg, assetUC, portfolioUC, server.logger)
 	portfolioHttpHandlers := portfolioHttp.NewPortfolioHandlers(server.cfg, assetUC, portfolioUC, server.logger)
+	applicationHandlers := applicationHttp.NewApplicationHandlers(server.cfg, applicationUC, currencyUC, server.logger)
 
 	// Init middlewares
 	middleware := InitMiddleware(echoInstance, server, sessUC, authUC)
@@ -95,11 +102,13 @@ func (server *Server) MapHandlers(echoInstance *echo.Echo) error {
 	marketHttpGroup := v1.Group("/market")
 	assetHttpGroup := v1.Group("/asset")
 	portfolioHttpGroup := v1.Group("/portfolio")
+	applicationHttpGroup := v1.Group("/application")
 
 	authHttp.MapAuthRoutes(authHttpGroup, authHttpHandlers, middleware)
 	marketHttp.MapMarketRoutes(marketHttpGroup, marketHttpHandlers, middleware)
 	assetHttp.MapAssetRoutes(assetHttpGroup, assetHttpHandlers, middleware)
 	portfolioHttp.MapPortfolioRoutes(portfolioHttpGroup, portfolioHttpHandlers, middleware)
+	applicationHttp.MapApplicationRoutes(applicationHttpGroup, applicationHandlers, middleware)
 
 	// Init websocket routes
 	ws := echoInstance.Group("/ws")

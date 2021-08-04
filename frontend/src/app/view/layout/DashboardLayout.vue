@@ -13,6 +13,7 @@
 import { defineComponent } from 'vue'
 import NavbarApp from '@/app/view/layout/dashboard/Navbar.vue'
 import TransitionPage from '@/app/view/components/transition/TransitionPage.vue'
+import { ApplicationDataUseCaseDI } from '@/domain/application/module/di'
 
 export default defineComponent({
   name: 'DashboardLayout',
@@ -21,7 +22,8 @@ export default defineComponent({
     NavbarApp,
   },
   setup() {
-    //ApplicationDataUseCaseContainer().execute()
+    const applicationDataUseCase = ApplicationDataUseCaseDI()
+    applicationDataUseCase.execute()
   },
 })
 </script>

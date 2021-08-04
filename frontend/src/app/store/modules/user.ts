@@ -11,7 +11,7 @@ export interface IUserState {
  ******************************
  */
 const initPersonData: IUser = {
-  user_id: '',
+  userId: '',
   name: '',
   email: '',
   role: '',

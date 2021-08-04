@@ -22,6 +22,7 @@ const urls = {
     PORTFOLIO_ACTIVE_TOTAL: 'portfolio/active-total',
     PORTFOLIO_ALL_STATS: 'portfolio/all-stats',
     PORTFOLIO_ADD: 'portfolio/add',
+    APP_DASHBOARD: 'application/dashboard',
   },
   ws: {
     BITFINEX: 'wss://api.bitfinex.com/ws',

@@ -5,6 +5,7 @@ import { IAssetState } from '@/app/store/modules/asset'
 import { IAuthState } from '@/app/store/modules/auth'
 import { IMarketState } from '@/app/store/modules/market'
 import { IPortfolioState } from '@/app/store/modules/portfolio'
+import { IApplicationState } from '@/app/store/modules/application'
 
 export interface IStateRoot {
   user: IUserState
@@ -12,6 +13,7 @@ export interface IStateRoot {
   asset: IAssetState
   market: IMarketState
   portfolio: IPortfolioState
+  application: IApplicationState
 }
 
 const storeRoot: Store<IStateRoot> = createStore({

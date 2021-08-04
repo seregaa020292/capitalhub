@@ -1,7 +1,7 @@
 import { ContainerModule } from 'inversify'
 import { types } from '@/domain/auth/module/types'
 import { AuthClientApi, IAuthClientApi } from '@/domain/auth/clients/api/AuthClientApi'
-import { AuthPresenter, IAuthPresenter } from '@/domain/auth/presenter/AuthPresenter'
+import { AuthPresenter, IAuthPresenter } from '@/domain/auth/presenters/AuthPresenter'
 import { AuthRepository, IAuthRepository } from '@/domain/auth/repositories/AuthRepository'
 import { ITokenRepository, TokenRepository } from '@/domain/auth/repositories/TokenRepository'
 import {

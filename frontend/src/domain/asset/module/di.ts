@@ -1,6 +1,6 @@
 import { DIContainer } from '@/infrastructure/di'
 import { types } from '@/domain/asset/module/types'
-import { IAssetPresenter } from '@/domain/asset/presenter/AssetPresenter'
+import { IAssetPresenter } from '@/domain/asset/presenters/AssetPresenter'
 import { IAssetAddUseCase } from '@/domain/asset/interactors/AssetAddUseCase'
 import { IAssetRepository } from '@/domain/asset/repositories/AssetRepository'
 

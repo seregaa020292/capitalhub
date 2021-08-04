@@ -7,37 +7,37 @@ import (
 
 // Asset base model
 type Asset struct {
-	AssetID     uuid.UUID `json:"asset_id" db:"asset_id" validate:"omitempty,uuid"`
+	AssetID     uuid.UUID `json:"assetId" db:"asset_id" validate:"omitempty,uuid"`
 	Amount      int       `json:"amount" db:"amount" validate:"required,gt=0"`
 	Quantity    int       `json:"quantity" db:"quantity" validate:"required,gt=0"`
-	PortfolioID uuid.UUID `json:"portfolio_id" db:"portfolio_id" validate:"required"`
-	MarketID    uuid.UUID `json:"market_id" db:"market_id" validate:"required"`
-	NotationAt  time.Time `json:"notation_at" db:"notation_at"`
-	CreatedAt   time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
+	PortfolioID uuid.UUID `json:"portfolioId" db:"portfolio_id" validate:"required"`
+	MarketID    uuid.UUID `json:"marketId" db:"market_id" validate:"required"`
+	NotationAt  time.Time `json:"notationAt" db:"notation_at"`
+	CreatedAt   time.Time `json:"createdAt" db:"created_at"`
+	UpdatedAt   time.Time `json:"updatedAt" db:"updated_at"`
 }
 
 // Base Asset response
 type AssetBase struct {
-	AssetID     uuid.UUID `json:"asset_id" db:"asset_id" validate:"omitempty,uuid"`
-	UserID      uuid.UUID `json:"user_id" db:"user_id" validate:"required"`
-	PortfolioID uuid.UUID `json:"portfolio_id" db:"portfolio_id" validate:"required"`
+	AssetID     uuid.UUID `json:"assetId" db:"asset_id" validate:"omitempty,uuid"`
+	UserID      uuid.UUID `json:"userId" db:"user_id" validate:"required"`
+	PortfolioID uuid.UUID `json:"portfolioId" db:"portfolio_id" validate:"required"`
 	Title       string    `json:"title" db:"title" validate:"required"`
 	Ticker      string    `json:"ticker" db:"ticker" validate:"required"`
-	ImageURL    *string   `json:"image_url" db:"image_url"`
+	ImageURL    *string   `json:"imageUrl" db:"image_url"`
 	Amount      int       `json:"amount" db:"amount" validate:"required,gt=0"`
 	Quantity    int       `json:"quantity" db:"quantity" validate:"required,gt=0"`
-	NotationAt  time.Time `json:"notation_at" db:"notation_at"`
-	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
+	NotationAt  time.Time `json:"notationAt" db:"notation_at"`
+	UpdatedAt   time.Time `json:"updatedAt" db:"updated_at"`
 }
 
 // All Asset response
 type AssetList struct {
-	TotalCount int          `json:"total_count"`
-	TotalPages int          `json:"total_pages"`
+	TotalCount int          `json:"totalCount"`
+	TotalPages int          `json:"totalPages"`
 	Page       int          `json:"page"`
 	Size       int          `json:"size"`
-	HasMore    bool         `json:"has_more"`
+	HasMore    bool         `json:"hasMore"`
 	Assets     []*AssetBase `json:"assets"`
 }
 
@@ -56,7 +56,7 @@ type AssetTotal struct {
 	Title                string    `json:"title" db:"title"`
 	Ticker               string    `json:"ticker" db:"ticker"`
 	Identify             string    `json:"identify" db:"identify"`
-	ImageURL             *string   `json:"image_url" db:"image_url"`
+	ImageURL             *string   `json:"imageUrl" db:"image_url"`
 	TotalAmount          int       `json:"totalAmount" db:"total_amount"`
 	TotalQuantity        int       `json:"totalQuantity" db:"total_quantity"`
 	TotalCount           int       `json:"totalCount" db:"total_count"`

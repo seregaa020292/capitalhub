@@ -1,6 +1,6 @@
 import { DIContainer } from '@/infrastructure/di'
 import { types } from '@/domain/portfolio/module/types'
-import { IPortfolioPresenter } from '@/domain/portfolio/presenter/PortfolioPresenter'
+import { IPortfolioPresenter } from '@/domain/portfolio/presenters/PortfolioPresenter'
 import { IPortfolioFetchUseCase } from '@/domain/portfolio/interactors/PortfolioFetchUseCase'
 import { IPortfoliosFetchUseCase } from '@/domain/portfolio/interactors/PortfoliosFetchUseCase'
 import { IPortfolioAddUseCase } from '@/domain/portfolio/interactors/PortfolioAddUseCase'

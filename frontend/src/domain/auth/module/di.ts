@@ -1,6 +1,6 @@
 import { DIContainer } from '@/infrastructure/di'
 import { types } from '@/domain/auth/module/types'
-import { IAuthPresenter } from '@/domain/auth/presenter/AuthPresenter'
+import { IAuthPresenter } from '@/domain/auth/presenters/AuthPresenter'
 import { ITokenRepository } from '@/domain/auth/repositories/TokenRepository'
 import { IAuthRefreshTokenUseCase } from '@/domain/auth/interactors/AuthRefreshTokenUseCase'
 import { IAuthLogoutUseCase } from '@/domain/auth/interactors/AuthLogoutUseCase'

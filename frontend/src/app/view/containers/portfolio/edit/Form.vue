@@ -12,9 +12,9 @@
     <el-form-item prop="currencyId">
       <el-select v-model="state.portfolio.currencyId" placeholder="Портфель в валюте" class="w-100">
         <el-option
-          v-for="{ title, currencyId } in state.currencies"
+          v-for="{ description, currencyId } in currencies"
           :key="currencyId"
-          :label="title"
+          :label="description"
           :value="currencyId"
         />
       </el-select>
@@ -28,9 +28,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive, ref, computed } from 'vue'
 import { portfolioValidator } from '@/app/utils/validators'
 import { PortfolioAddUseCaseDI } from '@/domain/portfolio/module/di'
+import { ApplicationPresenterDI } from '@/domain/application/module/di'
 
 export default defineComponent({
   name: 'Form',
@@ -40,7 +41,6 @@ export default defineComponent({
         title: '',
         currencyId: '',
       },
-      currencies: [],
     })
     const ruleFormRef: any = ref(null)
     const rules = ref({
@@ -48,6 +48,8 @@ export default defineComponent({
       currencyId: portfolioValidator.currencyId,
     })
     const portfolioAddUseCase = PortfolioAddUseCaseDI()
+    const applicationPresenter = ApplicationPresenterDI()
+    const currencies = computed(() => applicationPresenter.getDashboard().currencies)
 
     const onSubmit = () => {
       ruleFormRef.value.validate(async (valid: boolean) => {
@@ -62,6 +64,7 @@ export default defineComponent({
 
     return {
       state,
+      currencies,
       rules,
       ruleFormRef,
       onSubmit,

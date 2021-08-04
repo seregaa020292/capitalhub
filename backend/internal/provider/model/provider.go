@@ -8,9 +8,9 @@ import (
 
 // Provider model
 type Provider struct {
-	ProviderID  uuid.UUID `json:"provider_id" db:"provider_id" validate:"omitempty,uuid"`
+	ProviderID  uuid.UUID `json:"providerId" db:"provider_id" validate:"omitempty,uuid"`
 	Title       string    `json:"title" db:"title" validate:"required"`
 	Description string    `json:"description" db:"description"`
-	CreatedAt   time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
+	CreatedAt   time.Time `json:"createdAt" db:"created_at"`
+	UpdatedAt   time.Time `json:"updatedAt" db:"updated_at"`
 }

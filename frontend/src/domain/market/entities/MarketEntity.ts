@@ -2,18 +2,18 @@ export interface IMarket {
   title: string
   ticker: string
   content?: string
-  market_id: string
-  title_instrument: string
-  desc_instrument: string
+  marketId: string
+  titleInstrument: string
+  descInstrument: string
 }
 
 export interface IMarketSearch {
-  has_more: boolean
+  hasMore: boolean
   markets: IMarket[]
   page: number
   size: number
-  total_count: number
-  total_pages: number
+  totalCount: number
+  totalPages: number
 }
 
 export interface IMarketGroup {

@@ -21,6 +21,10 @@
           <i class="el-icon-menu" />
           <span>Мои портфели</span>
         </el-menu-item>
+        <el-menu-item @click.once="onLogout">
+          <i class="el-icon-unlock" />
+          <span>Выйти</span>
+        </el-menu-item>
       </el-menu>
     </div>
   </div>
@@ -30,6 +34,7 @@
 import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import LogoCompany from '@/app/view/components/logoCompany/index.vue'
+import { useLogout } from '@/app/hooks/useLogout'
 
 export default defineComponent({
   name: 'Navbar',
@@ -39,9 +44,11 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const activeLink = computed(() => route.matched[0].path)
+    const { onLogout } = useLogout()
 
     return {
       activeLink,
+      onLogout,
     }
   },
 })

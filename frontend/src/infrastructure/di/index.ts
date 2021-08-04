@@ -14,6 +14,7 @@ import { portfolioModule } from '@/domain/portfolio/module'
 import { marketModule } from '@/domain/market/module'
 import { assetModule } from '@/domain/asset/module'
 import { authModule } from '@/domain/auth/module'
+import { applicationModule } from '@/domain/application/module'
 
 const DIContainer = new Container()
 
@@ -28,7 +29,7 @@ DIContainer.bind<IRouterService>(baseTypes.IRouterService).to(RouterService).inS
 
 DIContainer.bind<IErrorHandler>(baseTypes.IErrorHandler).to(ErrorHandler).inSingletonScope()
 
-DIContainer.load(userModule, portfolioModule, marketModule, assetModule, authModule)
+DIContainer.load(userModule, portfolioModule, marketModule, assetModule, authModule, applicationModule)
 
 const { lazyInject } = getDecorators(DIContainer)
 export { lazyInject, DIContainer }
