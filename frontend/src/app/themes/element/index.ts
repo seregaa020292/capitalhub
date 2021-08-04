@@ -9,6 +9,7 @@ import {
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElPopconfirm,
   ElForm,
   ElFormItem,
   ElIcon,
@@ -37,9 +38,10 @@ import {
   ElAvatar,
   ElImage,
   ElTooltip,
-  locale
+  locale,
 } from 'element-plus'
 import { ElCurrencyInput } from '@/app/themes/element/components'
+import { ConfirmService } from '@/services/message/ConfirmService'
 
 import lang from 'element-plus/lib/locale/lang/ru'
 import 'dayjs/locale/ru'
@@ -72,6 +74,7 @@ export default (app: ReturnType<typeof createApp>): void => {
     ElRow,
     ElCol,
     ElDropdownMenu,
+    ElPopconfirm,
     ElTimeline,
     ElTimelineItem,
     ElDropdownItem,
@@ -100,5 +103,6 @@ export default (app: ReturnType<typeof createApp>): void => {
     app.use(plugin)
   })
 
-  app.config.globalProperties.$loading = ElLoading.service
+  app.provide('$loading', ElLoading.service)
+  app.provide('$confirm', ConfirmService.instance())
 }

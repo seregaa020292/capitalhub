@@ -104,3 +104,7 @@
     );
   }
 }
+
+@include b(message-box) {
+  background-color: $--color-main-darker;
+}

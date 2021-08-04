@@ -6,6 +6,7 @@ import Main from '@/app/main'
 import store, { StoreRoot } from '@/app/store'
 import { ErrorHandler, IErrorHandler } from '@/infrastructure/handlers/ErrorHandler'
 import { IMessageService, MessageService } from '@/services/message/MessageService'
+import { ConfirmService, IConfirmService } from '@/services/message/ConfirmService'
 import { ILoggerService, LoggerService } from '@/services/logger/LoggerService'
 import { INotifyService, NotifyService } from '@/services/notify/NotifyService'
 import { IRouterService, RouterService } from '@/services/router/RouterService'
@@ -23,6 +24,7 @@ DIContainer.bind<Main>(Main).toSelf()
 DIContainer.bind<StoreRoot>(baseTypes.IStoreRoot).toConstantValue(store)
 
 DIContainer.bind<IMessageService>(baseTypes.IMessageService).to(MessageService).inSingletonScope()
+DIContainer.bind<IConfirmService>(baseTypes.IConfirmService).to(ConfirmService).inSingletonScope()
 DIContainer.bind<INotifyService>(baseTypes.INotifyService).to(NotifyService).inSingletonScope()
 DIContainer.bind<ILoggerService>(baseTypes.ILoggerService).to(LoggerService).inSingletonScope()
 DIContainer.bind<IRouterService>(baseTypes.IRouterService).to(RouterService).inSingletonScope()

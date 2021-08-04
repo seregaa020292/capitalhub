@@ -17,10 +17,28 @@
       >
         <el-card shadow="hover">
           <template #header>
-            <div @click="() => choosePortfolio(portfolioId)" class="card-header">
-              <i v-if="active" class="el-icon-star-on" />
-              {{ title }}
-              <i class="el-icon-right" />
+            <div class="card-header">
+              <div @click="() => choosePortfolio(portfolioId)" class="card-title">
+                <i v-if="active" class="el-icon-star-on" />
+                {{ title }}
+                <i class="el-icon-right" />
+              </div>
+              <el-dropdown trigger="click">
+                <span class="el-dropdown-link">
+                  <i class="el-icon-more" />
+                </span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item icon="el-icon-edit">Редактировать</el-dropdown-item>
+                    <el-dropdown-item
+                      @click="() => removePortfolio(portfolioId, title)"
+                      icon="el-icon-delete-solid"
+                    >
+                      Удалить
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </div>
           </template>
           <div class="mb-1">
@@ -37,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed } from 'vue'
+import { defineComponent, onMounted, computed, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   PortfolioPresenterDI,
@@ -46,6 +64,7 @@ import {
 } from '@/domain/portfolio/module/di'
 import { currencyFormatter } from '@/utils/number'
 import EditModal from '@/app/view/containers/portfolio/edit/Modal.vue'
+import { IConfirmService } from '@/services/message/ConfirmService'
 
 export default defineComponent({
   name: 'Portfolio',
@@ -54,10 +73,10 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
+    const $confirm = inject('$confirm') as IConfirmService
     const portfoliosFetchUseCase = PortfoliosFetchUseCaseDI()
     const portfolioPresenter = PortfolioPresenterDI()
     const portfolioChooseUseCase = PortfolioChooseUseCaseDI()
-
     const loading = computed(() => portfolioPresenter.loadingPortfolios())
     const portfolios = computed(() => portfolioPresenter.portfolios())
 
@@ -73,10 +92,18 @@ export default defineComponent({
       }
     }
 
+    const removePortfolio = async (portfolioId: string, title: string) => {
+      $confirm
+        .warningVariant('Сообщение', `Подтверждаете удаление портфеля - <u>${title}</u>?`)
+        .then(() => {})
+        .catch(() => {})
+    }
+
     return {
       loading,
       portfolios,
       choosePortfolio,
+      removePortfolio,
       currencyFormatter,
     }
   },
@@ -84,13 +111,30 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/app/themes/element/variables';
+
 .card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-title {
   display: inline-block;
   cursor: pointer;
   transition: opacity 0.3s ease;
 
   &:hover {
     opacity: 0.5;
+  }
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  color: $--color-primary;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $--color-primary-light;
   }
 }
 </style>
