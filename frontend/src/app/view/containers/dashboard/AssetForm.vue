@@ -32,9 +32,9 @@
         >
           <el-option
             v-for="item in group.options"
-            :key="item.market_id"
+            :key="item.marketId"
             :label="`${item.ticker}: ${item.title}`"
-            :value="item.market_id"
+            :value="item.marketId"
           />
         </el-option-group>
       </el-select>

@@ -3,6 +3,7 @@ import { StoreRoot } from '@/app/store'
 import { baseTypes } from '@/infrastructure/di/types'
 import {
   AddPortfolio,
+  EditPortfolio,
   FetchPortfolio,
   FetchPortfolios,
   LoadingPortfolios,
@@ -17,6 +18,7 @@ export interface IPortfolioRepository {
   setPortfolios(portfolios: IPortfolioStats[]): void
   loadingPortfolios(status: boolean): void
   addPortfolio(portfolio: IPortfolioStats): void
+  editPortfolio(portfolio: IPortfolioStats): void
 }
 
 @injectable()
@@ -49,5 +51,9 @@ export class PortfolioRepository implements IPortfolioRepository {
 
   addPortfolio(portfolio: IPortfolioStats): void {
     this.store.commit(new AddPortfolio(portfolio))
+  }
+
+  editPortfolio(portfolio: IPortfolioStats): void {
+    this.store.commit(new EditPortfolio(portfolio))
   }
 }

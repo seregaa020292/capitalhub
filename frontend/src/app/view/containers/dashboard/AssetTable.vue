@@ -78,7 +78,7 @@ import { AssetPresenterDI } from '@/domain/asset/module/di'
 import IndicatorCaretIcon from '@/app/view/components/currency/IndicatorCaretIcon.vue'
 
 export default defineComponent({
-  name: 'TableAsset',
+  name: 'AssetTable',
   components: {
     IndicatorCaretIcon,
   },

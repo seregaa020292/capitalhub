@@ -27,7 +27,7 @@
         </el-col>
       </el-row>
       <br />
-      <table-asset />
+      <asset-table />
     </div>
     <router-view name="AssetEdit" />
   </el-main>
@@ -35,14 +35,14 @@
 
 <script lang="ts">
 import { defineComponent, reactive, onUnmounted, onMounted, computed } from 'vue'
-import TableAsset from '@/app/view/containers/dashboard/TableAsset.vue'
+import AssetTable from '@/app/view/containers/dashboard/AssetTable.vue'
 import QuoteClientSocket from '@/services/socket/QuoteClientSocket'
 import { PortfolioFetchUseCaseDI, PortfolioPresenterDI } from '@/domain/portfolio/module/di'
 
 export default defineComponent({
   name: 'Main',
   components: {
-    TableAsset,
+    AssetTable,
   },
   setup: () => {
     const state = reactive({

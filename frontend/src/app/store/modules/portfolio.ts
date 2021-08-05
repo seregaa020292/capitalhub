@@ -28,6 +28,7 @@ export enum Types {
   FETCH_PORTFOLIOS = 'portfolio/fetch-all',
   FETCH_LOADING_PORTFOLIOS = 'portfolio/loading-all',
   ADD_PORTFOLIO = 'portfolio/add',
+  EDIT_PORTFOLIO = 'portfolio/edit',
 }
 
 export class FetchPortfolio implements FluxStandardAction {
@@ -50,6 +51,11 @@ export class AddPortfolio implements FluxStandardAction {
   constructor(public payload: IPortfolioStats) {}
 }
 
+export class EditPortfolio implements FluxStandardAction {
+  public type = Types.EDIT_PORTFOLIO
+  constructor(public payload: IPortfolioStats) {}
+}
+
 export const mutations: MutationTree<IPortfolioState> = {
   [Types.FETCH_PORTFOLIO]: (state, action: FetchPortfolio) => {
     state.active = action.payload
@@ -62,5 +68,11 @@ export const mutations: MutationTree<IPortfolioState> = {
   },
   [Types.ADD_PORTFOLIO]: (state, action: AddPortfolio) => {
     state.all.push(action.payload)
+  },
+  [Types.EDIT_PORTFOLIO]: (state, action: EditPortfolio) => {
+    const portfolioIdx = state.all.findIndex(({ portfolioId }) => portfolioId === action.payload.portfolioId)
+    if (portfolioIdx !== -1) {
+      state.all[portfolioIdx] = action.payload
+    }
   },
 }

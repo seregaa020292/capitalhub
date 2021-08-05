@@ -5,12 +5,12 @@ import { baseTypes } from '@/infrastructure/di/types'
 import { IPortfolioRepository } from '@/domain/portfolio/repositories/PortfolioRepository'
 import { IPortfolioClientApi } from '@/domain/portfolio/clients/api/PortfolioClientApi'
 import { IErrorHandler } from '@/infrastructure/handlers/ErrorHandler'
-import { IPortfolioChange } from '@/domain/portfolio/entities/PortfolioEntity'
+import { IPortfolioEditable } from '@/domain/portfolio/entities/PortfolioEntity'
 
-export interface IPortfolioAddUseCase extends BaseUseCase<IPortfolioChange, Promise<void>> {}
+export interface IPortfolioEditUseCase extends BaseUseCase<IPortfolioEditable, Promise<void>> {}
 
 @injectable()
-export class PortfolioAddUseCase implements IPortfolioAddUseCase {
+export class PortfolioEditUseCase implements IPortfolioEditUseCase {
   @inject(types.IPortfolioClientApi)
   private portfolioClient!: IPortfolioClientApi
 
@@ -20,11 +20,11 @@ export class PortfolioAddUseCase implements IPortfolioAddUseCase {
   @inject(baseTypes.IErrorHandler)
   private errorHandler!: IErrorHandler
 
-  async execute(portfolio: IPortfolioChange) {
+  async execute({portfolioId, ...portfolio}: IPortfolioEditable): Promise<void> {
     try {
-      const response = await this.portfolioClient.add(portfolio)
+      const response = await this.portfolioClient.edit(portfolioId, portfolio)
 
-      this.portfolioRepository.addPortfolio(response)
+      this.portfolioRepository.editPortfolio(response)
     } catch (error) {
       this.errorHandler.handle(error)
     }

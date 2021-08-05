@@ -21,26 +21,40 @@
     </el-form-item>
     <el-row>
       <el-col :offset="6" :md="12">
-        <el-button native-type="submit" type="primary" class="w-100">Создать</el-button>
+        <el-button native-type="submit" type="primary" class="w-100">
+          {{ state.isEditing ? 'Сохранить' : 'Создать' }}
+        </el-button>
       </el-col>
     </el-row>
   </el-form>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from 'vue'
+import { defineComponent, reactive, ref, computed, PropType } from 'vue'
 import { portfolioValidator } from '@/app/utils/validators'
-import { PortfolioAddUseCaseDI } from '@/domain/portfolio/module/di'
+import { PortfolioAddUseCaseDI, PortfolioEditUseCaseDI } from '@/domain/portfolio/module/di'
 import { ApplicationPresenterDI } from '@/domain/application/module/di'
+import { IPortfolioChange, IPortfolioEditable } from '@/domain/portfolio/entities/PortfolioEntity'
 
 export default defineComponent({
   name: 'Form',
-  setup() {
-    const state = reactive({
-      portfolio: {
-        title: '',
+  props: {
+    portfolioEdit: {
+      type: Object as PropType<IPortfolioEditable>,
+      default: (): IPortfolioEditable => ({
+        portfolioId: '',
         currencyId: '',
-      },
+        title: '',
+      }),
+    },
+  },
+  setup(props) {
+    const state = reactive({
+      isEditing: !!props.portfolioEdit.portfolioId,
+      portfolio: {
+        title: props.portfolioEdit.title,
+        currencyId: props.portfolioEdit.currencyId,
+      } as IPortfolioChange,
     })
     const ruleFormRef: any = ref(null)
     const rules = ref({
@@ -48,6 +62,7 @@ export default defineComponent({
       currencyId: portfolioValidator.currencyId,
     })
     const portfolioAddUseCase = PortfolioAddUseCaseDI()
+    const portfolioEditUseCase = PortfolioEditUseCaseDI()
     const applicationPresenter = ApplicationPresenterDI()
     const currencies = computed(() => applicationPresenter.getDashboard().currencies)
 
@@ -56,7 +71,15 @@ export default defineComponent({
         if (!valid) {
           return false
         }
-        await portfolioAddUseCase.execute(state.portfolio)
+
+        if (state.isEditing) {
+          await portfolioEditUseCase.execute({
+            portfolioId: props.portfolioEdit.portfolioId,
+            ...state.portfolio,
+          })
+        } else {
+          await portfolioAddUseCase.execute(state.portfolio)
+        }
 
         ruleFormRef.value.resetFields()
       })

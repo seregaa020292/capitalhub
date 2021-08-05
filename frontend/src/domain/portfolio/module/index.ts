@@ -28,6 +28,10 @@ import {
   IPortfolioChooseUseCase,
   PortfolioChooseUseCase,
 } from '@/domain/portfolio/interactors/PortfolioChooseUseCase'
+import {
+  IPortfolioEditUseCase,
+  PortfolioEditUseCase,
+} from '@/domain/portfolio/interactors/PortfolioEditUseCase'
 
 export const portfolioModule = new ContainerModule((bind) => {
   bind<IPortfolioClientApi>(types.IPortfolioClientApi).to(PortfolioClientApi).inSingletonScope()
@@ -35,6 +39,7 @@ export const portfolioModule = new ContainerModule((bind) => {
   bind<IPortfolioFetchUseCase>(types.IPortfolioFetchUseCase).to(PortfolioFetchUseCase).inSingletonScope()
   bind<IPortfoliosFetchUseCase>(types.IPortfoliosFetchUseCase).to(PortfoliosFetchUseCase).inSingletonScope()
   bind<IPortfolioAddUseCase>(types.IPortfolioAddUseCase).to(PortfolioAddUseCase).inSingletonScope()
+  bind<IPortfolioEditUseCase>(types.IPortfolioEditUseCase).to(PortfolioEditUseCase).inSingletonScope()
   bind<IPortfolioChooseUseCase>(types.IPortfolioChooseUseCase).to(PortfolioChooseUseCase).inSingletonScope()
 
   bind<IPortfolioPresenter>(types.IPortfolioPresenter).to(PortfolioPresenter).inSingletonScope()

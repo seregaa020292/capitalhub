@@ -10,8 +10,13 @@ export interface IPortfolio {
   userId: string
 }
 
-export interface IPortfolioAdd {
+export interface IPortfolioChange {
   title: string
+  currencyId: string
+}
+
+export interface IPortfolioEditable extends IPortfolioChange {
+  portfolioId: string
 }
 
 export interface IPortfolioStats {

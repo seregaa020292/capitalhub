@@ -43,8 +43,8 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute()
-    const activeLink = computed(() => route.matched[0].path)
     const { onLogout } = useLogout()
+    const activeLink = computed(() => route.matched[0].path)
 
     return {
       activeLink,
