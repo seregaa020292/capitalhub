@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import LogoCompany from '@/app/view/components/logoCompany/index.vue'
-import { useLogout } from '@/app/hooks/useLogout'
+import { useLogout } from '@/app/hooks/common/useLogout'
 
 export default defineComponent({
   name: 'Header',

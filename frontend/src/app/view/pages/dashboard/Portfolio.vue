@@ -21,8 +21,8 @@ import { defineComponent, onMounted, computed } from 'vue'
 import { PortfolioPresenterDI, PortfoliosFetchUseCaseDI } from '@/domain/portfolio/module/di'
 import EditModal from '@/app/view/containers/portfolio/edit/Modal.vue'
 import PortfolioCard from '@/app/view/containers/portfolio/PortfolioCard.vue'
-import { useModalHandleProvide } from '@/app/hooks/useModalHandleProvideInject'
-import { usePortfolioEditProvide } from '@/app/hooks/usePortfolioEditProvideInject'
+import { usePortfolioModalProvide } from '@/app/hooks/portfolio/usePortfolioModalProvideInject'
+import { usePortfolioEditProvide } from '@/app/hooks/portfolio/usePortfolioEditProvideInject'
 
 export default defineComponent({
   name: 'Portfolio',
@@ -33,7 +33,7 @@ export default defineComponent({
   setup() {
     const portfoliosFetchUseCase = PortfoliosFetchUseCaseDI()
     const portfolioPresenter = PortfolioPresenterDI()
-    const { dialogOpenHandle } = useModalHandleProvide('portfolio')
+    const { dialogOpenHandle } = usePortfolioModalProvide()
     const { portfolioEdited } = usePortfolioEditProvide()
     const loading = computed(() => portfolioPresenter.loadingPortfolios())
     const portfolios = computed(() => portfolioPresenter.portfolios())

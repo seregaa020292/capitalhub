@@ -1,14 +1,14 @@
 import { inject, provide, Ref, ref } from 'vue'
-import { IPortfolioEditable } from '@/domain/portfolio/entities/PortfolioEntity'
+import { IPortfolioEditFields } from '@/domain/portfolio/entities/PortfolioEntity'
 
 interface IPortfolioEdited {
-  (portfolioEditData: IPortfolioEditable): void
+  (portfolioEditData: IPortfolioEditFields): void
 }
 
 export const usePortfolioEditProvide = () => {
-  const portfolioEdit = ref<IPortfolioEditable>()
+  const portfolioEdit = ref<IPortfolioEditFields>()
 
-  const portfolioEdited = (portfolioEditData: IPortfolioEditable | undefined) => {
+  const portfolioEdited = (portfolioEditData: IPortfolioEditFields | undefined) => {
     portfolioEdit.value = portfolioEditData
   }
 
@@ -22,7 +22,7 @@ export const usePortfolioEditProvide = () => {
 }
 
 export const usePortfolioEditInject = () => {
-  const portfolioEdit = inject('portfolioEdit') as Ref<IPortfolioEditable | undefined>
+  const portfolioEdit = inject('portfolioEdit') as Ref<IPortfolioEditFields | undefined>
   const portfolioEdited = inject('portfolioEdited') as IPortfolioEdited
 
   return {

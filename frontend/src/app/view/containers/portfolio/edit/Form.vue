@@ -34,14 +34,17 @@ import { defineComponent, reactive, ref, computed, PropType } from 'vue'
 import { portfolioValidator } from '@/app/utils/validators'
 import { PortfolioAddUseCaseDI, PortfolioEditUseCaseDI } from '@/domain/portfolio/module/di'
 import { ApplicationPresenterDI } from '@/domain/application/module/di'
-import { IPortfolioChange, IPortfolioEditable } from '@/domain/portfolio/entities/PortfolioEntity'
+import {
+  IPortfolioChangeFields,
+  IPortfolioEditFields,
+} from '@/domain/portfolio/entities/PortfolioEntity'
 
 export default defineComponent({
   name: 'Form',
   props: {
     portfolioEdit: {
-      type: Object as PropType<IPortfolioEditable>,
-      default: (): IPortfolioEditable => ({
+      type: Object as PropType<IPortfolioEditFields>,
+      default: (): IPortfolioEditFields => ({
         portfolioId: '',
         currencyId: '',
         title: '',
@@ -54,7 +57,7 @@ export default defineComponent({
       portfolio: {
         title: props.portfolioEdit.title,
         currencyId: props.portfolioEdit.currencyId,
-      } as IPortfolioChange,
+      } as IPortfolioChangeFields,
     })
     const ruleFormRef: any = ref(null)
     const rules = ref({

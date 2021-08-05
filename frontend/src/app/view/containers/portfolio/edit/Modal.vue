@@ -13,8 +13,8 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import EditForm from '@/app/view/containers/portfolio/edit/Form.vue'
-import { useModalHandleInject } from '@/app/hooks/useModalHandleProvideInject'
-import { usePortfolioEditInject } from '@/app/hooks/usePortfolioEditProvideInject'
+import { usePortfolioModalInject } from '@/app/hooks/portfolio/usePortfolioModalProvideInject'
+import { usePortfolioEditInject } from '@/app/hooks/portfolio/usePortfolioEditProvideInject'
 
 export default defineComponent({
   name: 'Modal',
@@ -22,7 +22,7 @@ export default defineComponent({
     EditForm,
   },
   setup() {
-    const { dialogVisible } = useModalHandleInject('portfolio')
+    const { dialogVisible } = usePortfolioModalInject()
     const { portfolioEdit } = usePortfolioEditInject()
     const titleModal = computed(() =>
       portfolioEdit.value !== undefined ? 'Редактирование портфеля' : 'Новый портфель'

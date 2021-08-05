@@ -38,9 +38,9 @@ import { useRouter } from 'vue-router'
 import { PortfolioChooseUseCaseDI } from '@/domain/portfolio/module/di'
 import { currencyFormatter } from '@/utils/number'
 import { IConfirmService } from '@/services/message/ConfirmService'
-import { IPortfolio, IPortfolioEditable } from '@/domain/portfolio/entities/PortfolioEntity'
-import { usePortfolioEditInject } from '@/app/hooks/usePortfolioEditProvideInject'
-import { useModalHandleInject } from '@/app/hooks/useModalHandleProvideInject'
+import { IPortfolio, IPortfolioEditFields } from '@/domain/portfolio/entities/PortfolioEntity'
+import { usePortfolioEditInject } from '@/app/hooks/portfolio/usePortfolioEditProvideInject'
+import { usePortfolioModalInject } from '@/app/hooks/portfolio/usePortfolioModalProvideInject'
 
 export default defineComponent({
   name: 'PortfolioCard',
@@ -54,7 +54,7 @@ export default defineComponent({
     const router = useRouter()
     const $confirm = inject('$confirm') as IConfirmService
     const { portfolioEdited } = usePortfolioEditInject()
-    const { dialogOpenHandle } = useModalHandleInject('portfolio')
+    const { dialogOpenHandle } = usePortfolioModalInject()
     const portfolioChooseUseCase = PortfolioChooseUseCaseDI()
 
     const portfolioChoose = async () => {
@@ -66,7 +66,7 @@ export default defineComponent({
     }
 
     const portfolioFormEditOpen = async () => {
-      const portfolioEdit: IPortfolioEditable = {
+      const portfolioEdit: IPortfolioEditFields = {
         portfolioId: props.portfolio.portfolioId,
         currencyId: props.portfolio.currencyId,
         title: props.portfolio.title,

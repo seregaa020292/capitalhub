@@ -5,9 +5,9 @@ import { baseTypes } from '@/infrastructure/di/types'
 import { IPortfolioRepository } from '@/domain/portfolio/repositories/PortfolioRepository'
 import { IPortfolioClientApi } from '@/domain/portfolio/clients/api/PortfolioClientApi'
 import { IErrorHandler } from '@/infrastructure/handlers/ErrorHandler'
-import { IPortfolioChange } from '@/domain/portfolio/entities/PortfolioEntity'
+import { IPortfolioChangeFields } from '@/domain/portfolio/entities/PortfolioEntity'
 
-export interface IPortfolioAddUseCase extends BaseUseCase<IPortfolioChange, Promise<void>> {}
+export interface IPortfolioAddUseCase extends BaseUseCase<IPortfolioChangeFields, Promise<void>> {}
 
 @injectable()
 export class PortfolioAddUseCase implements IPortfolioAddUseCase {
@@ -20,7 +20,7 @@ export class PortfolioAddUseCase implements IPortfolioAddUseCase {
   @inject(baseTypes.IErrorHandler)
   private errorHandler!: IErrorHandler
 
-  async execute(portfolio: IPortfolioChange) {
+  async execute(portfolio: IPortfolioChangeFields) {
     try {
       const response = await this.portfolioClient.add(portfolio)
 

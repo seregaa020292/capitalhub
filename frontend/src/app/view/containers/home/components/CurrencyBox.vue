@@ -36,7 +36,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import IndicatorCaret from '@/app/view/components/currency/IndicatorCaret.vue'
-import { useCurrencyBtc } from '@/app/hooks/useCurrencyBtc'
+import { useCurrencyBtc } from '@/app/hooks/common/useCurrencyBtc'
 
 interface IProps {
   currencyUsdRub: number
