@@ -60,6 +60,6 @@ type AssetTotal struct {
 	TotalAmount          int       `json:"totalAmount" db:"total_amount"`
 	TotalQuantity        int       `json:"totalQuantity" db:"total_quantity"`
 	TotalCount           int       `json:"totalCount" db:"total_count"`
-	AveragePurchasePrice int       `json:"averagePurchasePrice" db:"average_purchase_price"`
+	AverageTotalAmount   int       `json:"averageTotalAmount" db:"average_total_amount"`
 	FirstNotationAt      time.Time `json:"firstNotationAt" db:"first_notation_at"`
 }

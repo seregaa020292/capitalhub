@@ -10,7 +10,7 @@ export const byteToSize = (bytes: number, decimals = 2): string => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
 }
 
-export const sleep = (time = 0) => new Promise(resolve => setTimeout(resolve, time))
+export const sleep = (timeMs = 0) => new Promise(resolve => setTimeout(resolve, timeMs))
 
 export const isDigit = (value: string): boolean => !(/^[0-9]*$/.exec(value) == null || value === '')
 

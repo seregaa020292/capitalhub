@@ -4,8 +4,16 @@ import "fmt"
 
 const (
 	queryGetTotalByWhere = `SELECT m.market_id, m.title, m.ticker, r.identify, m.image_url as image_url,
-							SUM(a.amount) as total_amount, SUM(a.quantity) as total_quantity, COUNT(*) as total_count,
-							SUM(a.amount) / SUM(a.quantity) as average_purchase_price, MIN(a.notation_at) as first_notation_at
+							SUM(a.quantity) as total_quantity, COUNT(*) as total_count,
+							(
+							   SELECT SUM(amount * quantity)
+							   FROM assets at WHERE at.market_id = m.market_id
+						   	) as total_amount,
+						   	(
+							   SELECT ROUND(SUM(amount * quantity) / SUM(quantity))
+							   FROM assets at WHERE at.market_id = m.market_id
+						   	) as average_total_amount,
+       						MIN(a.notation_at) as first_notation_at
 							FROM assets a
 							LEFT JOIN portfolios p on a.portfolio_id = p.portfolio_id
 							LEFT JOIN markets m on a.market_id = m.market_id

@@ -22,14 +22,14 @@ export class MarketSearchUseCase implements IMarketSearchUseCase {
       const response = await this.marketClient.searchMarkets(title)
 
       return Object.values(response.markets.reduce((curObj, curItem) => {
-        if (!curObj.hasOwnProperty(curItem.title_instrument)) {
-          curObj[curItem.title_instrument] = {
-            label: curItem.title_instrument,
-            description: curItem.desc_instrument,
+        if (!curObj.hasOwnProperty(curItem.titleInstrument)) {
+          curObj[curItem.titleInstrument] = {
+            label: curItem.titleInstrument,
+            description: curItem.descInstrument,
             options: [],
           }
         }
-        curObj[curItem.title_instrument].options.push({ ...curItem })
+        curObj[curItem.titleInstrument].options.push({ ...curItem })
         return curObj
       }, {} as IMarketGroup))
     } catch (error) {

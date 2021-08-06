@@ -8,7 +8,7 @@ export interface IAsset {
   totalAmount: number
   totalQuantity: number
   totalCount: number
-  averagePurchasePrice: number
+  averageTotalAmount: number
   currentPrice: number
   // currentValue: number
   // changeTotalPercent: number
