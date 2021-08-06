@@ -17,4 +17,6 @@ type Repository interface {
 	CheckUserPortfolio(ctx context.Context, userID uuid.UUID, portfolioID uuid.UUID) error
 	GetAllStats(ctx context.Context, userID uuid.UUID) (*[]model.PortfolioStats, error)
 	GetStats(ctx context.Context, portfolioID uuid.UUID) (*model.PortfolioStats, error)
+	Edit(ctx context.Context, portfolioID uuid.UUID, change *model.PortfolioChange) (*model.Portfolio, error)
+	Remove(ctx context.Context, portfolioID uuid.UUID, userID uuid.UUID) error
 }

@@ -7,6 +7,7 @@ import {
   FetchPortfolio,
   FetchPortfolios,
   LoadingPortfolios,
+  RemovePortfolio,
 } from '@/app/store/modules/portfolio'
 import { IPortfolio, IPortfolioStats } from '@/domain/portfolio/entities/PortfolioEntity'
 
@@ -17,8 +18,9 @@ export interface IPortfolioRepository {
   setPortfolio(portfolio: IPortfolio): void
   setPortfolios(portfolios: IPortfolioStats[]): void
   loadingPortfolios(status: boolean): void
-  addPortfolio(portfolio: IPortfolioStats): void
-  editPortfolio(portfolio: IPortfolioStats): void
+  add(portfolio: IPortfolioStats): void
+  edit(portfolio: IPortfolioStats): void
+  remove(portfolioId: string): void
 }
 
 @injectable()
@@ -49,11 +51,15 @@ export class PortfolioRepository implements IPortfolioRepository {
     this.store.commit(new FetchPortfolios(portfolios))
   }
 
-  addPortfolio(portfolio: IPortfolioStats): void {
+  add(portfolio: IPortfolioStats): void {
     this.store.commit(new AddPortfolio(portfolio))
   }
 
-  editPortfolio(portfolio: IPortfolioStats): void {
+  edit(portfolio: IPortfolioStats): void {
     this.store.commit(new EditPortfolio(portfolio))
+  }
+
+  remove(portfolioId: string): void {
+    this.store.commit(new RemovePortfolio(portfolioId))
   }
 }

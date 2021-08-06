@@ -70,6 +70,33 @@ func (useCase *portfolioUC) Choose(ctx context.Context, portfolioID uuid.UUID, u
 	return useCase.portfolioRepo.Choose(ctx, portfolioID, userID)
 }
 
+func (useCase *portfolioUC) Edit(ctx context.Context, portfolioID uuid.UUID, userID uuid.UUID, change *model.PortfolioChange) (*model.PortfolioStats, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioUC.Edit")
+	defer span.Finish()
+
+	if err := useCase.portfolioRepo.CheckUserPortfolio(ctx, userID, portfolioID); err != nil {
+		return nil, err
+	}
+
+	if _, err := useCase.portfolioRepo.Edit(ctx, portfolioID, change); err != nil {
+		return nil, err
+	}
+
+	return useCase.portfolioRepo.GetStats(ctx, portfolioID)
+}
+
+func (useCase *portfolioUC) Remove(ctx context.Context, portfolioID uuid.UUID, userID uuid.UUID) bool {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioUC.Remove")
+	defer span.Finish()
+
+	if err :=  useCase.portfolioRepo.Remove(ctx, portfolioID, userID); err != nil {
+		useCase.log.Errorf("portfolioUC.Remove: %v", err)
+		return false
+	}
+
+	return true
+}
+
 // Получаем активный портфель по id пользователя
 func (useCase *portfolioUC) GetActive(ctx context.Context, userID uuid.UUID) (*model.Portfolio, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioUC.GetActive")

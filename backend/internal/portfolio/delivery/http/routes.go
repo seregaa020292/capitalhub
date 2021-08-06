@@ -13,4 +13,6 @@ func MapPortfolioRoutes(portfolioGroup *echo.Group, handler portfolio.Handlers, 
 	portfolioGroup.GET("/all-stats", handler.GetAllStats(), mw.AuthJWTMiddleware, mw.CSRF)
 	portfolioGroup.POST("/add", handler.Add(), mw.AuthJWTMiddleware, mw.CSRF)
 	portfolioGroup.PUT("/:portfolio_id/choose", handler.Choose(), mw.AuthJWTMiddleware, mw.CSRF)
+	portfolioGroup.PUT("/:portfolio_id", handler.Edit(), mw.AuthJWTMiddleware, mw.CSRF)
+	portfolioGroup.DELETE("/:portfolio_id", handler.Remove(), mw.AuthJWTMiddleware, mw.CSRF)
 }

@@ -24,7 +24,7 @@ export class PortfolioAddUseCase implements IPortfolioAddUseCase {
     try {
       const response = await this.portfolioClient.add(portfolio)
 
-      this.portfolioRepository.addPortfolio(response)
+      this.portfolioRepository.add(response)
     } catch (error) {
       this.errorHandler.handle(error)
     }

@@ -22,7 +22,7 @@ const mapUrls = {
     PORTFOLIO_ACTIVE_TOTAL: 'portfolio/active-total',
     PORTFOLIO_ALL_STATS: 'portfolio/all-stats',
     PORTFOLIO_ADD: 'portfolio/add',
-    PORTFOLIO_EDIT: 'portfolio/{portfolioId}/edit',
+    PORTFOLIO_ID: 'portfolio/{portfolioId}',
     PORTFOLIO_CHOOSE: 'portfolio/{portfolioId}/choose',
     APP_DASHBOARD: 'application/dashboard',
   },

@@ -13,7 +13,7 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item @click="portfolioFormEditOpen" icon="el-icon-edit">
+              <el-dropdown-item @click="portfolioEdit" icon="el-icon-edit">
                 Редактировать
               </el-dropdown-item>
               <el-dropdown-item @click="portfolioRemove" icon="el-icon-delete-solid">
@@ -35,12 +35,10 @@
 <script lang="ts">
 import { defineComponent, inject, PropType } from 'vue'
 import { useRouter } from 'vue-router'
-import { PortfolioChooseUseCaseDI } from '@/domain/portfolio/module/di'
+import { PortfolioChooseUseCaseDI, PortfolioRemoveUseCaseDI } from '@/domain/portfolio/module/di'
 import { currencyFormatter } from '@/utils/number'
 import { IConfirmService } from '@/services/message/ConfirmService'
 import { IPortfolio, IPortfolioEditFields } from '@/domain/portfolio/entities/PortfolioEntity'
-import { usePortfolioEditInject } from '@/app/hooks/portfolio/usePortfolioEditProvideInject'
-import { usePortfolioModalInject } from '@/app/hooks/portfolio/usePortfolioModalProvideInject'
 
 export default defineComponent({
   name: 'PortfolioCard',
@@ -50,12 +48,12 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  emits: ['edit-data'],
+  setup(props, { emit }) {
     const router = useRouter()
     const $confirm = inject('$confirm') as IConfirmService
-    const { portfolioEdited } = usePortfolioEditInject()
-    const { dialogOpenHandle } = usePortfolioModalInject()
     const portfolioChooseUseCase = PortfolioChooseUseCaseDI()
+    const portfolioRemoveUseCase = PortfolioRemoveUseCaseDI()
 
     const portfolioChoose = async () => {
       const isChoose = await portfolioChooseUseCase.execute(props.portfolio.portfolioId)
@@ -65,31 +63,32 @@ export default defineComponent({
       }
     }
 
-    const portfolioFormEditOpen = async () => {
+    const portfolioEdit = async () => {
       const portfolioEdit: IPortfolioEditFields = {
         portfolioId: props.portfolio.portfolioId,
         currencyId: props.portfolio.currencyId,
         title: props.portfolio.title,
       }
 
-      portfolioEdited(portfolioEdit)
-      dialogOpenHandle()
+      emit('edit-data', portfolioEdit)
     }
 
-    const portfolioRemove = async () => {
+    const portfolioRemove = () => {
       $confirm
         .warningVariant(
           'Сообщение',
           `Подтверждаете удаление портфеля - <u>${props.portfolio.title}</u>?`
         )
-        .then(() => {})
+        .then(async () => {
+          await portfolioRemoveUseCase.execute(props.portfolio.portfolioId)
+        })
         .catch(() => {})
     }
 
     return {
       portfolioChoose,
       portfolioRemove,
-      portfolioFormEditOpen,
+      portfolioEdit,
       currencyFormatter,
     }
   },

@@ -13,6 +13,7 @@ export interface IPortfolioClientApi {
   add(portfolio: IPortfolioChangeFields): Promise<IPortfolioStats>
   edit(portfolioId: string, portfolio: IPortfolioChangeFields): Promise<IPortfolioStats>
   choose(portfolioId: string): Promise<boolean>
+  remove(portfolioId: string): Promise<boolean>
 }
 
 @injectable()
@@ -30,10 +31,14 @@ export class PortfolioClientApi implements IPortfolioClientApi {
   }
 
   edit(portfolioId: string, portfolio: IPortfolioChangeFields): Promise<IPortfolioStats> {
-    return http.put(parsePatternUrl(urls.api_v1.PORTFOLIO_EDIT, portfolioId), portfolio)
+    return http.put(parsePatternUrl(urls.api_v1.PORTFOLIO_ID, portfolioId), portfolio)
   }
 
   choose(portfolioId: string): Promise<boolean> {
     return http.put(parsePatternUrl(urls.api_v1.PORTFOLIO_CHOOSE, portfolioId));
+  }
+
+  remove(portfolioId: string): Promise<boolean> {
+    return http.delete(parsePatternUrl(urls.api_v1.PORTFOLIO_ID, portfolioId));
   }
 }

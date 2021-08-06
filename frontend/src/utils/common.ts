@@ -17,6 +17,8 @@ export const isDigit = (value: string): boolean => !(/^[0-9]*$/.exec(value) == n
 export const isUUID = (uuid: string): boolean =>
   new RegExp('\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b').test(uuid)
 
+export const numberToArrayNumber = (number: number) => Array.from(String(number), Number)
+
 export const uniqueId = (): number => {
   const a = Math.random
   const b: any = parseInt

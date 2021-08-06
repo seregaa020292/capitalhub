@@ -19,6 +19,11 @@ type Portfolio struct {
 	UpdatedAt   time.Time `json:"updatedAt" db:"updated_at"`
 }
 
+type PortfolioChange struct {
+	Title      string    `json:"title" validate:"required"`
+	CurrencyID uuid.UUID `json:"currencyId" validate:"required"`
+}
+
 type PortfolioList struct {
 	Portfolio  Portfolio          `json:"portfolio"`
 	AssetTotal []model.AssetTotal `json:"assetTotal"`

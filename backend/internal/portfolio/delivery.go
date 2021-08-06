@@ -8,4 +8,6 @@ type Handlers interface {
 	GetAllStats() echo.HandlerFunc
 	Add() echo.HandlerFunc
 	Choose() echo.HandlerFunc
+	Edit() echo.HandlerFunc
+	Remove() echo.HandlerFunc
 }

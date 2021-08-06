@@ -107,19 +107,16 @@ func (handler *portfolioHandlers) GetAllStats() echo.HandlerFunc {
 // @Tags Portfolio
 // @Accept json
 // @Produce json
+// @Param input body model.PortfolioChange true "Add portfolio"
 // @Success 200 {object} model.PortfolioStats
 // @Router /portfolio/add [get]
 func (handler *portfolioHandlers) Add() echo.HandlerFunc {
-	type PortfolioAdd struct {
-		Title      string    `json:"title" validate:"required"`
-		CurrencyID uuid.UUID `json:"currencyId" validate:"required"`
-	}
 	return func(echoCtx echo.Context) error {
 		span, ctx := opentracing.StartSpanFromContext(utils.GetRequestCtx(echoCtx), "portfolioHandlers.Add")
 		defer span.Finish()
 
-		portfolioAdd := &PortfolioAdd{}
-		if err := utils.ReadRequest(echoCtx, portfolioAdd); err != nil {
+		portfolioChange := &model.PortfolioChange{}
+		if err := utils.ReadRequest(echoCtx, portfolioChange); err != nil {
 			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
 		}
 
@@ -130,8 +127,8 @@ func (handler *portfolioHandlers) Add() echo.HandlerFunc {
 
 		portfolioStats, err := handler.portfolioUC.Create(ctx, &model.Portfolio{
 			UserID:     user.UserID,
-			Title:      portfolioAdd.Title,
-			CurrencyID: portfolioAdd.CurrencyID,
+			Title:      portfolioChange.Title,
+			CurrencyID: portfolioChange.CurrencyID,
 		})
 		if err != nil {
 			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
@@ -170,5 +167,72 @@ func (handler *portfolioHandlers) Choose() echo.HandlerFunc {
 		}
 
 		return echoCtx.JSON(http.StatusOK, choosePortfolio)
+	}
+}
+
+// Edit
+// @Summary Изменение данных портфеля
+// @Security Auth
+// @Tags Portfolio
+// @Accept json
+// @Produce json
+// @Param input body model.PortfolioChange true "Edit portfolio"
+// @Success 200 {object} model.PortfolioStats
+// @Router /portfolio/{portfolio_id} [put]
+func (handler *portfolioHandlers) Edit() echo.HandlerFunc {
+	return func(echoCtx echo.Context) error {
+		span, ctx := opentracing.StartSpanFromContext(utils.GetRequestCtx(echoCtx), "portfolioHandlers.Edit")
+		defer span.Finish()
+
+		portfolioID, err := uuid.Parse(echoCtx.Param("portfolio_id"))
+		if err != nil {
+			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
+		}
+
+		portfolioChange := &model.PortfolioChange{}
+		if err := utils.ReadRequest(echoCtx, portfolioChange); err != nil {
+			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
+		}
+
+		user, err := utils.GetUserFromCtx(ctx)
+		if err != nil {
+			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
+		}
+
+		portfolioEdit, err := handler.portfolioUC.Edit(ctx, portfolioID, user.UserID, portfolioChange)
+		if err != nil {
+			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
+		}
+
+		return echoCtx.JSON(http.StatusOK, portfolioEdit)
+	}
+}
+
+// Remove
+// @Summary Удаление портфеля
+// @Security Auth
+// @Tags Portfolio
+// @Accept json
+// @Produce json
+// @Success 200 {object} bool
+// @Router /portfolio/{portfolio_id} [delete]
+func (handler *portfolioHandlers) Remove() echo.HandlerFunc {
+	return func(echoCtx echo.Context) error {
+		span, ctx := opentracing.StartSpanFromContext(utils.GetRequestCtx(echoCtx), "portfolioHandlers.Remove")
+		defer span.Finish()
+
+		portfolioID, err := uuid.Parse(echoCtx.Param("portfolio_id"))
+		if err != nil {
+			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
+		}
+
+		user, err := utils.GetUserFromCtx(ctx)
+		if err != nil {
+			return utils.ErrResponseWithLog(echoCtx, handler.logger, err)
+		}
+
+		portfolioRemoved := handler.portfolioUC.Remove(ctx, portfolioID, user.UserID)
+
+		return echoCtx.JSON(http.StatusOK, portfolioRemoved)
 	}
 }

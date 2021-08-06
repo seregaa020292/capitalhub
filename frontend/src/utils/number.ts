@@ -2,6 +2,8 @@
 interface IFormatter {
   rub: Intl.NumberFormat
   usd: Intl.NumberFormat
+  eur: Intl.NumberFormat
+  cny: Intl.NumberFormat
 }
 
 const numberFormat = (currency: string) => new Intl.NumberFormat(undefined, {
@@ -16,4 +18,6 @@ const numberFormat = (currency: string) => new Intl.NumberFormat(undefined, {
 export const currencyFormatter: IFormatter = {
   rub: numberFormat('RUB'),
   usd: numberFormat('USD'),
+  eur: numberFormat('EUR'),
+  cny: numberFormat('CNY'),
 }

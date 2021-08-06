@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/opentracing/opentracing-go"
@@ -57,6 +58,37 @@ func (repo *portfolioRepo) Choose(ctx context.Context, portfolioID uuid.UUID, us
 
 	tx.Commit()
 	return true, nil
+}
+
+func (repo *portfolioRepo) Edit(ctx context.Context, portfolioID uuid.UUID, change *model.PortfolioChange) (*model.Portfolio, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioRepo.Edit")
+	defer span.Finish()
+
+	portfolioModel := &model.Portfolio{}
+	if err := repo.db.GetContext(ctx, portfolioModel, editQuery, change.Title, change.CurrencyID, portfolioID); err != nil {
+		return nil, errors.Wrap(err, "portfolioRepo.Edit.GetContext")
+	}
+
+	return portfolioModel, nil
+}
+
+func (repo *portfolioRepo) Remove(ctx context.Context, portfolioID uuid.UUID, userID uuid.UUID) error {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "portfolioRepo.Remove")
+	defer span.Finish()
+
+	result, err := repo.db.ExecContext(ctx, deleteQuery, portfolioID, userID)
+	if err != nil {
+		return errors.WithMessage(err, "portfolioRepo Remove ExecContext")
+	}
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return errors.Wrap(err, "portfolioRepo.Remove.RowsAffected")
+	}
+	if rowsAffected == 0 {
+		return errors.Wrap(sql.ErrNoRows, "portfolioRepo.Remove.rowsAffected")
+	}
+
+	return nil
 }
 
 // Вернуть активный портфель

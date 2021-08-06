@@ -1127,6 +1127,17 @@ var doc = `{
                     "Portfolio"
                 ],
                 "summary": "Портфели пользователя",
+                "parameters": [
+                    {
+                        "description": "Add portfolio",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PortfolioChange"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1162,6 +1173,69 @@ var doc = `{
                             "items": {
                                 "$ref": "#/definitions/model.PortfolioStats"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/portfolio/{portfolio_id}": {
+            "put": {
+                "security": [
+                    {
+                        "Auth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Portfolio"
+                ],
+                "summary": "Изменение данных портфеля",
+                "parameters": [
+                    {
+                        "description": "Edit portfolio",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PortfolioChange"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.PortfolioStats"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Auth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Portfolio"
+                ],
+                "summary": "Удаление портфеля",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "boolean"
                         }
                     }
                 }
@@ -1548,6 +1622,21 @@ var doc = `{
                     "type": "string"
                 },
                 "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PortfolioChange": {
+            "type": "object",
+            "required": [
+                "currencyId",
+                "title"
+            ],
+            "properties": {
+                "currencyId": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }

@@ -10,6 +10,12 @@ const (
 	clearActiveQuery = `UPDATE portfolios SET active = FALSE
 						WHERE user_id = $1`
 
+	editQuery = `UPDATE portfolios SET title = $1, currency_id = $2
+						WHERE portfolio_id = $3
+						RETURNING *`
+
+	deleteQuery = `DELETE FROM portfolios WHERE portfolio_id = $1 and user_id = $2`
+
 	setActiveQuery = `UPDATE portfolios SET active = TRUE
 						WHERE portfolio_id = $1 and user_id = $2`
 

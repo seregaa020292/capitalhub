@@ -51,7 +51,8 @@ export default defineComponent({
       }),
     },
   },
-  setup(props) {
+  emits: ['form-sending'],
+  setup(props, { emit }) {
     const state = reactive({
       isEditing: !!props.portfolioEdit.portfolioId,
       portfolio: {
@@ -84,6 +85,7 @@ export default defineComponent({
           await portfolioAddUseCase.execute(state.portfolio)
         }
 
+        emit('form-sending')
         ruleFormRef.value.resetFields()
       })
     }

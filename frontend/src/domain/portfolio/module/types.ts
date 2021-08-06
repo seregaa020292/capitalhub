@@ -5,6 +5,7 @@ export const types = {
   IPortfolioAddUseCase: Symbol.for('IPortfolioAddUseCase'),
   IPortfolioEditUseCase: Symbol.for('IPortfolioEditUseCase'),
   IPortfolioChooseUseCase: Symbol.for('IPortfolioChooseUseCase'),
+  IPortfolioRemoveUseCase: Symbol.for('IPortfolioRemoveUseCase'),
   IPortfolioRepository: Symbol.for('IPortfolioRepository'),
   IPortfolioClientApi: Symbol.for('IPortfolioClientApi'),
 }

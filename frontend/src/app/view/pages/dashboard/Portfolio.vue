@@ -2,9 +2,11 @@
   <el-main>
     <h1 class="title text-center mb-3">Мои портфели</h1>
     <el-row :gutter="12">
-      <el-col v-for="portfolio in portfolios" :key="portfolio.portfolioId" :md="6" class="mb-2">
-        <portfolio-card :portfolio="portfolio" />
-      </el-col>
+      <transition-group v-if="portfolios.length" name="list">
+        <el-col v-for="portfolio in portfolios" :key="portfolio.portfolioId" :md="6" class="mb-2">
+          <portfolio-card :portfolio="portfolio" @editData="portfolioFormEditOpen" />
+        </el-col>
+      </transition-group>
       <el-col :md="6">
         <el-button @click="portfolioFormAddOpen" type="primary">
           <i class="el-icon-circle-plus" />
@@ -23,6 +25,7 @@ import EditModal from '@/app/view/containers/portfolio/edit/Modal.vue'
 import PortfolioCard from '@/app/view/containers/portfolio/PortfolioCard.vue'
 import { usePortfolioModalProvide } from '@/app/hooks/portfolio/usePortfolioModalProvideInject'
 import { usePortfolioEditProvide } from '@/app/hooks/portfolio/usePortfolioEditProvideInject'
+import { IPortfolioEditFields } from '@/domain/portfolio/entities/PortfolioEntity'
 
 export default defineComponent({
   name: 'Portfolio',
@@ -47,10 +50,16 @@ export default defineComponent({
       dialogOpenHandle()
     }
 
+    const portfolioFormEditOpen = (portfolioEdit: IPortfolioEditFields) => {
+      portfolioEdited(portfolioEdit)
+      dialogOpenHandle()
+    }
+
     return {
       loading,
       portfolios,
       portfolioFormAddOpen,
+      portfolioFormEditOpen,
     }
   },
 })

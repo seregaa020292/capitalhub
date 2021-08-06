@@ -240,6 +240,16 @@ definitions:
     - title
     - userId
     type: object
+  model.PortfolioChange:
+    properties:
+      currencyId:
+        type: string
+      title:
+        type: string
+    required:
+    - currencyId
+    - title
+    type: object
   model.PortfolioList:
     properties:
       assetTotal:
@@ -1005,6 +1015,44 @@ paths:
       summary: Поиск по названию
       tags:
       - Market
+  /portfolio/{portfolio_id}:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: boolean
+      security:
+      - Auth: []
+      summary: Удаление портфеля
+      tags:
+      - Portfolio
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Edit portfolio
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.PortfolioChange'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PortfolioStats'
+      security:
+      - Auth: []
+      summary: Изменение данных портфеля
+      tags:
+      - Portfolio
   /portfolio/{portfolio_id}/choose:
     put:
       consumes:
@@ -1045,6 +1093,13 @@ paths:
     get:
       consumes:
       - application/json
+      parameters:
+      - description: Add portfolio
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/model.PortfolioChange'
       produces:
       - application/json
       responses:

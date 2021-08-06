@@ -6,7 +6,7 @@
     destroy-on-close
     append-to-body
   >
-    <edit-form :portfolio-edit="portfolioEdit" />
+    <edit-form :portfolio-edit="portfolioEdit" @formSending="dialogClosedHandle" />
   </el-dialog>
 </template>
 
@@ -22,7 +22,7 @@ export default defineComponent({
     EditForm,
   },
   setup() {
-    const { dialogVisible } = usePortfolioModalInject()
+    const { dialogVisible, dialogClosedHandle } = usePortfolioModalInject()
     const { portfolioEdit } = usePortfolioEditInject()
     const titleModal = computed(() =>
       portfolioEdit.value !== undefined ? 'Редактирование портфеля' : 'Новый портфель'
@@ -30,8 +30,9 @@ export default defineComponent({
 
     return {
       titleModal,
-      dialogVisible,
       portfolioEdit,
+      dialogVisible,
+      dialogClosedHandle,
     }
   },
 })
